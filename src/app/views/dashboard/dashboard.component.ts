@@ -1,13 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import { PanelService } from '../../services/panel.service';
+import { ToastrService } from 'ngx-toastr';
+import { City } from '../../models/cityList.interface';
+import { Subscription } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   radioModel: string = 'Month';
+  deliveryList: any[] = [];
+  dateNow = moment().format('YYYY-MM-DD');
+  cityList: City[] = [];
+  citiesSubscripcion: Subscription;
+  ordersListSubscripcion: Subscription;
+  startDate = this.dateNow;
+  endDate = this.dateNow;
 
   // lineChart1
   public lineChart1Data: Array<any> = [
@@ -377,12 +389,49 @@ export class DashboardComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
+  constructor(
+    private service: PanelService,
+    private toast: ToastrService
+  ) {}
+
   ngOnInit(): void {
+    this.getCityList();
+    this.getOrderList('395');
     // generate random values for mainChart
     for (let i = 0; i <= this.mainChartElements; i++) {
       this.mainChartData1.push(this.random(50, 200));
       this.mainChartData2.push(this.random(80, 100));
       this.mainChartData3.push(65);
     }
+  }
+  ngOnDestroy(): void {
+    this.citiesSubscripcion.unsubscribe();
+  }
+
+  getCityList(): void {
+    const cityListsubscripcion  = this.service.getCityList();
+    this.citiesSubscripcion = cityListsubscripcion.subscribe(
+      (resp: any) => {
+        console.log(resp);
+        this.cityList = resp.cities_list;
+      },
+      (error: any) => {
+        this.toast.error('Ha ocurrido un error al obtener las ciudades');
+      }
+    );
+  }
+
+  getOrderList(cityId: string): void {
+    console.log(cityId);
+    this.service.getDeliveryList(cityId, this.startDate, this.endDate).subscribe(
+      async (resp: any) => {
+        this.toast.success('Se obtuvo la lista correctamente');
+        this.deliveryList = await resp;
+        console.log(this.deliveryList.length);
+      },
+      (error: any) => {
+        this.toast.error('Ha ocurrido al obtener la lista de pedidos');
+      }
+    );
   }
 }
