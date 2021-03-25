@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +19,104 @@ export class PanelService {
   getCityList() {
     const url = 'https://prod-fresh-api.jugnoo.in:4040/panel/fetch_country_cities';
     const params = new HttpParams()
-    .append('token', '83c61c67c064fab7a8be68ead432c51a')
-    .append('locale', 'en');
+      .append('token', '83c61c67c064fab7a8be68ead432c51a')
+      .append('locale', 'en');
     return this.http.get(url, {
       params
     });
   }
+  getCustomer(userId: string, searchKey: string = '0', countryCode: string = '+91') {
+    try {
+      const url = 'https://api-panels.jugnoo.in:7013/schedule-ride-auth/get/user_details?';
+      const header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+      let formData = new URLSearchParams();
+      formData.set('user_id', userId);
+      formData.set('search_key', searchKey);
+      formData.set('country_code', countryCode);
+      formData.set('token', '83c61c67c064fab7a8be68ead432c51a');
+      formData.set('paginationDetails[sf_recentRides]', '0');
+      formData.set('paginationDetails[sf_paytmTxns]', '0');
+      formData.set('paginationDetails[sf_mobikwikTxns]', '0');
+      formData.set('paginationDetails[sf_freechargeTxns]', '0');
+      formData.set('paginationDetails[sf_couponsData]', '0');
+      formData.set('paginationDetails[sf_txnDetails]', '0');
+      formData.set('paginationDetails[sf_promotionsApplicable]', '0');
+      formData.set('paginationDetails[sf_userIssues]', '0');
+      formData.set('paginationDetails[sf_cancelledRides]', '0');
+      formData.set('paginationDetails[sf_freshRead]', '0');
+      formData.set('paginationDetails[sf_mealsRead]', '0');
+      formData.set('paginationDetails[sf_menusRead]', '0');
+      formData.set('paginationDetails[ps_recentRides]', '20');
+      formData.set('paginationDetails[ps_paytmTxns]', '20');
+      formData.set('paginationDetails[ps_mobikwikTxns]', '20');
+      formData.set('paginationDetails[ps_freechargeTxns]', '20');
+      formData.set('paginationDetails[ps_couponsData]', '20');
+      formData.set('paginationDetails[ps_txnDetails]', '20');
+      formData.set('paginationDetails[ps_promotionsApplicable]', '20');
+      formData.set('paginationDetails[ps_userIssues]', '20');
+      formData.set('paginationDetails[ps_cancelledRides]', '20');
+      formData.set('paginationDetails[ps_freshRead]', '20');
+      formData.set('paginationDetails[ps_mealsRead]', '20');
+      formData.set('paginationDetails[ps_menusRead]', '');
+      formData.set('paginationDetails[sf_deductMoneyTxns]', '0');
+      formData.set('paginationDetails[ps_deductMoneyTxns]', '20');
+      formData.set('paginationDetails[sf_groceryRead]', '0');
+      formData.set('paginationDetails[ps_groceryRead]', '20');
+      formData.set('paginationDetails[sf_deliveryRead]', '0');
+      formData.set('paginationDetails[ps_deliveryRead]', '20');
+      formData.set('paginationDetails[ps_menuCoupons]', '20');
+      formData.set('paginationDetails[sf_menuCoupons]', '0');
+      return this.http.post(
+        url, formData.toString(), {
+        headers: header
+      }).pipe(
+        map(
+          (resp) => {
+            return resp;
+          }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+  getDriver(driverId: string, searchKey: string = '0') {
+    try {
+      const url = 'https://api-panels.jugnoo.in:7013/schedule-ride-auth/driver_info?';
+      const header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+      let formData = new URLSearchParams();
+      formData.set('driver_id', driverId);
+      formData.set('token', '83c61c67c064fab7a8be68ead432c51a');
+      formData.set('search_key', searchKey);
+      formData.set('paginationDetails[start_from_rides]', '0');
+      formData.set('paginationDetails[page_size_rides]', '40');
+      formData.set('paginationDetails[start_from_issues]', '0');
+      formData.set('paginationDetails[start_from_app_issues]', '0');
+      formData.set('paginationDetails[page_size_issues]', '40');
+      formData.set('paginationDetails[page_size_app_issues]', '40');
+      formData.set('paginationDetails[start_from_dodo]', '0');
+      formData.set('paginationDetails[page_size_dodo]', '40');
+      formData.set('paginationDetails[start_from_can_rides]', '0');
+      formData.set('paginationDetails[page_size_can_rides]', '40');
+      formData.set('paginationDetails[start_from_agent_history]', '0');
+      formData.set('paginationDetails[page_size_agent_history]', '40');
+      return this.http.post(
+        url, formData.toString(), {
+        headers: header
+      }).pipe(
+        map(
+          (resp) => {
+            return resp;
+          }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
 }

@@ -1,3 +1,4 @@
+import { DetalleModalComponent } from './../../modals/detalle-modal/detalle-modal.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -6,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { City } from '../../models/cityList.interface';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -17,9 +19,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   dateNow = moment().format('YYYY-MM-DD');
   cityList: City[] = [];
   citiesSubscripcion: Subscription;
+  customerSubscripcion: Subscription;
   ordersListSubscripcion: Subscription;
   startDate = this.dateNow;
   endDate = this.dateNow;
+  fulFillment: number = 0;
 
   // lineChart1
   public lineChart1Data: Array<any> = [
@@ -253,7 +257,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       mode: 'index',
       position: 'nearest',
       callbacks: {
-        labelColor: function(tooltipItem, chart) {
+        labelColor: function (tooltipItem, chart) {
           return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor };
         }
       }
@@ -266,7 +270,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           drawOnChartArea: false,
         },
         ticks: {
-          callback: function(value: any) {
+          callback: function (value: any) {
             return value.charAt(0);
           }
         }
@@ -391,8 +395,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private service: PanelService,
-    private toast: ToastrService
-  ) {}
+    private toast: ToastrService,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.getCityList();
@@ -406,10 +411,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.citiesSubscripcion.unsubscribe();
+    this.customerSubscripcion.unsubscribe();
+    this.ordersListSubscripcion.unsubscribe();
   }
 
   getCityList(): void {
-    const cityListsubscripcion  = this.service.getCityList();
+    const cityListsubscripcion = this.service.getCityList();
     this.citiesSubscripcion = cityListsubscripcion.subscribe(
       (resp: any) => {
         console.log(resp);
@@ -422,15 +429,58 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getOrderList(cityId: string): void {
-    console.log(cityId);
-    this.service.getDeliveryList(cityId, this.startDate, this.endDate).subscribe(
+    const orderListSubscripcion = this.service.getDeliveryList(cityId, this.startDate, this.endDate);
+    this.ordersListSubscripcion = orderListSubscripcion.subscribe(
       async (resp: any) => {
         this.toast.success('Se obtuvo la lista correctamente');
         this.deliveryList = await resp;
+        const fulfillment = ((this.deliveryList['stats'].delivered + this.deliveryList['stats'].accepted + this.deliveryList['stats'].dispatch) / (this.deliveryList['stats'].total) * 100).toFixed(2);
+        this.fulFillment = parseFloat(fulfillment);
         console.log(this.deliveryList.length);
       },
       (error: any) => {
         this.toast.error('Ha ocurrido al obtener la lista de pedidos');
+      }
+    );
+  }
+  openDialogCustomer(userId: string): void {
+    const getCustomerSubscripcion = this.service.getCustomer(userId, '0');
+    this.customerSubscripcion = getCustomerSubscripcion.subscribe(
+      async (resp: any) => {
+        const dialogRef = await this.dialog.open(DetalleModalComponent, {
+          disableClose: false,
+          data: {
+            resp,
+            name: 'cliente'
+          },
+          minWidth: '80vh',
+          minHeight: '80vh'
+        });
+      },
+      (error: any) => {
+        this.toast.error('Ha ocurrido un error al intentar ver al cliente');
+      }
+    );
+  }
+  openDialogDriver(indexOrderList: string): void {
+    const convertString = indexOrderList.replaceAll('<br/>', ' ');
+    const arrayString = convertString.split(' ');
+    const driverId = arrayString[0];
+    const getCustomerSubscripcion = this.service.getDriver(driverId, '0');
+    this.customerSubscripcion = getCustomerSubscripcion.subscribe(
+      async (resp: any) => {
+        const dialogRef = await this.dialog.open(DetalleModalComponent, {
+          disableClose: false,
+          data: {
+            resp,
+            name: 'conductor'
+          },
+          minWidth: '80vh',
+          minHeight: '80vh'
+        });
+      },
+      (error: any) => {
+        this.toast.error('Ha ocurrido un error al intentar ver al conductor');
       }
     );
   }

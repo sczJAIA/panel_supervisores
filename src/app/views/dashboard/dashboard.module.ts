@@ -7,6 +7,9 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { CommonModule } from '@angular/common';
+import { DetalleModalModule } from '../../modals/detalle-modal/detalle-modal.module';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 @NgModule({
   imports: [
@@ -16,7 +19,9 @@ import { CommonModule } from '@angular/common';
     DashboardRoutingModule,
     ChartsModule,
     BsDropdownModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    DetalleModalModule,
+    MatDialogModule
   ],
   declarations: [ DashboardComponent ]
 })
