@@ -118,5 +118,54 @@ export class PanelService {
       return throwError(error);
     }
   }
-
+  getcommerce(restaurantId: string) {
+    try {
+      const url = 'https://prod-fresh-api.jugnoo.in:4040/panel/fetch_restaurant_detail';
+      const header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+      let formData = new URLSearchParams();
+      formData.set('restaurant_id', restaurantId);
+      formData.set('secret', 'P7JlZXiRiIvSssQSSzqs');
+      formData.set('locale', 'en');
+      formData.set('token', '83c61c67c064fab7a8be68ead432c51a');
+      return this.http.post(
+        url, formData.toString(), {
+        headers: header
+      }).pipe(
+        map(
+          (resp) => {
+            return resp;
+          }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+  getOrderDetail(orderId: string, restaurantId: string) {
+    try {
+      const url = 'https://prod-fresh-api.jugnoo.in:4040/order_details';
+      const header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+      let formData = new URLSearchParams();
+      formData.set('order_id', orderId);
+      formData.set('restaurant_id', restaurantId);
+      formData.set('locale', 'en');
+      formData.set('token', '83c61c67c064fab7a8be68ead432c51a');
+      return this.http.post(
+        url, formData.toString(), {
+        headers: header
+      }).pipe(
+        map(
+          (resp) => {
+            return resp;
+          }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    } catch (error) {
+      return throwError(error);
+    }
+  }
 }

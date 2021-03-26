@@ -9,6 +9,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { CommonModule } from '@angular/common';
 import { DetalleModalModule } from '../../modals/detalle-modal/detalle-modal.module';
 import {MatDialogModule} from '@angular/material/dialog';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     BsDropdownModule,
     ButtonsModule.forRoot(),
     DetalleModalModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxPaginationModule
   ],
   declarations: [ DashboardComponent ]
 })

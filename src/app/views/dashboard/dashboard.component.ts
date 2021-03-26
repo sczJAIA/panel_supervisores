@@ -21,9 +21,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   citiesSubscripcion: Subscription;
   customerSubscripcion: Subscription;
   ordersListSubscripcion: Subscription;
+  restaurantSubscripcion: Subscription;
+  orderDetailSubscripcion: Subscription;
   startDate = this.dateNow;
   endDate = this.dateNow;
   fulFillment: number = 0;
+  p: number = 1;
+  nextLabel = 'Siguiente';
+  previousLabel = 'Anterior'
 
   // lineChart1
   public lineChart1Data: Array<any> = [
@@ -413,6 +418,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.citiesSubscripcion.unsubscribe();
     this.customerSubscripcion.unsubscribe();
     this.ordersListSubscripcion.unsubscribe();
+    this.restaurantSubscripcion.unsubscribe();
+    this.orderDetailSubscripcion.unsubscribe();
   }
 
   getCityList(): void {
@@ -463,24 +470,64 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
   openDialogDriver(indexOrderList: string): void {
-    const convertString = indexOrderList.replaceAll('<br/>', ' ');
-    const arrayString = convertString.split(' ');
-    const driverId = arrayString[0];
-    const getCustomerSubscripcion = this.service.getDriver(driverId, '0');
-    this.customerSubscripcion = getCustomerSubscripcion.subscribe(
+    if (indexOrderList !== '-') {
+      const convertString = indexOrderList.replaceAll('<br/>', ' ');
+      const arrayString = convertString.split(' ');
+      const driverId = arrayString[0];
+      const getCustomerSubscripcion = this.service.getDriver(driverId, '0');
+      this.customerSubscripcion = getCustomerSubscripcion.subscribe(
+        async (resp: any) => {
+          const dialogRef = await this.dialog.open(DetalleModalComponent, {
+            disableClose: false,
+            data: {
+              resp,
+              name: 'conductor'
+            },
+            minWidth: '80vh',
+            minHeight: '80vh'
+          });
+        },
+        (error: any) => {
+          this.toast.error('Ha ocurrido un error al intentar ver al conductor');
+        }
+      );
+    }
+  }
+  openDialogCommerce(restaurantId: string): void {
+    const getCommerceSubscripcion = this.service.getcommerce(restaurantId);
+    this.restaurantSubscripcion = getCommerceSubscripcion.subscribe(
       async (resp: any) => {
         const dialogRef = await this.dialog.open(DetalleModalComponent, {
           disableClose: false,
           data: {
             resp,
-            name: 'conductor'
+            name: 'comercio'
           },
           minWidth: '80vh',
-          minHeight: '80vh'
+          maxHeight: '90vh'
         });
       },
       (error: any) => {
-        this.toast.error('Ha ocurrido un error al intentar ver al conductor');
+        this.toast.error('Ha ocurrido un error al intentar obtener el comercio');
+      }
+    );
+  }
+  openDialogOrderDetail(orderId: string, restaurantId: string): void {
+    const getOrderDetailSubscripcion = this.service.getOrderDetail(orderId, restaurantId);
+    this.orderDetailSubscripcion = getOrderDetailSubscripcion.subscribe(
+      async (resp: any) => {
+        const dialogRef = await this.dialog.open(DetalleModalComponent, {
+          disableClose: false,
+          data: {
+            resp,
+            name: 'pedido'
+          },
+          minWidth: '80vh',
+          minHeight: '90vh'
+        });
+      },
+      (error: any) => {
+        this.toast.error('Ha ocurrido un error al intentar obtener el detalle del pedido');
       }
     );
   }

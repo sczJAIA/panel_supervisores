@@ -8,7 +8,8 @@
                         <div class="col">
                             <div class="form-group">
                                 <label class="form-label" for="userId">Id del {{ data.name }}:</label>
-                                <input class="form-control" #userId [value]="data.resp.user_id" disabled="true" type="text">
+                                <input class="form-control" #userId [value]="data.resp.user_id" disabled="true"
+                                    type="text">
                             </div>
                         </div>
                         <div class="col">
@@ -40,8 +41,8 @@
                             <div class="form-group">
                                 <label class="form-label" for="city">Ciudad del {{ data.name }}:</label>
                                 <ng-container [ngSwitch]="data.resp.user_city">
-                                    <input class="form-control" *ngSwitchCase="395" value="Santa Cruz de la Sierra" #city
-                                        disabled="true" type="text">
+                                    <input class="form-control" *ngSwitchCase="395" value="Santa Cruz de la Sierra"
+                                        #city disabled="true" type="text">
                                 </ng-container>
                             </div>
                         </div>
@@ -56,8 +57,27 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
+                                <label class="form-label" for="deviceType">Dispositivo del {{ data.name }}:</label>
+                                <input class="form-control" [value]="data.resp.device_name" #deviceType disabled="true"
+                                    type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="appVersion">Version de aplicacion :</label>
+                                <input class="form-control" [value]="data.resp.app_version" #appVersion disabled="true"
+                                    type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
                                 <label class="form-label">Contactate con el {{ data.name }} </label>
-                                <input class="form-control mb-2" [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched" [class.is-success]="textWhatsapp.valid && textWhatsapp.touched" type="text" [formControl]="textWhatsapp">
+                                <input class="form-control mb-2"
+                                    [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched"
+                                    [class.is-success]="textWhatsapp.valid && textWhatsapp.touched" type="text"
+                                    [formControl]="textWhatsapp">
                                 <p class="text-danger">
                                     <small *ngIf="textWhatsapp.hasError('required') && textWhatsapp.touched">
                                         El campo es requerido
@@ -72,8 +92,14 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <button (click)="mapView()" type="button" class="btn btn-success">Ver Mapa <i class="icon-location-pin"></i></button>
+                                <button (click)="mapView()" type="button" class="btn btn-success">Ver Mapa <i
+                                        class="icon-location-pin"></i></button>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button (click)="closeDialog()" class="btn btn-danger btn-block">Cerrar</button>
                         </div>
                     </div>
                 </form>
@@ -86,25 +112,26 @@
                         <div class="col">
                             <div class="form-group">
                                 <label class="form-label" for="userId">Id del {{ data.name }}:</label>
-                                <input class="form-control" #userId [value]="data.resp['Driver Id']" disabled="true" type="text">
+                                <input class="form-control" #userId [value]="data.resp['Driver Id']" disabled="true"
+                                    type="text">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label class="form-label" for="nameCustomer">Nombre del {{ data.name }}:</label>
-                                <input class="form-control" [value]="data.resp['Driver Name']" disabled="true" #nameCustomer
-                                    type="text">
+                                <input class="form-control" [value]="data.resp['Driver Name']" disabled="true"
+                                    #nameCustomer type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="phoneCustomer">Telefono del {{ data.name }}:</label>
+                                <input class="form-control" [value]="data.resp['Phone No']" #phoneCustomer
+                                    disabled="true" type="text">
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="form-label" for="phoneCustomer">Telefono del {{ data.name }}:</label>
-                                <input class="form-control" [value]="data.resp['Phone No']" #phoneCustomer disabled="true"
-                                    type="text">
-                            </div>
-                        </div>
                         <div class="col">
                             <div class="form-group">
                                 <label class="form-label" for="email">Email del {{ data.name }}:</label>
@@ -112,14 +139,12 @@
                                     type="text">
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col">
                             <div class="form-group">
                                 <label class="form-label" for="city">Ciudad del {{ data.name }}:</label>
                                 <ng-container [ngSwitch]="data.resp.City">
-                                    <input class="form-control" *ngSwitchCase="395" value="Santa Cruz de la Sierra" #city
-                                        disabled="true" type="text">
+                                    <input class="form-control" *ngSwitchCase="395" value="Santa Cruz de la Sierra"
+                                        #city disabled="true" type="text">
                                 </ng-container>
                             </div>
                         </div>
@@ -134,18 +159,40 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label class="form-label">Contactate con el {{ data.name }} </label>
-                                <input class="form-control mb-2" [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched" [class.is-success]="textWhatsapp.valid && textWhatsapp.touched" type="text" [formControl]="textWhatsapp">
-                                <p class="text-danger">
-                                    <small *ngIf="textWhatsapp.hasError('required') && textWhatsapp.touched">
-                                        El campo es requerido
-                                    </small>
-                                </p>
-                                <button (click)="sendMessage()" type="button" class="btn btn-brand btn-spotify mr-1"
-                                    style="margin-bottom: 4px">
-                                    <i class="fa fa-whatsapp"></i>
-                                    <span>Whatsapp</span>
-                                </button>
+                                <label class="label-control" for="creditsI">Creditos del {{ data.name }} :</label>
+                                <input disabled="true" class="form-control" [value]="data.resp.wallet_balance" #creditsI
+                                    type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="label-control" for="lastLocationUpdatedAtI">Última ubicación actualizada
+                                    :</label>
+                                <input disabled="true" class="form-control" [value]="lastLocationUpdatedAt"
+                                    #lastLocationUpdatedAtI type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="label-control" for="">Carreras fallidas (Ultimo 30 dias):</label>
+                                <input disabled="true" class="form-control" [value]="data.resp.faulty_rides + '%'"
+                                    type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="label-control" for="todayCompleteToDay">Viajes completados de hoy:</label>
+                                <input disabled="true" class="form-control" [value]="data.resp.todays_completed_rides"
+                                    type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="label-control" for="appVersion">Version de aplicacion</label>
+                                <input disabled="true" class="form-control" [value]="data.resp.app_version" #appVersion
+                                    type="text">
                             </div>
                         </div>
                         <div class="col">
@@ -153,8 +200,35 @@
                                 <label class="form-label" for="lastLoginI">Ultimo acceso :</label>
                                 <input class="form-control mb-2" [value]="lastLogin" #lastLoginI disabled="true"
                                     type="text">
-                                <button (click)="mapView()" type="button" class="btn btn-success mt-2">Ver Mapa <i class="icon-location-pin"></i></button>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label">Contactate con el {{ data.name }} </label>
+                                <input class="form-control mb-2"
+                                    [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched"
+                                    [class.is-success]="textWhatsapp.valid && textWhatsapp.touched" type="text"
+                                    [formControl]="textWhatsapp">
+                                <p class="text-danger">
+                                    <small *ngIf="textWhatsapp.hasError('required') && textWhatsapp.touched">
+                                        El campo es requerido
+                                    </small>
+                                </p>
+                                <button (click)="sendMessage()" type="button" class="btn btn-brand btn-spotify mr-1">
+                                    <i class="fa fa-whatsapp"></i>
+                                    <span>Whatsapp</span>
+                                </button>
+                                <button (click)="mapView()" type="button" class="btn btn-success">Ver Mapa
+                                    <i class="icon-location-pin"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button (click)="closeDialog()" class="btn btn-danger btn-block">Cerrar</button>
                         </div>
                     </div>
                 </form>
@@ -166,49 +240,81 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label class="form-label" for="userId">Id del {{ data.name }}:</label>
-                                <input class="form-control" #userId [value]="data.resp.user_id" disabled="true" type="text">
+                                <label class="form-label" for="commerceId">Id del {{ data.name }}:</label>
+                                <input class="form-control" #commerceId [value]="data.resp.vendor_detail.restaurant_id"
+                                    disabled="true" type="text">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label class="form-label" for="nameCustomer">Nombre del {{ data.name }}:</label>
-                                <input class="form-control" [value]="data.resp.user_name" disabled="true" #nameCustomer
-                                    type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="form-label" for="phoneCustomer">Telefono del {{ data.name }}:</label>
-                                <input class="form-control" [value]="data.resp.phone_no" #phoneCustomer disabled="true"
-                                    type="text">
+                                <label class="form-label" for="nameCommerce">Nombre del {{ data.name }}:</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.name" disabled="true" #nameCommerce type="text">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label class="form-label" for="email">Email del {{ data.name }}:</label>
-                                <input class="form-control" [value]="data.resp.user_email" #email disabled="true"
-                                    type="text">
+                                <label class="form-label" for="createdAtCommerceI">Creado hace :</label>
+                                <input class="form-control" [value]="createdAtCommerce" disabled="true" #createdAtCommerceI type="text">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label class="form-label" for="city">Ciudad del {{ data.name }}:</label>
-                                <ng-container [ngSwitch]="data.resp.user_city">
-                                    <input class="form-control" *ngSwitchCase="395" value="Santa Cruz de la Sierra" #city
-                                        disabled="true" type="text">
+                                <label class="form-label" for="emailCommerce">Email del {{ data.name }}:</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.email" #emailCommerce disabled="true" type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="cityCommerce">Ciudad del {{ data.name }}:</label>
+                                <ng-container [ngSwitch]="data.resp.vendor_detail.city">
+                                    <input class="form-control" *ngSwitchCase="395" value="Santa Cruz de la Sierra" #cityCommerce disabled="true" type="text">
                                 </ng-container>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label class="form-label" for="registered">Registrado hace :</label>
-                                <input class="form-control" [value]="dateRegistered" #registered disabled="true"
-                                    type="text">
+                                <label class="form-label" for="status">Estado del {{ data.name }}:</label>
+                                <ng-container [ngSwitch]="data.resp.vendor_detail.activation_status">
+                                    <input class="form-control" *ngSwitchCase="1" value="Abierto" #status disabled="true" type="text">
+                                    <input class="form-control" *ngSwitchCase="0" value="Deshabilitado" #status disabled="true" type="text">
+                                    <input class="form-control" *ngSwitchCase="2" value="Cerrado" #status disabled="true" type="text">
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="radiusCommerce">Radio :</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.request_radius" #radiusCommerce disabled="true" type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="opensAtCommerce">Abre a las :</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.opens_at" #opensAtCommerce disabled="true" type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="closeAtCommerce">Cierra a las :</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.close_at" #closeAtCommerce disabled="true" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="phoneCommerce">Telefono del {{ data.name }}:</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.calling_number" #phoneCommerce disabled="true" type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="AlternatePhoneCommerce">Telefono alterno del {{ data.name }}:</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.contact_list" #AlternatePhoneCommerce disabled="true" type="text">
                             </div>
                         </div>
                     </div>
@@ -216,23 +322,143 @@
                         <div class="col">
                             <div class="form-group">
                                 <label class="form-label">Contactate con el {{ data.name }} </label>
-                                <input class="form-control mb-2" [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched" [class.is-success]="textWhatsapp.valid && textWhatsapp.touched" type="text" [formControl]="textWhatsapp">
+                                <input class="form-control mb-2"
+                                    [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched"
+                                    [class.is-success]="textWhatsapp.valid && textWhatsapp.touched" type="text"
+                                    [formControl]="textWhatsapp">
                                 <p class="text-danger">
                                     <small *ngIf="textWhatsapp.hasError('required') && textWhatsapp.touched">
                                         El campo es requerido
                                     </small>
                                 </p>
-                                <button (click)="sendMessage()" type="button" class="btn btn-brand btn-spotify mr-1"
-                                    style="margin-bottom: 4px">
+                                <button (click)="sendMessage()" type="button" class="btn btn-brand btn-spotify mr-1">
                                     <i class="fa fa-whatsapp"></i>
                                     <span>Whatsapp</span>
                                 </button>
+                                <button (click)="mapView()" type="button" class="btn btn-success">Ver Mapa 
+                                    <i class="icon-location-pin"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button (click)="closeDialog()" class="btn btn-danger btn-block">Cerrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div *ngSwitchCase="'pedido'" class="row">
+            <div class="col">
+                <form>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="commerceId">Id del {{ data.name }}:</label>
+                                <input class="form-control" #commerceId [value]="data.resp.vendor_detail.restaurant_id"
+                                    disabled="true" type="text">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <button (click)="mapView()" type="button" class="btn btn-success">Ver Mapa <i class="icon-location-pin"></i></button>
+                                <label class="form-label" for="nameCommerce">Nombre del {{ data.name }}:</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.name" disabled="true" #nameCommerce type="text">
                             </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="createdAtCommerceI">Creado hace :</label>
+                                <input class="form-control" [value]="createdAtCommerce" disabled="true" #createdAtCommerceI type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="emailCommerce">Email del {{ data.name }}:</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.email" #emailCommerce disabled="true" type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="cityCommerce">Ciudad del {{ data.name }}:</label>
+                                <ng-container [ngSwitch]="data.resp.vendor_detail.city">
+                                    <input class="form-control" *ngSwitchCase="395" value="Santa Cruz de la Sierra" #cityCommerce disabled="true" type="text">
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="status">Estado del {{ data.name }}:</label>
+                                <ng-container [ngSwitch]="data.resp.vendor_detail.activation_status">
+                                    <input class="form-control" *ngSwitchCase="1" value="Abierto" #status disabled="true" type="text">
+                                    <input class="form-control" *ngSwitchCase="0" value="Deshabilitado" #status disabled="true" type="text">
+                                    <input class="form-control" *ngSwitchCase="2" value="Cerrado" #status disabled="true" type="text">
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="radiusCommerce">Radio :</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.request_radius" #radiusCommerce disabled="true" type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="opensAtCommerce">Abre a las :</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.opens_at" #opensAtCommerce disabled="true" type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="closeAtCommerce">Cierra a las :</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.close_at" #closeAtCommerce disabled="true" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="phoneCommerce">Telefono del {{ data.name }}:</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.calling_number" #phoneCommerce disabled="true" type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="AlternatePhoneCommerce">Telefono alterno del {{ data.name }}:</label>
+                                <input class="form-control" [value]="data.resp.vendor_detail.contact_list" #AlternatePhoneCommerce disabled="true" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label">Contactate con el {{ data.name }} </label>
+                                <input class="form-control mb-2"
+                                    [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched"
+                                    [class.is-success]="textWhatsapp.valid && textWhatsapp.touched" type="text"
+                                    [formControl]="textWhatsapp">
+                                <p class="text-danger">
+                                    <small *ngIf="textWhatsapp.hasError('required') && textWhatsapp.touched">
+                                        El campo es requerido
+                                    </small>
+                                </p>
+                                <button (click)="sendMessage()" type="button" class="btn btn-brand btn-spotify mr-1">
+                                    <i class="fa fa-whatsapp"></i>
+                                    <span>Whatsapp</span>
+                                </button>
+                                <button (click)="mapView()" type="button" class="btn btn-success">Ver Mapa 
+                                    <i class="icon-location-pin"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button (click)="closeDialog()" class="btn btn-danger btn-block">Cerrar</button>
                         </div>
                     </div>
                 </form>
