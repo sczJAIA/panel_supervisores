@@ -1,3 +1,4 @@
+import { OrderDetailComponent } from './views/order-detail/order-detail.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -67,6 +68,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
       {
+        path: 'dashboard/orderDetails/:orderId/:restaurantId',
+        loadChildren: () => import('./views/order-detail/order-detail.module').then(m => m.OrderDetailModule)
+      },
+      {
         path: 'icons',
         loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
       },
@@ -88,7 +93,11 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }) ],
+  imports: [ 
+    RouterModule.forRoot(routes, { 
+      relativeLinkResolution: 'legacy' 
+    })
+  ],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule {}

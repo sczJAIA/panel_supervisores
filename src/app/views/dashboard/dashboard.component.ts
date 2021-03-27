@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { DetalleModalComponent } from './../../modals/detalle-modal/detalle-modal.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
@@ -401,7 +402,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private service: PanelService,
     private toast: ToastrService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -415,11 +417,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
   ngOnDestroy(): void {
-    this.citiesSubscripcion.unsubscribe();
-    this.customerSubscripcion.unsubscribe();
-    this.ordersListSubscripcion.unsubscribe();
-    this.restaurantSubscripcion.unsubscribe();
-    this.orderDetailSubscripcion.unsubscribe();
+    this.citiesSubscripcion?.unsubscribe();
+    this.customerSubscripcion?.unsubscribe();
+    this.ordersListSubscripcion?.unsubscribe();
+    this.restaurantSubscripcion?.unsubscribe();
+    this.orderDetailSubscripcion?.unsubscribe();
   }
 
   getCityList(): void {
@@ -512,23 +514,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     );
   }
-  openDialogOrderDetail(orderId: string, restaurantId: string): void {
-    const getOrderDetailSubscripcion = this.service.getOrderDetail(orderId, restaurantId);
-    this.orderDetailSubscripcion = getOrderDetailSubscripcion.subscribe(
-      async (resp: any) => {
-        const dialogRef = await this.dialog.open(DetalleModalComponent, {
-          disableClose: false,
-          data: {
-            resp,
-            name: 'pedido'
-          },
-          minWidth: '80vh',
-          minHeight: '90vh'
-        });
-      },
-      (error: any) => {
-        this.toast.error('Ha ocurrido un error al intentar obtener el detalle del pedido');
-      }
-    );
+  showOrderDetail(orderId: string, restaurantId: string): void {
+    this.router.navigate(['dashboard/orderDetails', orderId, restaurantId]);
   }
 }
