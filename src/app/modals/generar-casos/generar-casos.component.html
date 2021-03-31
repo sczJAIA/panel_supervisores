@@ -1,0 +1,52 @@
+<div class="container">
+<form>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col p-0">
+                    <mat-checkbox [color]="colorChecked">Recoger Pedido</mat-checkbox>
+                </div>
+                <div class="col p-0">
+                    <mat-checkbox [color]="colorChecked">Devolver plata a moto</mat-checkbox>
+                </div>
+                <div class="col p-0">
+                    <mat-checkbox [color]="colorChecked">Bloquear Moto</mat-checkbox>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col p-0">
+                    <mat-checkbox [color]="colorChecked">Cobrar comision</mat-checkbox>
+                </div>
+                <div class="col p-0">
+                    <mat-checkbox [color]="colorChecked">Reembolsar Usuario</mat-checkbox>
+                </div>
+                <div class="col p-0">
+                    <mat-checkbox [color]="colorChecked">Bloquear Cliente</mat-checkbox>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col p-0">
+                    <mat-checkbox [color]="colorChecked">Reportar Local</mat-checkbox>
+                </div>
+                <div class="col p-0">
+                    <mat-checkbox [color]="colorChecked">Contacto cliente</mat-checkbox>
+                </div>
+                <div class="col p-0">
+                    <mat-checkbox [color]="colorChecked">Contacto Local</mat-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col">
+            <textarea placeholder="Descripcion..." class="form-control" style="width: 100% !important;" rows="2"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-success btn-block">GUARDAR</button>
+            <button mat-dialog-close class="btn btn-danger btn-block">CERRAR</button>
+        </div>
+    </div>
+</form>
+</div>

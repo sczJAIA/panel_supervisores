@@ -9,6 +9,7 @@ import { City } from '../../models/cityList.interface';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
+import { GenerarCasosComponent } from '../../modals/generar-casos/generar-casos.component';
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -516,5 +517,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   showOrderDetail(orderId: string, restaurantId: string): void {
     this.router.navigate(['dashboard/orderDetails', orderId, restaurantId]);
+  }
+  createCase(order: any) {
+    this.dialog.open(GenerarCasosComponent, {
+      disableClose: false,
+      data: {
+        order
+      },
+      minWidth: '80vh',
+      width: '50%',
+      maxHeight: '90vh'
+    });
   }
 }

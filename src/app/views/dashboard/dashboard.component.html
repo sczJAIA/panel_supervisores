@@ -264,7 +264,7 @@
             <td>
               <ng-container
                 *ngIf="order[13].status === 2 || order[13].status === 7 || order[13].status === 3 || order[13].status === 9; else elseStatus">
-                <button class="btn btn-outline-dark">CREAR CASO</button>
+                <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
               </ng-container>
               <ng-template #elseStatus>
                 <button class="btn btn-warning">Forzar Asignacion</button>

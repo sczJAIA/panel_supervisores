@@ -1,3 +1,4 @@
+import { GenerarCasosModule } from './../../modals/generar-casos/generar-casos.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,7 +24,8 @@ import { DashboardComponent } from './dashboard.component';
     ButtonsModule.forRoot(),
     DetalleModalModule,
     MatDialogModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    GenerarCasosModule
   ],
   declarations: [ DashboardComponent ]
 })
