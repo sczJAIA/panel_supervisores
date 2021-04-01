@@ -92,6 +92,7 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
+                                <label class="form-label" for="">Ubicacion actual:</label>
                                 <button (click)="mapView()" type="button" class="btn btn-success">Ver Mapa <i
                                         class="icon-location-pin"></i></button>
                             </div>
@@ -241,8 +242,9 @@
                         <div class="col">
                             <div class="form-group">
                                 <label class="form-label" for="commerceId">Id del {{ data.name }}:</label>
-                                <input class="form-control" #commerceId [value]="data.resp.vendor_detail.restaurant_id"
-                                    disabled="true" type="text">
+                                <a [href]="redirectJugnoCommerce" target="_blank" class="form-control"> {{ data.resp.vendor_detail.restaurant_id }} </a>
+                                <!-- <input class="form-control" #commerceId [value]="data.resp.vendor_detail.restaurant_id"
+                                    disabled="true" type="text"> -->
                             </div>
                         </div>
                         <div class="col">

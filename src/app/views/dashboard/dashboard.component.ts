@@ -521,11 +521,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   createCase(order: any) {
     this.dialog.open(GenerarCasosComponent, {
       disableClose: false,
-      data: {
-        order
-      },
+      data: order,
       minWidth: '80vh',
-      width: '50%',
+      width: '40%',
       maxHeight: '90vh'
     });
   }

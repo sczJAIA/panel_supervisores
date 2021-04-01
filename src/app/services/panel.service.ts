@@ -168,4 +168,33 @@ export class PanelService {
       return throwError(error);
     }
   }
+  createCases(orderId: string, detail: string, indicted: string = '0', observation: string, month: string, management: string,
+  registeredUser: string) {
+    try {
+      // const headers = new HttpHeaders({'Content-Type': 'application/json'});
+      const url = 'https://labs.patio.com.bo/api/kardex_functions';
+      const params = new HttpParams()
+      .set('idPedido', orderId)
+      .set('detalle', JSON.stringify(detail))
+      .set('procesado', indicted)
+      .set('observacion', observation)
+      .set('mes', month)
+      .set('gestion', management)
+      .set('usuario_registrado', registeredUser);
+      return this.http.post(
+        url, params, {
+          // headers
+        }
+      ).pipe(
+        map((resp: any) => {
+          return resp;
+        }), catchError((error) => {
+          return throwError(error);
+        })
+      );
+    } catch (error) {
+      return throwError(error);
+    }
+
+  }
 }

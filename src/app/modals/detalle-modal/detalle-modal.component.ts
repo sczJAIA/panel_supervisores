@@ -16,6 +16,7 @@ export class DetalleModalComponent implements OnInit {
   lastLogin = '';
   lastLocationUpdatedAt = '';
   createdAtCommerce = '';
+  redirectJugnoCommerce = '';
 
   constructor(
     public dialogRef: MatDialogRef<DetalleModalComponent>,
@@ -33,6 +34,7 @@ export class DetalleModalComponent implements OnInit {
         break;
       case 'comercio':
         this.createdAtCommerce = moment(this.data?.resp.vendor_detail.created_at).fromNow();
+        this.redirectJugnoCommerce = 'https://fatafat.ec2dashboard.com/#/app/vendorDetails/' + this.data.resp.vendor_detail.restaurant_id;
         break;
       default:
         break;

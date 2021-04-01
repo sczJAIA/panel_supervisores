@@ -14,6 +14,7 @@ export class OrderDetailComponent implements OnInit {
   orderDetailSubscripcion: Subscription
   orderInfo: any = {};
   textWhatsapp = new FormControl('', [Validators.required]);
+  redirectJugno = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -25,8 +26,9 @@ export class OrderDetailComponent implements OnInit {
     this.activatedRoute?.paramMap.subscribe(
       (params) => {
         const orderId = params.get('orderId');
-        const restaurantId = params.get('restaurantId');        
+        const restaurantId = params.get('restaurantId');
         this.getOrderDetails(orderId, restaurantId);
+        this.redirectJugno = 'https://fatafat.ec2dashboard.com/#/app/orderDetails/' + orderId + '/' + restaurantId;
       }
     );
   }
@@ -65,6 +67,7 @@ export class OrderDetailComponent implements OnInit {
   }
 
   mapView() {
-    window.open('https://maps.google.com/maps?q=' + this.orderInfo.delivery_latitude + '%2C' + this.orderInfo.delivery_longitude + '&z=17&hl=es');
+    window.open('https://www.google.com/maps/dir/' + this.orderInfo.latitude + ',' + this.orderInfo.longitude + '/' + this.orderInfo.delivery_latitude + ',' + this.orderInfo.delivery_longitude + '/@' + this.orderInfo.delivery_latitude + ',' + this.orderInfo.delivery_longitude + ',15z');
+    // window.open('https://maps.google.com/maps?q=' + this.orderInfo.delivery_latitude + '%2C' + this.orderInfo.delivery_longitude + '&z=17&hl=es');
   }
 }
