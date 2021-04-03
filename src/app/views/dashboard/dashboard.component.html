@@ -198,6 +198,35 @@
   </div>
   <div class="row">
     <div class="col">
+      <div class="form-group">
+        <label class="form-label" for="filterId">Buscar Id:</label>
+        <input [(ngModel)]="filterId" name="filterId" class="form-control" type="text" placeholder="Id del pedido">
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-label" for="merchantFilter">Buscar por comercio:</label>
+        <input type="text" [(ngModel)]="filterMerchant" class="form-control" placeholder="Nombre del comercio">
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-label" for="status">Estados: </label>
+        <select class="form-control" [(ngModel)]="filterStatus" name="status">
+          <option value="todos">TODOS</option>
+          <option value="0">PENDIENTE</option>
+          <option value="8">ACEPTADO</option>
+          <option value="4">DESPACHADO</option>
+          <option value="2">ENTREGADO</option>
+          <option value="7">DEVUELTO</option>
+          <option value="3">CANCELADO POR EL CLIENTE</option>
+          <option value="9">RECHAZADO POR EL LOCAL</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
       <table class="table table-responsive table-striped">
         <thead class="thead-dark">
           <tr>
@@ -211,7 +240,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let order of deliveryList['aaData'] | paginate: { itemsPerPage: 25, currentPage: p }">
+          <tr *ngFor="let order of deliveryList['aaData'] |filtroId: filterId |filterStatus: filterStatus |filterMerchant: filterMerchant  | paginate: { itemsPerPage: 25, currentPage: p }">
             <td>
               {{ order[0] }}
             </td>
@@ -253,6 +282,24 @@
                 <h4 *ngSwitchCase="2">
                   <span class="badge badge-success">ENTREGADO</span>
                 </h4>
+                <h4 *ngSwitchCase="7">
+                  <span class="badge badge-danger">DEVUELTO</span>
+                </h4>
+                <h4 *ngSwitchCase="3">
+                  <span class="badge badge-danger">CANCELADO POR EL CLIENTE</span>
+                </h4>
+                <h4 *ngSwitchCase="0">
+                  <span class="badge badge-warning">PENDIENTE</span>
+                </h4>
+                <h4 *ngSwitchCase="9">
+                  <span class="badge badge-danger">RECHAZADO POR EL LOCAL</span>
+                </h4>
+                <h4 *ngSwitchCase="4">
+                  <span class="badge badge-info">DESPACHADO</span>
+                </h4>
+                <h4 *ngSwitchCase="8">
+                  <span class="badge badge-primary">ACEPTADO</span>
+                </h4>
                 <p> <strong>Fecha de orden:</strong>
                   <span [innerHTML]="order[7]"></span>
                 </p>
@@ -267,9 +314,9 @@
                 <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
               </ng-container>
               <ng-template #elseStatus>
-                <button class="btn btn-warning">Forzar Asignacion</button>
-                <button class="btn btn-success">Forzar Entrega</button>
-                <button class="btn btn-danger">Cancelar Pedido</button>
+                <!-- <button class="btn btn-warning">Forzar Asignacion</button>
+                <button class="btn btn-success">Forzar Entrega</button> -->
+                <button (click)="cancelOrder(order)" *ngIf="order[13].status === 8" class="btn btn-danger">Cancelar Pedido</button>
               </ng-template>
             </td>
           </tr>

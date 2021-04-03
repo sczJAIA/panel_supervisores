@@ -3,45 +3,56 @@
     <div class="row">
         <div class="col">
             <div class="row">
-                <div class="col p-0">
+                <div class="col p-2">
                     <mat-checkbox formControlName="pickOrder" [color]="colorChecked">Recoger Pedido</mat-checkbox>
+                    <input type="text" formControlName="pickOrderDescription" class="form-control">
                 </div>
-                <div class="col p-0">
-                    <mat-checkbox formControlName="returnMoney" [color]="colorChecked">Devolver plata a moto</mat-checkbox>
+                <div class="col p-2">
+                    <mat-checkbox formControlName="returnMoney" [color]="colorChecked">Reembolsar moto</mat-checkbox>
+                    <input type="text" formControlName="returnMoneyDescription" class="form-control">
                 </div>
-                <div class="col p-0">
+                <div class="col p-2">
                     <mat-checkbox formControlName="lockDriver" [color]="colorChecked">Bloquear Moto</mat-checkbox>
+                    <input type="text" formControlName="lockDriverDescription" class="form-control">
                 </div>
             </div>
             <div class="row">
-                <div class="col p-0">
+                <div class="col p-2">
                     <mat-checkbox formControlName="chargeCommission" [color]="colorChecked">Cobrar comision</mat-checkbox>
+                    <input type="text" formControlName="chargeCommissionDescription" class="form-control">
                 </div>
-                <div class="col p-0">
+                <div class="col p-2">
                     <mat-checkbox formControlName="refundUser" [color]="colorChecked">Reembolsar Usuario</mat-checkbox>
+                    <input type="text" formControlName="refundUserDescription" class="form-control">
                 </div>
-                <div class="col p-0">
+                <div class="col p-2">
                     <mat-checkbox formControlName="lockUser" [color]="colorChecked">Bloquear Cliente</mat-checkbox>
+                    <input type="text" formControlName="lockUserDescription" class="form-control">
                 </div>
             </div>
             <div class="row">
-                <div class="col p-0">
+                <div class="col p-2"></div>
+                <div class="col p-2">
                     <mat-checkbox formControlName="reportLocal" [color]="colorChecked">Reportar Local</mat-checkbox>
+                    <input type="text" formControlName="reportLocalDescription" class="form-control">
                 </div>
-                <div class="col p-0">
+                <div class="col p-2"></div>
+                <!-- <div class="col p-2">
                     <mat-checkbox formControlName="customerContact" [color]="colorChecked">Contacto cliente</mat-checkbox>
+                    <input type="text" [disabled]="!customerContactField.value" class="form-control">
                 </div>
-                <div class="col p-0">
+                <div class="col p-2">
                     <mat-checkbox formControlName="localContact" [color]="colorChecked">Contacto Local</mat-checkbox>
-                </div>
+                    <input type="text" [disabled]="!localContactField.value" class="form-control">
+                </div> -->
             </div>
         </div>
     </div>
-    <div class="row mb-2">
+    <!-- <div class="row mb-2">
         <div class="col">
             <textarea formControlName="description" placeholder="Descripcion..." class="form-control" style="width: 100% !important;" rows="2"></textarea>
         </div>
-    </div>
+    </div> -->
     <div class="row">
         <div class="col">
             <button type="submit" class="btn btn-success btn-block">GUARDAR</button>

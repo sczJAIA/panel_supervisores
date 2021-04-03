@@ -169,22 +169,22 @@ export class PanelService {
     }
   }
   createCases(orderId: string, detail: string, indicted: string = '0', observation: string, month: string, management: string,
-  registeredUser: string) {
+    registeredUser: string) {
     try {
       // const headers = new HttpHeaders({'Content-Type': 'application/json'});
       const url = 'https://labs.patio.com.bo/api/kardex_functions';
       const params = new HttpParams()
-      .set('idPedido', orderId)
-      .set('detalle', JSON.stringify(detail))
-      .set('procesado', indicted)
-      .set('observacion', observation)
-      .set('mes', month)
-      .set('gestion', management)
-      .set('usuario_registrado', registeredUser);
+        .set('idPedido', orderId)
+        .set('detalle', JSON.stringify(detail))
+        .set('procesado', indicted)
+        .set('observacion', observation)
+        .set('mes', month)
+        .set('gestion', management)
+        .set('usuario_registrado', registeredUser);
       return this.http.post(
         url, params, {
-          // headers
-        }
+        // headers
+      }
       ).pipe(
         map((resp: any) => {
           return resp;
@@ -196,5 +196,96 @@ export class PanelService {
       return throwError(error);
     }
 
+  }
+  unassignDriver(orderId: number) {
+    try {
+      const url = 'https://dodo.jugnoo.in:8024/unassign_driver';
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const data = JSON.stringify({
+        access_token: "83c61c67c064fab7a8be68ead432c51a",
+        locale: "en",
+        order_id: orderId
+      });
+      return this.http.post(url, data, { headers }).pipe(
+        map(
+          (resp: any) => {
+            return resp;
+          }
+        ),
+        catchError(
+          (error: any) => {
+            return throwError(error);
+          }
+        )
+      );
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  assignDriver(orderId: number, userId: number) {
+    try {
+      const url = 'https://dodo.jugnoo.in:8024/assign_driver';
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const data = JSON.stringify({
+        access_token: "83c61c67c064fab7a8be68ead432c51a",
+        is_super_force_assign: 1,
+        locale: "en",
+        order_id: orderId,
+        user_id: userId
+      });
+      return this.http.post(url, data, { headers }).pipe(
+        map(
+          (resp: any) => {
+            return resp;
+          }
+        ),
+        catchError(
+          (error: any) => {
+            return throwError(error);
+          }
+        )
+      );
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  forceOrderComplete(orderId: number) {
+    try {
+      const url = 'https://dodo.jugnoo.in:8024/force_order_complete';
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const data = JSON.stringify({
+        access_token: "83c61c67c064fab7a8be68ead432c51a",
+        driver_name: "PEDIDO CANCELADO",
+        driver_phone: "+911190409044",
+        driver_subsidy_fare: 0,
+        drop_latitude: -17.7994919,
+        drop_longitude: -63.1971651,
+        locale: "en",
+        order_id: orderId,
+        parking_fare: 0,
+        pickup_distance: 0,
+        pickup_waiting_time: 0,
+        return_distance: 0,
+        ride_distance: 0,
+        ride_time: 0,
+        waiting_fare: 0
+      });
+      return this.http.post(url, data, { headers }).pipe(
+        map(
+          (resp: any) => {
+            return resp;
+          }
+        ),
+        catchError(
+          (error: any) => {
+            return throwError(error);
+          }
+        )
+      );
+    } catch (error) {
+      return throwError(error);
+    }
   }
 }

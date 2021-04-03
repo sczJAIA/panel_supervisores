@@ -10,6 +10,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { DetalleModalModule } from '../../modals/detalle-modal/detalle-modal.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
+import { FiltroIdPipe } from '../../pipes/filtro-id.pipe';
+import { FilterStatusPipe } from '../../pipes/filter-status.pipe';
+import { FilterMerchantPipe } from '../../pipes/filter-merchant.pipe';
 
 
 
@@ -27,6 +30,6 @@ import { DashboardComponent } from './dashboard.component';
     NgxPaginationModule,
     GenerarCasosModule
   ],
-  declarations: [ DashboardComponent ]
+  declarations: [ DashboardComponent, FiltroIdPipe, FilterStatusPipe, FilterMerchantPipe ]
 })
 export class DashboardModule { }

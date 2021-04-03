@@ -31,6 +31,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   p: number = 1;
   nextLabel = 'Siguiente';
   previousLabel = 'Anterior'
+  filterId = '';
+  filterStatus = 'todos';
+  filterMerchant = '';
 
   // lineChart1
   public lineChart1Data: Array<any> = [
@@ -523,8 +526,62 @@ export class DashboardComponent implements OnInit, OnDestroy {
       disableClose: false,
       data: order,
       minWidth: '80vh',
-      width: '40%',
+      width: '50%',
       maxHeight: '90vh'
     });
+  }
+
+  cancelOrder(order: any){
+    if (order[9] !== '-') {
+      this.service.unassignDriver(order[13].order_id).subscribe(
+        (resp1: any) => {
+          if (resp1.message === 'Successfully unassingned order' && resp1.status === 200) {
+            this.service.assignDriver(order[13].order_id, order[13].user_id).subscribe(
+              (resp2: any) => {
+                if (resp2.message === 'Successfully assigned driver' && resp2.status === 200) {
+                  this.service.forceOrderComplete(order[13].order_id).subscribe(
+                    (resp3: any) => {
+                      if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
+                        console.log('Respues de forzas completado', resp3);
+                      }
+                    },
+                    (error: any) => {
+                      console.log('Ha ocurrido un error al forzar entrega');
+                    }
+                  );
+                }
+              },
+              (error: any) => {
+                console.log('Ha ocurrido un error al asignar moto');
+              }
+            );
+          }
+        },
+        (error: any) => {
+          console.log('Ha ocurrido un error al desasignar moto');
+        }
+      );
+    }
+    else {
+      this.service.assignDriver(order[13].order_id, order[13].user_id).subscribe(
+        (resp2: any) => {
+          if (resp2.message === 'Successfully assigned driver' && resp2.status === 200) {
+            this.service.forceOrderComplete(order[13].order_id).subscribe(
+              (resp3: any) => {
+                if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
+                  console.log('Respues de forzas completado', resp3);
+                }
+              },
+              (error: any) => {
+                console.log('Ha ocurrido un error al forzar entrega');
+              }
+            );
+          }
+        },
+        (error: any) => {
+          console.log('Ha ocurrido un error al asignar moto');
+        }
+      );
+    }
   }
 }
