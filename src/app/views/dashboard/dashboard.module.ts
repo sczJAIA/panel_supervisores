@@ -13,6 +13,7 @@ import { DashboardComponent } from './dashboard.component';
 import { FiltroIdPipe } from '../../pipes/filtro-id.pipe';
 import { FilterStatusPipe } from '../../pipes/filter-status.pipe';
 import { FilterMerchantPipe } from '../../pipes/filter-merchant.pipe';
+import { AsignarMotoModule } from '../../modals/asignar-moto/asignar-moto.module';
 
 
 
@@ -28,7 +29,8 @@ import { FilterMerchantPipe } from '../../pipes/filter-merchant.pipe';
     DetalleModalModule,
     MatDialogModule,
     NgxPaginationModule,
-    GenerarCasosModule
+    GenerarCasosModule,
+    AsignarMotoModule
   ],
   declarations: [ DashboardComponent, FiltroIdPipe, FilterStatusPipe, FilterMerchantPipe ]
 })

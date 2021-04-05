@@ -314,9 +314,10 @@
                 <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
               </ng-container>
               <ng-template #elseStatus>
+                <button (click)="assignDriver(order[13].order_id, order[4])" *ngIf="order[13].status === 8" class="btn btn-success">ASIGNAR MOTO</button>
                 <!-- <button class="btn btn-warning">Forzar Asignacion</button>
                 <button class="btn btn-success">Forzar Entrega</button> -->
-                <button (click)="cancelOrder(order)" *ngIf="order[13].status === 8" class="btn btn-danger">Cancelar Pedido</button>
+                <button (click)="cancelOrder(order)" *ngIf="order[13].status === 8" class="btn btn-danger">CANCELAR PEDIDO</button>
               </ng-template>
             </td>
           </tr>

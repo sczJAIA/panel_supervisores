@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { GenerarCasosComponent } from '../../modals/generar-casos/generar-casos.component';
+import { AsignarMotoComponent } from '../../modals/asignar-moto/asignar-moto.component';
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -531,15 +532,66 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  cancelOrder(order: any){
+  cancelOrder(order: any) {
+    switch (order[4]) {
+      case 395:
+        // SANTA CRUZ
+        this.cancelOrderFunction(order, '7107740', 'PEDIDO CANCELADO', '+911190409044');
+        break;
+      case 818:
+        // LA PAZ
+        this.cancelOrderFunction(order, '9029134', 'Pedido Cancelado', '+59160521013');
+        break;
+      case 704:
+        // COCHABAMBA
+        this.cancelOrderFunction(order, '9481627', 'Pedido Cancelado', '+59170790241');
+        break;
+      case 859:
+        // TARIJA
+        this.cancelOrderFunction(order, '9940410', 'Pedido Cancelado', '+5917805356611');
+        break;
+      case 1796:
+        // POTOSI
+        // NO HAY MOTO PEDIDO CANCELADO EN POTOSI
+        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+        break;
+      case 3190:
+        // SAN JOSE DE MAYO
+        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+        break;
+      case 204:
+        // NEW YORK
+        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+        break;
+      case 997:
+        // MONTEVIDEO
+        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+        break;
+      case 3262:
+        // JULIACA
+        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+        break;
+      case 1:
+        // CHANDIRGAH
+        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+        break;
+      case 786:
+        // AREQUIPA
+        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+        break;
+      default:
+        break;
+    }
+  }
+  cancelOrderFunction(order: any, driverId: any, driverName: string, driverPhone: string) {
     if (order[9] !== '-') {
       this.service.unassignDriver(order[13].order_id).subscribe(
         (resp1: any) => {
           if (resp1.message === 'Successfully unassingned order' && resp1.status === 200) {
-            this.service.assignDriver(order[13].order_id, order[13].user_id).subscribe(
+            this.service.assignDriver(order[13].order_id, driverId).subscribe(
               (resp2: any) => {
                 if (resp2.message === 'Successfully assigned driver' && resp2.status === 200) {
-                  this.service.forceOrderComplete(order[13].order_id).subscribe(
+                  this.service.forceOrderComplete(order[13].order_id, driverName, driverPhone).subscribe(
                     (resp3: any) => {
                       if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
                         console.log('Respues de forzas completado', resp3);
@@ -561,12 +613,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           console.log('Ha ocurrido un error al desasignar moto');
         }
       );
-    }
-    else {
-      this.service.assignDriver(order[13].order_id, order[13].user_id).subscribe(
+    } else {
+      this.service.assignDriver(order[13].order_id, driverId).subscribe(
         (resp2: any) => {
           if (resp2.message === 'Successfully assigned driver' && resp2.status === 200) {
-            this.service.forceOrderComplete(order[13].order_id).subscribe(
+            this.service.forceOrderComplete(order[13].order_id, driverName, driverPhone).subscribe(
               (resp3: any) => {
                 if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
                   console.log('Respues de forzas completado', resp3);
@@ -583,5 +634,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       );
     }
+  }
+
+  assignDriver(orderId: number, cityId: number) {
+    const cityList = this.cityList;
+    const city = cityList.filter(value => cityId === value.city_id);
+    const dialog = this.dialog.open(AsignarMotoComponent, {
+      disableClose: false,
+      data: {
+        orderId,
+        city
+      },
+      minWidth: '80vh',
+      width: '50%',
+      maxHeight: '90vh'
+    });
   }
 }

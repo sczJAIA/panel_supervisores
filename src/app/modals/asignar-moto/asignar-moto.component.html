@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <form novalidate [formGroup]="assignDriverForm" (ngSubmit)="assingDriver($event)">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <h3 class="h3">ASIGNAR MOTO</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label class="form-label" for="driverSelect">Seleccionar moto:</label>
+                            <input class="form-control" type="text" placeholder="Buscar por nombre" formControlName="driverName"
+                                [matAutocomplete]="auto">
+                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of driversFiltered |async" [value]="option.driver_id">
+                                    {{option.driver_name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <button class="btn btn-success btn-block" type="submit">ASIGNAR</button>
+                        <button mat-dialog-close class="btn btn-danger btn-block" type="button">CERRAR</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

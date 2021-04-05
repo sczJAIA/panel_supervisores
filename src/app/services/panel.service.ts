@@ -202,8 +202,8 @@ export class PanelService {
       const url = 'https://dodo.jugnoo.in:8024/unassign_driver';
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       const data = JSON.stringify({
-        access_token: "83c61c67c064fab7a8be68ead432c51a",
-        locale: "en",
+        access_token: '83c61c67c064fab7a8be68ead432c51a',
+        locale: 'en',
         order_id: orderId
       });
       return this.http.post(url, data, { headers }).pipe(
@@ -228,9 +228,9 @@ export class PanelService {
       const url = 'https://dodo.jugnoo.in:8024/assign_driver';
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       const data = JSON.stringify({
-        access_token: "83c61c67c064fab7a8be68ead432c51a",
+        access_token: '83c61c67c064fab7a8be68ead432c51a',
         is_super_force_assign: 1,
-        locale: "en",
+        locale: 'en',
         order_id: orderId,
         user_id: userId
       });
@@ -251,18 +251,18 @@ export class PanelService {
     }
   }
 
-  forceOrderComplete(orderId: number) {
+  forceOrderComplete(orderId: number, driverName: string, driverPhone: string) {
     try {
       const url = 'https://dodo.jugnoo.in:8024/force_order_complete';
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       const data = JSON.stringify({
-        access_token: "83c61c67c064fab7a8be68ead432c51a",
-        driver_name: "PEDIDO CANCELADO",
-        driver_phone: "+911190409044",
+        access_token: '83c61c67c064fab7a8be68ead432c51a',
+        driver_name: driverName,
+        driver_phone: driverPhone,
         driver_subsidy_fare: 0,
         drop_latitude: -17.7994919,
         drop_longitude: -63.1971651,
-        locale: "en",
+        locale: 'en',
         order_id: orderId,
         parking_fare: 0,
         pickup_distance: 0,
@@ -284,6 +284,25 @@ export class PanelService {
           }
         )
       );
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  getActiveDrivers(cityId: string) {
+    try {
+      const url = 'https://api-panels.jugnoo.in:8020/get_driver_details_panel';
+      const params = new HttpParams()
+      .append('city', cityId)
+      .append('email_id', 'John')
+      .append('vehicle_type', '0')
+      .append('category', '2')
+      .append('skip', '0')
+      .append('limit', '50000')
+      .append('token', '83c61c67c064fab7a8be68ead432c51a');
+      return this.http.get(url, {
+        params
+      });
     } catch (error) {
       return throwError(error);
     }
