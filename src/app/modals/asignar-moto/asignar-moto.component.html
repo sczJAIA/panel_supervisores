@@ -11,10 +11,13 @@
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <div class="form-group">
                             <label class="form-label" for="driverSelect">Seleccionar moto:</label>
-                            <input class="form-control" type="text" placeholder="Buscar por nombre" formControlName="driverName"
-                                [matAutocomplete]="auto">
-                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of driversFiltered |async" [value]="option.driver_id">
+                            <input *ngIf="loading; else noloading" class="form-control" type="text" placeholder="Buscar por nombre"
+                                formControlName="driverName" [matAutocomplete]="auto">
+                            <ng-template #noloading>
+                                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                            </ng-template>
+                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option *ngFor="let option of driversFiltered |async" [value]="option">
                                     {{option.driver_name}}
                                 </mat-option>
                             </mat-autocomplete>

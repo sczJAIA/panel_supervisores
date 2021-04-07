@@ -174,7 +174,7 @@ export class PanelService {
       // const headers = new HttpHeaders({'Content-Type': 'application/json'});
       const url = 'https://labs.patio.com.bo/api/kardex_functions';
       const params = new HttpParams()
-        .set('idPedido', orderId)
+        .set('id_pedido', orderId)
         .set('detalle', JSON.stringify(detail))
         .set('procesado', indicted)
         .set('observacion', observation)

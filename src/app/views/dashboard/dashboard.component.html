@@ -240,7 +240,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let order of deliveryList['aaData'] |filtroId: filterId |filterStatus: filterStatus |filterMerchant: filterMerchant  | paginate: { itemsPerPage: 25, currentPage: p }">
+          <tr *ngFor="let order of deliveryList |filtroId: filterId |filterStatus: filterStatus |filterMerchant: filterMerchant  | paginate: { itemsPerPage: 25, currentPage: p }">
             <td>
               {{ order[0] }}
             </td>
@@ -312,9 +312,10 @@
               <ng-container
                 *ngIf="order[13].status === 2 || order[13].status === 7 || order[13].status === 3 || order[13].status === 9; else elseStatus">
                 <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
+                <button (click)="copyOrder(order)" class="btn btn-outline-primary">COPIAR PEDIDO</button>
               </ng-container>
               <ng-template #elseStatus>
-                <button (click)="assignDriver(order[13].order_id, order[4])" *ngIf="order[13].status === 8" class="btn btn-success">ASIGNAR MOTO</button>
+                <button (click)="assignDriver(order, order[4])" *ngIf="order[13].status === 8" class="btn btn-success">ASIGNAR MOTO</button>
                 <!-- <button class="btn btn-warning">Forzar Asignacion</button>
                 <button class="btn btn-success">Forzar Entrega</button> -->
                 <button (click)="cancelOrder(order)" *ngIf="order[13].status === 8" class="btn btn-danger">CANCELAR PEDIDO</button>

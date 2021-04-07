@@ -6,7 +6,7 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { PanelService } from '../../services/panel.service';
 import { ToastrService } from 'ngx-toastr';
 import { City } from '../../models/cityList.interface';
-import { Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { GenerarCasosComponent } from '../../modals/generar-casos/generar-casos.component';
@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   radioModel: string = 'Month';
   deliveryList: any[] = [];
   dateNow = moment().format('YYYY-MM-DD');
+  citySelected = '395';
   cityList: City[] = [];
   citiesSubscripcion: Subscription;
   customerSubscripcion: Subscription;
@@ -413,7 +414,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getCityList();
-    this.getOrderList('395');
+    this.getOrderList(this.citySelected);
+    const contador = interval(30000);
+        contador.subscribe(
+          (n) => {
+            this.getOrderList(this.citySelected);
+          }
+        );
     // generate random values for mainChart
     for (let i = 0; i <= this.mainChartElements; i++) {
       this.mainChartData1.push(this.random(50, 200));
@@ -443,14 +450,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getOrderList(cityId: string): void {
+    this.citySelected = cityId;
     const orderListSubscripcion = this.service.getDeliveryList(cityId, this.startDate, this.endDate);
     this.ordersListSubscripcion = orderListSubscripcion.subscribe(
       async (resp: any) => {
         this.toast.success('Se obtuvo la lista correctamente');
-        this.deliveryList = await resp;
-        const fulfillment = ((this.deliveryList['stats'].delivered + this.deliveryList['stats'].accepted + this.deliveryList['stats'].dispatch) / (this.deliveryList['stats'].total) * 100).toFixed(2);
+        this.deliveryList = await resp['aaData'].reverse();
+        const deliveryList2 = await resp;
+        const fulfillment = (
+        (deliveryList2['stats'].delivered + deliveryList2['stats'].accepted + deliveryList2['stats'].dispatch)
+          / (deliveryList2['stats'].total) * 100).toFixed(2);
         this.fulFillment = parseFloat(fulfillment);
-        console.log(this.deliveryList.length);
       },
       (error: any) => {
         this.toast.error('Ha ocurrido al obtener la lista de pedidos');
@@ -584,70 +594,126 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
   cancelOrderFunction(order: any, driverId: any, driverName: string, driverPhone: string) {
-    if (order[9] !== '-') {
-      this.service.unassignDriver(order[13].order_id).subscribe(
-        (resp1: any) => {
-          if (resp1.message === 'Successfully unassingned order' && resp1.status === 200) {
-            this.service.assignDriver(order[13].order_id, driverId).subscribe(
-              (resp2: any) => {
-                if (resp2.message === 'Successfully assigned driver' && resp2.status === 200) {
-                  this.service.forceOrderComplete(order[13].order_id, driverName, driverPhone).subscribe(
-                    (resp3: any) => {
-                      if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
-                        console.log('Respues de forzas completado', resp3);
-                      }
-                    },
-                    (error: any) => {
-                      console.log('Ha ocurrido un error al forzar entrega');
+    const orderId = order[13].order_id;
+    const restaurantId = order[13].restaurant_id;
+    const month = moment().format('MM');
+    const management = moment().format('YYYY');
+    this.service.getOrderDetail(orderId, restaurantId).subscribe(
+      (resp: any) => {
+        const deliveryId = resp.order_info[0].delivery_id;
+        if (order[9] !== '-') {
+          this.service.unassignDriver(deliveryId).subscribe(
+            (resp1: any) => {
+              if (resp1.message === 'Successfully unassingned order' && resp1.status === 200) {
+                this.service.assignDriver(deliveryId, driverId).subscribe(
+                  (resp2: any) => {
+                    if (resp2.message === 'Successfully assigned driver' && resp2.status === 200) {
+                      this.service.forceOrderComplete(deliveryId, driverName, driverPhone).subscribe(
+                        (resp3: any) => {
+                          if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
+                            console.log('Respues de forzas completado', resp3);
+                            this.service.createCases(order[13].order_id,
+                              'CANCELAR PEDIDO', '0', 'CANCELACION DESDE EL BOTON', month, management, 'SIN USER')
+                              .subscribe(
+                                (resp4: any) => {
+                                  console.log(resp4);
+                                  this.getOrderList(this.citySelected);
+                                },
+                                (error: any) => {
+                                  console.log('Ha ocurrido un error al guardar un caso', error);
+                                }
+                              );
+                          }
+                        },
+                        (error: any) => {
+                          console.log('Ha ocurrido un error al forzar entrega');
+                        }
+                      );
                     }
-                  );
-                }
-              },
-              (error: any) => {
-                console.log('Ha ocurrido un error al asignar moto');
+                  },
+                  (error: any) => {
+                    console.log('Ha ocurrido un error al asignar moto');
+                  }
+                );
               }
-            );
-          }
-        },
-        (error: any) => {
-          console.log('Ha ocurrido un error al desasignar moto');
-        }
-      );
-    } else {
-      this.service.assignDriver(order[13].order_id, driverId).subscribe(
-        (resp2: any) => {
-          if (resp2.message === 'Successfully assigned driver' && resp2.status === 200) {
-            this.service.forceOrderComplete(order[13].order_id, driverName, driverPhone).subscribe(
-              (resp3: any) => {
-                if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
-                  console.log('Respues de forzas completado', resp3);
-                }
-              },
-              (error: any) => {
-                console.log('Ha ocurrido un error al forzar entrega');
+            },
+            (error: any) => {
+              console.log('Ha ocurrido un error al desasignar moto');
+            }
+          );
+        } else {
+          this.service.assignDriver(deliveryId, driverId).subscribe(
+            (resp2: any) => {
+              if (resp2.message === 'Successfully assigned driver' && resp2.status === 200) {
+                this.service.forceOrderComplete(deliveryId, driverName, driverPhone).subscribe(
+                  (resp3: any) => {
+                    if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
+                      console.log('Respues de forzas completado', resp3);
+                      this.service.createCases(order[13].order_id,
+                        'CANCELAR PEDIDO', '0', 'CANCELACION DESDE EL BOTON', month, management, 'SIN USER')
+                        .subscribe(
+                          (resp4: any) => {
+                            console.log(resp4);
+                            this.getOrderList(this.citySelected);
+                          },
+                          (error: any) => {
+                            console.log('Ha ocurrido un error al guardar un caso', error);
+                          }
+                        );
+                    }
+                  },
+                  (error: any) => {
+                    console.log('Ha ocurrido un error al forzar entrega');
+                  }
+                );
               }
-            );
-          }
-        },
-        (error: any) => {
-          console.log('Ha ocurrido un error al asignar moto');
+            },
+            (error: any) => {
+              console.log('Ha ocurrido un error al asignar moto');
+            }
+          );
         }
-      );
-    }
+      },
+      (error: any) => {
+        console.log('Ha ocurrido un error inesperado', error);
+      }
+    );
   }
 
-  assignDriver(orderId: number, cityId: number) {
+  assignDriver(order: any, cityId: number) {
+    let hasDriver = true;
+    if (order[9] === '-') {
+      hasDriver = false;
+    }
     const cityList = this.cityList;
+    const orderId = order[13].order_id;
+    const restaurantId = order[13].restaurant_id;
     const city = cityList.filter(value => cityId === value.city_id);
-    const dialog = this.dialog.open(AsignarMotoComponent, {
-      disableClose: false,
-      data: {
-        orderId,
-        city
+    this.service.getOrderDetail(orderId, restaurantId).subscribe(
+      (resp: any) => {
+        const deliveryId = resp.order_info[0].delivery_id;
+        const dialog = this.dialog.open(AsignarMotoComponent, {
+          disableClose: false,
+          data: {
+            orderId: deliveryId,
+            city,
+            hasDriver,
+            orderIdLast: orderId
+          },
+          minWidth: '80vh',
+          width: '50%',
+          maxHeight: '90vh'
+        });
+        dialog.afterClosed().subscribe(
+          (value) => {
+            this.getOrderList(this.citySelected);
+          }
+        );
       },
-      minWidth: '80vh',
-      width: '50%',
-      maxHeight: '90vh'
-    });
+      (error: any) => { }
+    );
+  }
+  copyOrder(order: any): void {
+    console.log(order);
   }
 }
