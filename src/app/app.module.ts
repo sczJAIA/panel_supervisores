@@ -79,6 +79,6 @@ const APP_CONTAINERS = [
     },
     IconSetService,
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

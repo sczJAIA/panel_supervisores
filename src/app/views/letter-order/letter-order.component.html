@@ -6,47 +6,64 @@
                     <h3 class="h3 text-center">DELIVERY LIST</h3>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col">
+            <div class="row mt-3">
+                <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="form-group">
                         <label for="city">CIUDAD:</label>
-                        <select class="form-control" name="city" (change)="getDeliveryList($event.target.value, startDate, endDate)">
-                            <option *ngFor="let city of cityList; let i = index" [value]="city.city_id" [selected]="i === 9"> {{ city.city_name }} </option>
+                        <select class="form-control" name="city" #selectedCity
+                            (change)="getDeliveryList($event.target.value, startDateField.value, endDateField.value)">
+                            <option *ngFor="let city of cityList; let i = index" [value]="city.city_id"
+                                [selected]="i === 9"> {{ city.city_name }} </option>
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-3">
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <mat-form-field class="mt-2" appearance="fill">
+                            <mat-label>FECHA</mat-label>
+                            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                                <input matStartDate formControlName="start" placeholder="Start date">
+                                <input matEndDate (dateChange)="getDeliveryList(selectedCity.value, startDateField.value, endDateField.value)" formControlName="end" placeholder="End date">
+                              </mat-date-range-input>
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-4">
                     <div class="group-form">
                         <label for="status">ESTADO:</label>
-                        <select class="form-control" name="status">
+                        <select class="form-control" name="status" [(ngModel)]="filterStatus">
                             <option value="todos">TODOS</option>
+                            <option value="7">DESPACHADO</option>
+                            <option value="5">DEVUELTO</option>
+                            <option value="4">INCUMPLIDO</option>
+                            <option value="2">COMPLETADO</option>
+                            <option value="1">CANCELADO</option>
+                            <option value="6">CONFIRMADO</option>
+                            <option value="0">CONFIRMANDO</option>
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-3">
-                    <div class="group-form">
-                        <label for="date">FECHA:</label>
-                        <input [(ngModel)]="startDate" class="form-control mb-2" type="date" name="date">
-                        <input [(ngModel)]="endDate" class="form-control" type="date" name="date">
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-3">
+                <div class="col-sm-12 col-md-6 col-lg-4">
                     <div class="group-form">
                         <label for="orderId">ID PEDIDO:</label>
-                        <input class="form-control" type="text" name="orderId">
+                        <input class="form-control" [(ngModel)]="filterId" type="text" name="orderId">
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-3">
+                <div class="col-sm-12 col-md-6 col-lg-4">
                     <div class="group-form">
                         <label for="driverId">ID CONDUCTOR:</label>
-                        <input class="form-control" type="text" name="driverId">
+                        <input class="form-control" [(ngModel)]="filterDriverId" type="text" name="driverId">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <table class="table table-responsive">
-                        <thead class="thead-light">
+                        <thead class="thead-dark">
                             <tr>
                                 <th>ID PEDIDO</th>
                                 <th>USUARIO</th>
@@ -54,7 +71,7 @@
                                 <th>DETALLES</th>
                                 <th>CIUDAD</th>
                                 <th>CREADO EN</th>
-                                <th>ENTREGA A</th>
+                                <th>ENTREGA EN</th>
                                 <th>MONTO + DELIVERY</th>
                                 <th>CONDUCTOR</th>
                                 <th>METODO DE PAGO</th>
@@ -64,7 +81,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let order of orders; let i = index">
+                            <tr *ngFor="let order of orders |filterOrderIdLetter:filterId |filterDriverIdLetter: filterDriverId |filterStatusLetter: filterStatus; let i = index">
                                 <td> {{ order.order_id }} </td>
                                 <td> {{ order.user_name }} </td>
                                 <td> {{ order.pickup_address }} </td>
@@ -76,10 +93,18 @@
                                     </ng-container>
                                 </td>
                                 <td> {{ order.created_at |date: 'medium' }} </td>
-                                <td>ASAP</td>
-                                <td> {{ order.original_amount }} + {{ order.delivery_charges }} = {{ order.original_amount + order.delivery_charges }} </td>
-                                <td> {{ order.driver_id }} {{ order.driver_name }} </td>
-                                <td> {{ order.payment_mode }} </td> 
+                                <td>
+                                    <ng-container *ngIf="order.is_immediate === 1; else noinmmediate">
+                                        <p>DE INMEDIATO</p>
+                                    </ng-container>
+                                    <ng-template #noinmmediate>
+                                        <p>{{ order.delivery_time }}</p>
+                                    </ng-template>
+                                </td>
+                                <td> {{ order.original_amount }} + {{ order.delivery_charges }} = {{
+                                    order.original_amount + order.delivery_charges }} </td>
+                                <td> {{ order.driver_id }} <br> {{ order.driver_name }} </td>
+                                <td> {{ order.payment_mode }} </td>
                                 <td> {{ order.status }} </td>
                                 <td> {{ order.remarks }} </td>
                                 <td>
