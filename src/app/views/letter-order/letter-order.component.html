@@ -1,0 +1,95 @@
+<div class="animated fadeIn card px-4 pt-3">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <h3 class="h3 text-center">DELIVERY LIST</h3>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="city">CIUDAD:</label>
+                        <select class="form-control" name="city" (change)="getDeliveryList($event.target.value, startDate, endDate)">
+                            <option *ngFor="let city of cityList; let i = index" [value]="city.city_id" [selected]="i === 9"> {{ city.city_name }} </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3">
+                    <div class="group-form">
+                        <label for="status">ESTADO:</label>
+                        <select class="form-control" name="status">
+                            <option value="todos">TODOS</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3">
+                    <div class="group-form">
+                        <label for="date">FECHA:</label>
+                        <input [(ngModel)]="startDate" class="form-control mb-2" type="date" name="date">
+                        <input [(ngModel)]="endDate" class="form-control" type="date" name="date">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3">
+                    <div class="group-form">
+                        <label for="orderId">ID PEDIDO:</label>
+                        <input class="form-control" type="text" name="orderId">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3">
+                    <div class="group-form">
+                        <label for="driverId">ID CONDUCTOR:</label>
+                        <input class="form-control" type="text" name="driverId">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <table class="table table-responsive">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>ID PEDIDO</th>
+                                <th>USUARIO</th>
+                                <th>DIRECCION DE ENTREGA</th>
+                                <th>DETALLES</th>
+                                <th>CIUDAD</th>
+                                <th>CREADO EN</th>
+                                <th>ENTREGA A</th>
+                                <th>MONTO + DELIVERY</th>
+                                <th>CONDUCTOR</th>
+                                <th>METODO DE PAGO</th>
+                                <th>ESTADO</th>
+                                <th>NOTA</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let order of orders; let i = index">
+                                <td> {{ order.order_id }} </td>
+                                <td> {{ order.user_name }} </td>
+                                <td> {{ order.pickup_address }} </td>
+                                <td> {{ order.details }} </td>
+                                <td>
+                                    <ng-container [ngSwitch]="order.city_id">
+                                        <p *ngSwitchCase="395">Santa Cruz</p>
+                                        <p *ngSwitchCase="818">La Paz</p>
+                                    </ng-container>
+                                </td>
+                                <td> {{ order.created_at |date: 'medium' }} </td>
+                                <td>ASAP</td>
+                                <td> {{ order.original_amount }} + {{ order.delivery_charges }} = {{ order.original_amount + order.delivery_charges }} </td>
+                                <td> {{ order.driver_id }} {{ order.driver_name }} </td>
+                                <td> {{ order.payment_mode }} </td> 
+                                <td> {{ order.status }} </td>
+                                <td> {{ order.remarks }} </td>
+                                <td>
+                                    <button type="button" class="btn btn-info">VER DETALLE</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

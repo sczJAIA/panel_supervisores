@@ -6,7 +6,7 @@
           <button type="button" class="btn btn-transparent p-0 float-right">
             <i class="icon-location-pin"></i>
           </button>
-          <div class="text-value">{{ deliveryList.length === undefined ? deliveryList['stats'].total : 0 }}</div>
+          <div class="text-value">{{ deliveryList.length > 0 ? deliveryList2['stats'].total : 0 }}</div>
           <div>TOTAL DE PEDIDOS</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -31,7 +31,7 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </div>
-          <div class="text-value">{{ deliveryList.length === undefined ? deliveryList['stats'].new : 0 }}</div>
+          <div class="text-value">{{ deliveryList.length > 0 ? deliveryList2['stats'].new : 0 }}</div>
           <div>PEDIDOS NUEVOS</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -55,7 +55,7 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </div>
-          <div class="text-value"> {{ deliveryList.length === undefined ? deliveryList['stats'].accepted : 0}} </div>
+          <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].accepted : 0}} </div>
           <div>PEDIDOS ACEPTADOS</div>
         </div>
         <div class="chart-wrapper mt-3" style="height:70px;">
@@ -79,7 +79,7 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </div>
-          <div class="text-value"> {{ deliveryList.length === undefined ? deliveryList['stats'].rejected : 0 }} </div>
+          <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].rejected : 0 }} </div>
           <div>PEDIDOS RECHAZADOS</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -102,7 +102,7 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </div>
-          <div class="text-value"> {{ deliveryList.length === undefined ? deliveryList['stats'].cancelled : 0 }} </div>
+          <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].cancelled : 0 }} </div>
           <div>PEDIDOS CANCELADOS</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -125,7 +125,7 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </div>
-          <div class="text-value"> {{ deliveryList.length === undefined ? deliveryList['stats'].dispatch : 0 }} </div>
+          <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].dispatch : 0 }} </div>
           <div>ENTREGA EN PROGRESO</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -148,7 +148,7 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </div>
-          <div class="text-value"> {{ deliveryList.length === undefined ? deliveryList['stats'].delivered : 0 }} </div>
+          <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].delivered : 0 }} </div>
           <div>PEDIDOS ENVIADOS</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">

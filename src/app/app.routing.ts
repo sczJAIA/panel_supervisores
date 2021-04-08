@@ -80,6 +80,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/notifications/notifications.module').then(m => m.NotificationsModule)
       },
       {
+        path: 'delivery_list',
+        loadChildren: () => import('./views/letter-order/letter-order.module').then(m => m.LetterOrderModule)
+      },
+      {
         path: 'theme',
         loadChildren: () => import('./views/theme/theme.module').then(m => m.ThemeModule)
       },
@@ -93,9 +97,9 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ 
-    RouterModule.forRoot(routes, { 
-      relativeLinkResolution: 'legacy' 
+  imports: [
+    RouterModule.forRoot(routes, {
+      relativeLinkResolution: 'legacy'
     })
   ],
   exports: [ RouterModule ]

@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   radioModel: string = 'Month';
   deliveryList: any[] = [];
+  deliveryList2: any[] = [];
   dateNow = moment().format('YYYY-MM-DD');
   citySelected = '395';
   cityList: City[] = [];
@@ -456,10 +457,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       async (resp: any) => {
         this.toast.success('Se obtuvo la lista correctamente');
         this.deliveryList = await resp['aaData'].reverse();
-        const deliveryList2 = await resp;
+        this.deliveryList2 = await resp;
+        console.log('2', this.deliveryList2['stats'].accepted);
         const fulfillment = (
-        (deliveryList2['stats'].delivered + deliveryList2['stats'].accepted + deliveryList2['stats'].dispatch)
-          / (deliveryList2['stats'].total) * 100).toFixed(2);
+        (this.deliveryList2['stats'].delivered + this.deliveryList2['stats'].accepted + this.deliveryList2['stats'].dispatch)
+          / (this.deliveryList2['stats'].total) * 100).toFixed(2);
         this.fulFillment = parseFloat(fulfillment);
       },
       (error: any) => {

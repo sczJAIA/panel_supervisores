@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '',
     component: OrderDetailComponent
   }
-]
+];
 
 @NgModule({
   declarations: [OrderDetailComponent],
