@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   fulFillment: number = 0;
   p: number = 1;
   nextLabel = 'Siguiente';
-  previousLabel = 'Anterior'
+  previousLabel = 'Anterior';
   filterId = '';
   filterStatus = 'todos';
   filterMerchant = '';
@@ -513,7 +513,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
   openDialogCommerce(restaurantId: string): void {
-    const getCommerceSubscripcion = this.service.getcommerce(restaurantId);
+    const getCommerceSubscripcion = this.service.getCommerce(restaurantId);
     this.restaurantSubscripcion = getCommerceSubscripcion.subscribe(
       async (resp: any) => {
         const dialogRef = await this.dialog.open(DetalleModalComponent, {
@@ -716,6 +716,48 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
   copyOrder(order: any): void {
-    console.log(order);
+    const orderId = order[13].order_id;
+    const restaurantId = order[13].restaurant_id;
+    let orderInfo = <any>{};
+    this.service.getOrderDetail(orderId, restaurantId).subscribe(
+      (resp: any) => {
+        orderInfo = resp.order_info[0];
+        let orderItems = orderInfo.order_items;
+        let details = '';
+        const fromAddress = orderInfo.restaurant_name + ' - ' + orderInfo.restaurant_address;
+        const toAddress = orderInfo.delivery_address;
+        const toLatitude = orderInfo.delivery_latitude;
+        const toLongitude = orderInfo.delivery_longitude;
+        let fromLatitude = '';
+        let fromLongitude = '';
+        orderItems.forEach((orderI: any, index: number) => {
+          // tslint:disable-next-line:max-line-length
+          details += '# ' + (index + 1).toString() + ' Cantidad: ' + orderI.item_quantity +  ' Nombre: ' + orderI.item_name + ' Detalle: ' + orderI.item_details + '\n';
+        });
+        console.log(details);
+        console.log(fromAddress);
+        this.service.getCommerce(restaurantId).subscribe(
+          (respCommerce: any) => {
+            fromLatitude = respCommerce.vendor_detail.latitude;
+            fromLongitude = respCommerce.vendor_detail.longitude;
+            console.log(fromLatitude, fromLongitude);
+            this.service.copyOrder(details, fromAddress, toAddress, fromLatitude, fromLongitude, toLatitude, toLongitude).subscribe(
+              (respCopy: any) => {
+                console.log(respCopy);
+              },
+              (error) => {
+                this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
+              }
+            );
+          },
+          (error) => {
+            this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
+          }
+        );
+      },
+      (error) => {
+        this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
+      }
+    );
   }
 }

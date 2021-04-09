@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FilterOrderIdLetterPipe } from '../../pipes/filter-order-id-letter.pipe';
 import { FilterDriverIdLetterPipe } from '../../pipes/filter-driver-id-letter.pipe';
 import { FilterStatusLetterPipe } from '../../pipes/filter-status-letter.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 const routes: Routes = [
@@ -29,7 +30,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatDatepickerModule,
     MatNativeDateModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    NgxPaginationModule
   ]
 })
 export class LetterOrderModule { }

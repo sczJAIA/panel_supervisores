@@ -118,7 +118,7 @@ export class PanelService {
       return throwError(error);
     }
   }
-  getcommerce(restaurantId: string) {
+  getCommerce(restaurantId: string) {
     try {
       const url = 'https://prod-fresh-api.jugnoo.in:4040/panel/fetch_restaurant_detail';
       const header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
@@ -311,5 +311,33 @@ export class PanelService {
   getDeliveryListLetter(cityId: string, startDate: string, endDate: string) {
     const url = 'https://prod-fatafat-new.jugnoo.in:4030/panel/view_orders?token=83c61c67c064fab7a8be68ead432c51a&secret=P7JlZXiRiIvSssQSSzqs&city_id=' + cityId + '&start_date=' + startDate + '&end_date=' + endDate + '&locale=en&fetch_orders=1&sEcho=15&iColumns=13&sColumns=%2C%2C%2C%2C%2C%2C%2C%2C%2C%2C%2C%2C&iDisplayStart=0&iDisplayLength=50000&mDataProp_0=&sSearch_0=&bRegex_0=false&bSearchable_0=true&bSortable_0=true&mDataProp_1=&sSearch_1=&bRegex_1=false&bSearchable_1=true&bSortable_1=false&mDataProp_2=&sSearch_2=&bRegex_2=false&bSearchable_2=true&bSortable_2=false&mDataProp_3=&sSearch_3=&bRegex_3=false&bSearchable_3=true&bSortable_3=false&mDataProp_4=&sSearch_4=&bRegex_4=false&bSearchable_4=true&bSortable_4=false&mDataProp_5=&sSearch_5=&bRegex_5=false&bSearchable_5=true&bSortable_5=false&mDataProp_6=&sSearch_6=&bRegex_6=false&bSearchable_6=true&bSortable_6=false&mDataProp_7=&sSearch_7=&bRegex_7=false&bSearchable_7=true&bSortable_7=false&mDataProp_8=&sSearch_8=&bRegex_8=false&bSearchable_8=true&bSortable_8=false&mDataProp_9=&sSearch_9=&bRegex_9=false&bSearchable_9=true&bSortable_9=false&mDataProp_10=&sSearch_10=&bRegex_10=false&bSearchable_10=true&bSortable_10=false&mDataProp_11=&sSearch_11=&bRegex_11=false&bSearchable_11=true&bSortable_11=false&mDataProp_12=&sSearch_12=&bRegex_12=false&bSearchable_12=true&bSortable_12=false&sSearch=&bRegex=false&iSortCol_0=0&sSortDir_0=desc&iSortingCols=1&_=1617840387567';
     return this.http.get(url);
+  }
+  copyOrder(details: string, fromAddress: string, toAddress: string, fromLatitude: string,
+    fromLongitude: string, toLatitude: string, toLongitude: string,
+    ) {
+    try {
+      const url = 'https://prod-fatafat-new.jugnoo.in:4030/place_order';
+      const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+      let formData = new URLSearchParams();
+      formData.set('details', details);
+      formData.set('from_address', fromAddress);
+      formData.set('to_address', toAddress);
+      formData.set('from_latitude', fromLatitude);
+      formData.set('from_longitude', fromLongitude);
+      formData.set('to_latitude', toLatitude);
+      formData.set('to_longitude', toLongitude);
+      formData.set('payment_mode', '1');
+      formData.set('is_immediate', '1');
+      formData.set('app_version', '475');
+      formData.set('device_type', '0');
+      formData.set('login_type', '0');
+      formData.set('customer_package_name', 'com.movapps.mav.patioservice');
+      formData.set('locale', 'en');
+      formData.set('user_identifier', '');
+      formData.set('operator_token', '');
+      formData.set('access_token', '');
+    } catch (error) {
+      return throwError(error);
+    }
   }
 }

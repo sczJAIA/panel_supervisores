@@ -24,6 +24,9 @@ export class LetterOrderComponent implements OnInit {
     start: new FormControl(this.startDate),
     end: new FormControl(this.endDate)
   });
+  p: number = 1;
+  nextLabel = 'Siguiente';
+  previousLabel = 'Anterior';
 
   constructor(
     private service: PanelService,
