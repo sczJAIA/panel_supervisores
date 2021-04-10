@@ -230,7 +230,7 @@
       <table class="table table-responsive table-striped">
         <thead class="thead-dark">
           <tr>
-            <th>Id Pedido</th>
+            <th>Id</th>
             <th>Pedido</th>
             <th>Cliente</th>
             <th>Conductor</th>
@@ -311,14 +311,19 @@
             <td>
               <ng-container
                 *ngIf="order[13].status === 2 || order[13].status === 7 || order[13].status === 3 || order[13].status === 9; else elseStatus">
-                <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
+                <div class="btn-group-vertical">
+                  <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
+                <button class="btn btn-outline-info" (click)="getCases(order)">VER CASOS</button>
                 <button (click)="copyOrder(order)" class="btn btn-outline-primary">COPIAR PEDIDO</button>
+                </div>
               </ng-container>
               <ng-template #elseStatus>
-                <button (click)="assignDriver(order, order[4])" *ngIf="order[13].status === 8" class="btn btn-success">ASIGNAR MOTO</button>
+                <div class="btn-group-vertical">
+                  <button (click)="assignDriver(order, order[4])" *ngIf="order[13].status === 8" class="btn btn-success">ASIGNAR MOTO</button>
                 <!-- <button class="btn btn-warning">Forzar Asignacion</button>
                 <button class="btn btn-success">Forzar Entrega</button> -->
                 <button (click)="cancelOrder(order)" *ngIf="order[13].status === 8" class="btn btn-danger">CANCELAR PEDIDO</button>
+                </div>
               </ng-template>
             </td>
           </tr>

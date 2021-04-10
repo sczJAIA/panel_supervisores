@@ -417,11 +417,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getCityList();
     this.getOrderList(this.citySelected);
     const contador = interval(30000);
-        contador.subscribe(
-          (n) => {
-            this.getOrderList(this.citySelected);
-          }
-        );
+    contador.subscribe(
+      (n) => {
+        this.getOrderList(this.citySelected);
+      }
+    );
     // generate random values for mainChart
     for (let i = 0; i <= this.mainChartElements; i++) {
       this.mainChartData1.push(this.random(50, 200));
@@ -460,7 +460,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.deliveryList2 = await resp;
         console.log('2', this.deliveryList2['stats'].accepted);
         const fulfillment = (
-        (this.deliveryList2['stats'].delivered + this.deliveryList2['stats'].accepted + this.deliveryList2['stats'].dispatch)
+          (this.deliveryList2['stats'].delivered + this.deliveryList2['stats'].accepted + this.deliveryList2['stats'].dispatch)
           / (this.deliveryList2['stats'].total) * 100).toFixed(2);
         this.fulFillment = parseFloat(fulfillment);
       },
@@ -723,7 +723,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       (resp: any) => {
         orderInfo = resp.order_info[0];
         let orderItems = orderInfo.order_items;
-        let details = '';
+        let details = 'CLIENTE: ' + orderInfo.user_name + ' - ' + orderInfo.phone_no + ' PEDIDO --> ' + '\n';
         const fromAddress = orderInfo.restaurant_name + ' - ' + orderInfo.restaurant_address;
         const toAddress = orderInfo.delivery_address;
         const toLatitude = orderInfo.delivery_latitude;
@@ -731,11 +731,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
         let fromLatitude = '';
         let fromLongitude = '';
         orderItems.forEach((orderI: any, index: number) => {
-          // tslint:disable-next-line:max-line-length
-          details += '# ' + (index + 1).toString() + ' Cantidad: ' + orderI.item_quantity +  ' Nombre: ' + orderI.item_name + ' Detalle: ' + orderI.item_details + '\n';
+          // const customizeItems = orderI.customize_item;
+          let customizeOptionName = [];
+          // let customizeItemName = '';
+          let customizeData = '';
+          if (!orderI.hasOwnProperty('customize_item')) {
+            orderI['customize_item'] = [];
+          }
+          for (const customizeItem of orderI.customize_item) {
+            // customizeOptionName = '';
+            let customizeItemName = customizeItem.customize_item_name;
+            customizeOptionName.push(customizeItemName);
+            for (const value of customizeItem.customize_options) {
+              customizeOptionName.push(value.customize_option_name)
+            }
+          }
+          console.log(customizeOptionName.toString());
+          details += '# ' + (index + 1).toString() + ' Cantidad: ' + orderI.item_quantity + ' Nombre: ' + orderI.item_name + ' Detalle: ' + customizeOptionName.toString() + '\n';
         });
         console.log(details);
-        console.log(fromAddress);
         this.service.getCommerce(restaurantId).subscribe(
           (respCommerce: any) => {
             fromLatitude = respCommerce.vendor_detail.latitude;
@@ -759,5 +773,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
       }
     );
+  }
+
+  getCases(order: any) {
+    this.toast.info(order[13].order_id);
   }
 }

@@ -23,10 +23,12 @@
                             <mat-label>FECHA</mat-label>
                             <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
                                 <input matStartDate formControlName="start" placeholder="Start date">
-                                <input matEndDate (dateChange)="getDeliveryList(selectedCity.value, startDateField.value, endDateField.value)" formControlName="end" placeholder="End date">
-                              </mat-date-range-input>
-                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                              <mat-date-range-picker #picker></mat-date-range-picker>
+                                <input matEndDate
+                                    (dateChange)="getDeliveryList(selectedCity.value, startDateField.value, endDateField.value)"
+                                    formControlName="end" placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
                         </mat-form-field>
                     </div>
                 </div>
@@ -50,13 +52,15 @@
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <div class="group-form">
                         <label for="orderId">ID PEDIDO:</label>
-                        <input placeholder="Buscar por id del pedido..." class="form-control" [(ngModel)]="filterId" type="text" name="orderId">
+                        <input placeholder="Buscar por id del pedido..." class="form-control" [(ngModel)]="filterId"
+                            type="text" name="orderId">
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <div class="group-form">
                         <label for="driverId">ID CONDUCTOR:</label>
-                        <input placeholder="Buscar por el id del conductor..." class="form-control" [(ngModel)]="filterDriverId" type="text" name="driverId">
+                        <input placeholder="Buscar por el id del conductor..." class="form-control"
+                            [(ngModel)]="filterDriverId" type="text" name="driverId">
                     </div>
                 </div>
             </div>
@@ -65,27 +69,43 @@
                     <table class="table table-responsive">
                         <thead class="thead-dark">
                             <tr>
-                                <th>ID PEDIDO</th>
+                                <th>ID</th>
                                 <th>USUARIO</th>
-                                <th>DIRECCION DE ENTREGA</th>
-                                <th>DETALLES</th>
-                                <th>CIUDAD</th>
-                                <th>CREADO EN</th>
-                                <th>ENTREGA EN</th>
-                                <th>MONTO + DELIVERY</th>
                                 <th>CONDUCTOR</th>
+                                <th>DETALLES</th>
+                                <th>DIRECCION DE ENTREGA</th>
+                                <th>CIUDAD</th>
+                                <th>CREADO</th>
+                                <th>ENTREGA</th>
+                                <th>MONTO + DELIVERY</th>                                
                                 <th>METODO DE PAGO</th>
                                 <th>ESTADO</th>
                                 <th>NOTA</th>
-                                <th>ACCIONES</th>
+                                <!-- <th>ACCIONES</th> -->
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let order of orders |filterOrderIdLetter:filterId |filterDriverIdLetter: filterDriverId |filterStatusLetter: filterStatus | paginate: { itemsPerPage: 25, currentPage: p }; let i = index">
+                            <tr
+                                *ngFor="let order of orders |filterOrderIdLetter:filterId |filterDriverIdLetter: filterDriverId |filterStatusLetter: filterStatus | paginate: { itemsPerPage: 25, currentPage: p }; let i = index">
                                 <td> {{ order.order_id }} </td>
-                                <td> {{ order.user_name }} </td>
+                                <td> {{ order.user_name }} <br> {{ order.phone_no }}
+                                    <button (click)="openDialogCustomer(order.user_id)"
+                                        class="btn btn-primary">Detalle
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                </td>
+                                <td> {{ order.driver_id }} <br> {{ order.driver_name }} 
+                                    <button *ngIf="order.driver_id !== null" (click)="openDialogDriver(order.driver_id)" class="btn btn-primary">Detalle 
+                                        <i class="fa fa-eye"></i>
+                                      </button>
+                                </td>
+                                <td> {{ order.details }} <br>
+                                    <button (click)="openOrderDetails(order.order_id)"
+                                        class="btn btn-primary">Detalle
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                </td>
                                 <td> {{ order.pickup_address }} </td>
-                                <td> {{ order.details }} </td>
                                 <td>
                                     <ng-container [ngSwitch]="order.city_id">
                                         <p *ngSwitchCase="395">Santa Cruz</p>
@@ -103,39 +123,43 @@
                                 </td>
                                 <td> {{ order.original_amount }} + {{ order.delivery_charges }} = {{
                                     order.original_amount + order.delivery_charges }} </td>
-                                <td> {{ order.driver_id }} <br> {{ order.driver_name }} </td>
-                                <td> {{ order.payment_mode }} </td>
+                                <td [ngSwitch]="order.payment_mode">
+                                    <h4 *ngSwitchCase="2">
+                                        <span class="badge badge-info">EFECTIVO</span>
+                                    </h4>
+                                </td>
                                 <td [ngSwitch]="order.status">
                                     <h4 *ngSwitchCase="7">
-                                    <span class="badge badge-warning">DESPACHADO</span>
+                                        <span class="badge badge-warning">DESPACHADO</span>
                                     </h4>
                                     <h4 *ngSwitchCase="5">
-                                    <span class="badge badge-danger">DEVUELTO</span>
+                                        <span class="badge badge-danger">DEVUELTO</span>
                                     </h4>
                                     <h4 *ngSwitchCase="4">
-                                    <span class="badge badge-danger">INCUMPLIDO</span>
+                                        <span class="badge badge-danger">INCUMPLIDO</span>
                                     </h4>
                                     <h4 *ngSwitchCase="2">
-                                    <span class="badge badge-success">COMPLETADO</span>
+                                        <span class="badge badge-success">COMPLETADO</span>
                                     </h4>
                                     <h4 *ngSwitchCase="1">
-                                    <span class="badge badge-danger">CANCELADO</span>
+                                        <span class="badge badge-danger">CANCELADO</span>
                                     </h4>
                                     <h4 *ngSwitchCase="6">
-                                    <span class="badge badge-primary">CONFIRMADO</span>
+                                        <span class="badge badge-primary">CONFIRMADO</span>
                                     </h4>
                                     <h4 *ngSwitchCase="0">
-                                    <span class="badge badge-warning">CONFIRMANDO</span>
+                                        <span class="badge badge-warning">CONFIRMANDO</span>
                                     </h4>
                                 </td>
                                 <td> {{ order.remarks }} </td>
-                                <td>
+                                <!-- <td>
                                     <button type="button" class="btn btn-info">VER DETALLE</button>
-                                </td>
+                                </td> -->
                             </tr>
                         </tbody>
                     </table>
-                    <pagination-controls [nextLabel]="nextLabel" [previousLabel]="previousLabel" (pageChange)="p = $event"></pagination-controls>
+                    <pagination-controls [nextLabel]="nextLabel" [previousLabel]="previousLabel"
+                        (pageChange)="p = $event"></pagination-controls>
                 </div>
             </div>
         </div>

@@ -1,15 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { LetterOrderComponent } from './letter-order.component';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FilterOrderIdLetterPipe } from '../../pipes/filter-order-id-letter.pipe';
-import { FilterDriverIdLetterPipe } from '../../pipes/filter-driver-id-letter.pipe';
-import { FilterStatusLetterPipe } from '../../pipes/filter-status-letter.pipe';
+import { RouterModule, Routes } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DetalleModalModule } from '../../modals/detalle-modal/detalle-modal.module';
+import { FilterDriverIdLetterPipe } from '../../pipes/filter-driver-id-letter.pipe';
+import { FilterOrderIdLetterPipe } from '../../pipes/filter-order-id-letter.pipe';
+import { FilterStatusLetterPipe } from '../../pipes/filter-status-letter.pipe';
+import { LetterOrderComponent } from './letter-order.component';
 
 
 const routes: Routes = [
@@ -31,7 +32,8 @@ const routes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    DetalleModalModule
   ]
 })
 export class LetterOrderModule { }

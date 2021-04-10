@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { DetalleModalComponent } from '../../modals/detalle-modal/detalle-modal.component';
 import { City } from '../../models/cityList.interface';
 import { PanelService } from '../../services/panel.service';
 
@@ -27,10 +30,13 @@ export class LetterOrderComponent implements OnInit {
   p: number = 1;
   nextLabel = 'Siguiente';
   previousLabel = 'Anterior';
+  customerSubscripcion: Subscription;
 
   constructor(
     private service: PanelService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    public dialog: MatDialog,
+    private router: Router
   ) { }
 
   get startDateField() {
@@ -73,5 +79,50 @@ export class LetterOrderComponent implements OnInit {
         this.toast.error('Ha ocurrido un error al obtener las ciudades');
       }
     );
+  }
+  openDialogCustomer(userId: string): void {
+    const getCustomerSubscripcion = this.service.getCustomer(userId, '0');
+    this.customerSubscripcion = getCustomerSubscripcion.subscribe(
+      async (resp: any) => {
+        const dialogRef = await this.dialog.open(DetalleModalComponent, {
+          disableClose: false,
+          data: {
+            resp,
+            name: 'cliente'
+          },
+          minWidth: '80vh',
+          minHeight: '80vh'
+        });
+      },
+      (error: any) => {
+        this.toast.error('Ha ocurrido un error al intentar ver al cliente');
+      }
+    );
+  }
+  openDialogDriver(driverId: any): void {
+    if (driverId !== null) {
+      const getCustomerSubscripcion = this.service.getDriver(driverId, '0');
+      this.customerSubscripcion = getCustomerSubscripcion.subscribe(
+        async (resp: any) => {
+          const dialogRef = await this.dialog.open(DetalleModalComponent, {
+            disableClose: false,
+            data: {
+              resp,
+              name: 'conductor'
+            },
+            minWidth: '80vh',
+            minHeight: '80vh'
+          });
+        },
+        (error: any) => {
+          this.toast.error('Ha ocurrido un error al intentar ver al conductor');
+        }
+      );
+    } else {
+      this.toast.warning('Aun no tiene moto!');
+    }
+  }
+  openOrderDetails(orderId: any): void {
+    this.router.navigate(['delivery_list/deliveryList', orderId]);
   }
 }

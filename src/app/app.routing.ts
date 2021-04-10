@@ -72,6 +72,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/order-detail/order-detail.module').then(m => m.OrderDetailModule)
       },
       {
+        path: 'delivery_list/deliveryList/:orderId',
+        loadChildren: () => import('./views/order-detail-letter/order-detail-letter.module').then(m => m.OrderDetailLetterModule),
+      },
+      {
         path: 'icons',
         loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
       },
