@@ -28,34 +28,18 @@
                     <div class="form-group">
                         <label class="form-label" for="">Estado:</label>
                         <ng-container [ngSwitch]="orderInfo?.status">
-                            <input *ngSwitchCase="2" value="Entregado" disabled="true" class="form-control"
-                                type="text">
+                            <input *ngSwitchCase="2" value="Entregado" disabled="true" class="form-control" type="text">
+                            <input *ngSwitchCase="1" value="Cancelado" disabled="true" class="form-control" type="text">
+                            <input *ngSwitchCase="7" value="Despachado" disabled="true" class="form-control" type="text">
+                            <input *ngSwitchCase="5" value="Devuelto" disabled="true" class="form-control" type="text">
+                            <input *ngSwitchCase="4" value="Incumplido" disabled="true" class="form-control" type="text">
+                            <input *ngSwitchCase="6" value="Confirmado" disabled="true" class="form-control" type="text">
+                            <input *ngSwitchCase="0" value="Confirmando" disabled="true" class="form-control" type="text">
                             <input *ngSwitchDefault disabled="true" class="form-control" value="" type="text">
                         </ng-container>
                     </div>
                 </div>
             </div>
-            <!-- <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label class="form-label" for="">Comercio:</label>
-                        <input [value]="orderInfo?.restaurant_name" disabled="true" class="form-control" type="text">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label class="form-label" for="">Telefono del comercio:</label>
-                        <input [value]="orderInfo?.restaurant_phone_no" disabled="true" class="form-control"
-                            type="text">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label class="form-label" for="">Telefono alterno:</label>
-                        <input [value]="orderInfo?.calling_number" disabled="true" class="form-control" type="text">
-                    </div>
-                </div>
-            </div> -->
             <div class="row">
                 <div class="col">
                     <div class="form-group">
@@ -64,13 +48,6 @@
                             type="text">
                     </div>
                 </div>
-                <!-- <div class="col">
-                    <div class="form-group">
-                        <label class="form-label" for="">Cargos de envio:</label>
-                        <input [value]="orderInfo?.amount |currency:'BOB'" disabled="true"
-                            class="form-control" type="text">
-                    </div>
-                </div> -->
                 <div class="col">
                     <div class="form-group">
                         <label class="form-label" for="">Descuento:</label>
@@ -85,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">                
+            <div class="row">
                 <div class="col">
                     <div class="form-group">
                         <label class="form-label" for="">Notas:</label>
@@ -95,8 +72,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label class="form-label" for="">Distancia:</label>
-                        <input [value]="orderInfo?.d_distance + ' KM'" disabled="true"
-                            class="form-control" type="text">
+                        <input [value]="orderInfo?.d_distance + ' KM'" disabled="true" class="form-control" type="text">
                     </div>
                 </div>
                 <div class="col">
@@ -119,63 +95,27 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
+                        <label class="form-label">Detalles:</label>
+                        <textarea [value]="orderInfo?.details" class="form-control" cols="1" rows="5"
+                            disabled="true"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
                         <button (click)="mapView()" class="btn btn-primary">Ver Mapa de entrega</button>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <button (click)="sendMessage('cliente')" class="btn btn-success mb-2">Whatsapp cliente</button>
-                        <input [formControl]="textWhatsapp" class="form-control" [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched"
-                        [class.is-success]="textWhatsapp.valid && textWhatsapp.touched"
-                        type="text">
+                        <input [formControl]="textWhatsapp" class="form-control"
+                            [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched"
+                            [class.is-success]="textWhatsapp.valid && textWhatsapp.touched" type="text">
                     </div>
                 </div>
-                <!-- <div class="col">
-                    <div class="form-group">
-                        <button (click)="sendMessage('comercio')" class="btn btn-success mb-2">Whatsapp comercio</button>
-                        <input [formControl]="textWhatsapp" class="form-control" [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched"
-                        [class.is-success]="textWhatsapp.valid && textWhatsapp.touched"
-                         type="text">
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
-    <!-- <div class="row m-auto">
-        <div class="col">
-            <table class="table table-responsive">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>No</th>
-                        <th>Nombre</th>
-                        <th>Guarniciones</th>
-                        <th>Descripción</th>
-                        <th>Categoria</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of orderInfo.order_items; let i = index">
-                        <td> {{ i+1 }} </td>
-                        <td> {{ item.item_name }} </td>
-                        <td>
-                            <ng-container *ngFor="let topping of item?.customize_item">
-                                <strong>
-                                    <p> {{ topping.customize_item_name }} :</p>
-                                </strong>
-                                <ng-container *ngFor="let option of topping?.customize_options">
-                                    <p> {{ option.customize_option_name }} </p>
-                                </ng-container>
-                            </ng-container>
-                        </td>
-                        <td> {{ item.item_details }} </td>
-                        <td> {{ item.category }} </td>
-                        <td> {{ item.item_quantity }} </td>
-                        <td> {{ item.price |currency:'BOB' }} </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div> -->
 </div>

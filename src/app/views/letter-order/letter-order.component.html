@@ -77,7 +77,7 @@
                                 <th>CIUDAD</th>
                                 <th>CREADO</th>
                                 <th>ENTREGA</th>
-                                <th>MONTO + DELIVERY</th>                                
+                                <th>MONTO + DELIVERY</th>
                                 <th>METODO DE PAGO</th>
                                 <th>ESTADO</th>
                                 <th>NOTA</th>
@@ -89,21 +89,21 @@
                                 *ngFor="let order of orders |filterOrderIdLetter:filterId |filterDriverIdLetter: filterDriverId |filterStatusLetter: filterStatus | paginate: { itemsPerPage: 25, currentPage: p }; let i = index">
                                 <td> {{ order.order_id }} </td>
                                 <td> {{ order.user_name }} <br> {{ order.phone_no }}
-                                    <button (click)="openDialogCustomer(order.user_id)"
+                                    <button (click)="openDialogCustomer(order.user_id)" class="btn btn-primary">Detalle
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                </td>
+                                <td> {{ order.driver_id }} <br> {{ order.driver_name }}
+                                    <button *ngIf="order.driver_id !== null" (click)="openDialogDriver(order.driver_id)"
                                         class="btn btn-primary">Detalle
                                         <i class="fa fa-eye"></i>
                                     </button>
                                 </td>
-                                <td> {{ order.driver_id }} <br> {{ order.driver_name }} 
-                                    <button *ngIf="order.driver_id !== null" (click)="openDialogDriver(order.driver_id)" class="btn btn-primary">Detalle 
+                                <td>
+                                    <button (click)="openOrderDetails(order.order_id)" class="btn btn-primary">Detalle
                                         <i class="fa fa-eye"></i>
-                                      </button>
-                                </td>
-                                <td> {{ order.details }} <br>
-                                    <button (click)="openOrderDetails(order.order_id)"
-                                        class="btn btn-primary">Detalle
-                                        <i class="fa fa-eye"></i>
-                                    </button>
+                                    </button> <br>
+                                    {{ order.details }}
                                 </td>
                                 <td> {{ order.pickup_address }} </td>
                                 <td>

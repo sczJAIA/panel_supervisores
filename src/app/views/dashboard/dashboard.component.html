@@ -1,335 +1,354 @@
-<div class="animated fadeIn">
-  <div class="row">
-    <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-info">
-        <div class="card-body pb-0">
-          <button type="button" class="btn btn-transparent p-0 float-right">
-            <i class="icon-location-pin"></i>
-          </button>
-          <div class="text-value">{{ deliveryList.length > 0 ? deliveryList2['stats'].total : 0 }}</div>
-          <div>TOTAL DE PEDIDOS</div>
-        </div>
-        <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-          <canvas baseChart class="chart" [datasets]="lineChart2Data" [labels]="lineChart2Labels"
-            [options]="lineChart2Options" [colors]="lineChart2Colours" [legend]="lineChart2Legend"
-            [chartType]="lineChart2Type"></canvas>
-        </div>
-      </div>
-    </div>
-    <!--/.col-->
-    <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-primary">
-        <div class="card-body pb-0">
-          <div class="btn-group float-right" dropdown>
-            <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-              <i class="icon-settings"></i>
+<block-ui>
+  <div class="animated fadeIn">
+    <div class="row">
+      <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-info">
+          <div class="card-body pb-0">
+            <button type="button" class="btn btn-transparent p-0 float-right">
+              <i class="icon-location-pin"></i>
             </button>
-            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+            <div class="text-value">{{ deliveryList.length > 0 ? deliveryList2['stats'].total : 0 }}</div>
+            <div>TOTAL DE PEDIDOS</div>
           </div>
-          <div class="text-value">{{ deliveryList.length > 0 ? deliveryList2['stats'].new : 0 }}</div>
-          <div>PEDIDOS NUEVOS</div>
-        </div>
-        <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-          <canvas baseChart class="chart" [datasets]="lineChart1Data" [labels]="lineChart1Labels"
-            [options]="lineChart1Options" [colors]="lineChart1Colours" [legend]="lineChart1Legend"
-            [chartType]="lineChart1Type"></canvas>
-        </div>
-      </div>
-    </div>
-    <!--/.col-->
-    <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-warning">
-        <div class="card-body pb-0">
-          <div class="btn-group float-right" dropdown>
-            <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-              <i class="icon-settings"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+          <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+            <canvas baseChart class="chart" [datasets]="lineChart2Data" [labels]="lineChart2Labels"
+              [options]="lineChart2Options" [colors]="lineChart2Colours" [legend]="lineChart2Legend"
+              [chartType]="lineChart2Type"></canvas>
           </div>
-          <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].accepted : 0}} </div>
-          <div>PEDIDOS ACEPTADOS</div>
-        </div>
-        <div class="chart-wrapper mt-3" style="height:70px;">
-          <canvas baseChart class="chart" [datasets]="lineChart3Data" [labels]="lineChart3Labels"
-            [options]="lineChart3Options" [colors]="lineChart3Colours" [legend]="lineChart3Legend"
-            [chartType]="lineChart3Type"></canvas>
         </div>
       </div>
-    </div>
-    <!--/.col-->
-    <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-danger">
-        <div class="card-body pb-0">
-          <div class="btn-group float-right" dropdown>
-            <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-              <i class="icon-settings"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+      <!--/.col-->
+      <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-primary">
+          <div class="card-body pb-0">
+            <div class="btn-group float-right" dropdown>
+              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+                <i class="icon-settings"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
             </div>
+            <div class="text-value">{{ deliveryList.length > 0 ? deliveryList2['stats'].new : 0 }}</div>
+            <div>PEDIDOS NUEVOS</div>
           </div>
-          <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].rejected : 0 }} </div>
-          <div>PEDIDOS RECHAZADOS</div>
-        </div>
-        <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-          <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
-            [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
-            [chartType]="barChart1Type"></canvas>
+          <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+            <canvas baseChart class="chart" [datasets]="lineChart1Data" [labels]="lineChart1Labels"
+              [options]="lineChart1Options" [colors]="lineChart1Colours" [legend]="lineChart1Legend"
+              [chartType]="lineChart1Type"></canvas>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-danger">
-        <div class="card-body pb-0">
-          <div class="btn-group float-right" dropdown>
-            <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-              <i class="icon-settings"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+      <!--/.col-->
+      <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-warning">
+          <div class="card-body pb-0">
+            <div class="btn-group float-right" dropdown>
+              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+                <i class="icon-settings"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
             </div>
+            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].accepted : 0}} </div>
+            <div>PEDIDOS ACEPTADOS</div>
           </div>
-          <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].cancelled : 0 }} </div>
-          <div>PEDIDOS CANCELADOS</div>
-        </div>
-        <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-          <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
-            [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
-            [chartType]="barChart1Type"></canvas>
+          <div class="chart-wrapper mt-3" style="height:70px;">
+            <canvas baseChart class="chart" [datasets]="lineChart3Data" [labels]="lineChart3Labels"
+              [options]="lineChart3Options" [colors]="lineChart3Colours" [legend]="lineChart3Legend"
+              [chartType]="lineChart3Type"></canvas>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-info">
-        <div class="card-body pb-0">
-          <div class="btn-group float-right" dropdown>
-            <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-              <i class="icon-settings"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+      <!--/.col-->
+      <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-danger">
+          <div class="card-body pb-0">
+            <div class="btn-group float-right" dropdown>
+              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+                <i class="icon-settings"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
             </div>
+            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].rejected : 0 }} </div>
+            <div>PEDIDOS RECHAZADOS</div>
           </div>
-          <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].dispatch : 0 }} </div>
-          <div>ENTREGA EN PROGRESO</div>
-        </div>
-        <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-          <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
-            [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
-            [chartType]="barChart1Type"></canvas>
+          <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+            <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
+              [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
+              [chartType]="barChart1Type"></canvas>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-success">
-        <div class="card-body pb-0">
-          <div class="btn-group float-right" dropdown>
-            <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-              <i class="icon-settings"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+      <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-danger">
+          <div class="card-body pb-0">
+            <div class="btn-group float-right" dropdown>
+              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+                <i class="icon-settings"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
             </div>
+            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].cancelled : 0 }} </div>
+            <div>PEDIDOS CANCELADOS</div>
           </div>
-          <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].delivered : 0 }} </div>
-          <div>PEDIDOS ENVIADOS</div>
-        </div>
-        <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-          <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
-            [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
-            [chartType]="barChart1Type"></canvas>
+          <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+            <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
+              [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
+              [chartType]="barChart1Type"></canvas>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-danger">
-        <div class="card-body pb-0">
-          <div class="btn-group float-right" dropdown>
-            <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-              <i class="icon-settings"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+      <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-info">
+          <div class="card-body pb-0">
+            <div class="btn-group float-right" dropdown>
+              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+                <i class="icon-settings"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
             </div>
+            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].dispatch : 0 }} </div>
+            <div>ENTREGA EN PROGRESO</div>
           </div>
-          <div class="text-value"> {{ fulFillment }} % </div>
-          <div>FUL FILLMENT</div>
-        </div>
-        <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-          <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
-            [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
-            [chartType]="barChart1Type"></canvas>
+          <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+            <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
+              [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
+              [chartType]="barChart1Type"></canvas>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <div class="col-lg-4">
-      <select class="form-control" #citySelected (change)="getOrderList($event.target['value'])">
-        <option [value]="city.city_id" [selected]="i === 9" *ngFor="let city of cityList; let i = index"> {{
-          city.city_name }} </option>
-      </select>
-    </div>
-    <div class="col-lg-4">
-      <input class="form-control" [(ngModel)]="startDate" type="date">
-    </div>
-    <div class="col-lg-4">
-      <input class="form-control" [(ngModel)]="endDate" type="date">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label class="form-label" for="filterId">Buscar Id:</label>
-        <input [(ngModel)]="filterId" name="filterId" class="form-control" type="text" placeholder="Id del pedido">
+      <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-success">
+          <div class="card-body pb-0">
+            <div class="btn-group float-right" dropdown>
+              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+                <i class="icon-settings"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].delivered : 0 }} </div>
+            <div>PEDIDOS ENVIADOS</div>
+          </div>
+          <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+            <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
+              [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
+              [chartType]="barChart1Type"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-danger">
+          <div class="card-body pb-0">
+            <div class="btn-group float-right" dropdown>
+              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+                <i class="icon-settings"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+            <div class="text-value"> {{ fulFillment }} % </div>
+            <div>FUL FILLMENT</div>
+          </div>
+          <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+            <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
+              [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
+              [chartType]="barChart1Type"></canvas>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-label" for="merchantFilter">Buscar por comercio:</label>
-        <input type="text" [(ngModel)]="filterMerchant" class="form-control" placeholder="Nombre del comercio">
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-label" for="status">Estados: </label>
-        <select class="form-control" [(ngModel)]="filterStatus" name="status">
-          <option value="todos">TODOS</option>
-          <option value="0">PENDIENTE</option>
-          <option value="8">ACEPTADO</option>
-          <option value="4">DESPACHADO</option>
-          <option value="2">ENTREGADO</option>
-          <option value="7">DEVUELTO</option>
-          <option value="3">CANCELADO POR EL CLIENTE</option>
-          <option value="9">RECHAZADO POR EL LOCAL</option>
+    <div class="row mb-3">
+      <div class=" mb-3 col-sm-12 col-md-6 col-lg-4">
+        <select class="form-control" #citySelected (change)="getOrderList($event.target['value'])">
+          <option [value]="city.city_id" [selected]="i === 9" *ngFor="let city of cityList; let i = index"> {{
+            city.city_name }} </option>
         </select>
       </div>
+      <div class="col-sm-12 col-md-6 col-lg-8">
+        <mat-form-field appearance="fill">
+          <mat-label>FECHA</mat-label>
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Start date">
+            <input matEndDate (dateChange)="getOrderList(citySelected.value, startDateField.value, endDateField.value)"
+              formControlName="end" placeholder="End date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-sm-12 col-md-4">
+        <div class="form-group">
+          <label class="form-label" for="filterId">Buscar Id:</label>
+          <input [(ngModel)]="filterId" name="filterId" class="form-control" type="text" placeholder="Id del pedido">
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-12 col-md-4">
+        <div class="form-group">
+          <label class="form-label" for="merchantFilter">Buscar por comercio:</label>
+          <input type="text" [(ngModel)]="filterMerchant" class="form-control" placeholder="Nombre del comercio">
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-12 col-md-4">
+        <div class="form-group">
+          <label class="form-label" for="status">Estados: </label>
+          <select class="form-control" [(ngModel)]="filterStatus" name="status">
+            <option value="todos">TODOS</option>
+            <option value="0">PENDIENTE</option>
+            <option value="8">ACEPTADO</option>
+            <option value="4">DESPACHADO</option>
+            <option value="2">ENTREGADO</option>
+            <option value="7">DEVUELTO</option>
+            <option value="3">CANCELADO POR EL CLIENTE</option>
+            <option value="9">RECHAZADO POR EL LOCAL</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <table class="table table-responsive table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Id</th>
+              <th>Pedido</th>
+              <th>Cliente</th>
+              <th>Conductor</th>
+              <th>Local</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let order of deliveryList |filtroId: filterId |filterStatus: filterStatus |filterMerchant: filterMerchant  | paginate: { itemsPerPage: 25, currentPage: p }">
+              <td>
+                {{ order[0] }}
+              </td>
+              <td>
+                <h5 [innerHTML]="order[3]">
+                </h5>
+                <strong>
+                  <span class="h5" [innerHTML]="order[6]">
+                  </span>
+                </strong> <br>
+                <button (click)="showOrderDetail(order[13].order_id, order[13].restaurant_id)"
+                  class="btn btn-primary">Detalle <i class="fa fa-eye"></i></button>
+              </td>
+              <td>
+                <h4 [innerHTML]="order[1]"></h4>
+                <button (click)="openDialogCustomer(order[13].user_id)" class="btn btn-primary">Detalle
+                  <i class="fa fa-eye"></i>
+                </button>
+                <!-- <button class="btn btn-primary btn-sm">Nota</button> -->
+                <!-- <button class="btn btn-success btn-sm">Mapa</button> -->
+              </td>
+              <td>
+                <h4 [innerHTML]="order[9]"></h4>
+                <button *ngIf="order[9] !== '-'" (click)="openDialogDriver(order[9])" class="btn btn-primary">Detalle
+                  <i class="fa fa-eye"></i>
+                </button>
+                <!-- <button class="btn btn-primary btn-sm">Nota</button> -->
+                <!-- <button class="btn btn-success btn-sm">Mapa</button> -->
+              </td>
+              <td>
+                <h4 [innerHTML]="order[2]"></h4>
+                <button (click)="openDialogCommerce(order[13].restaurant_id)" class="btn btn-primary">Detalle
+                  <i class="fa fa-eye"></i>
+                </button>
+                <!-- <button class="btn btn-primary btn-sm">Nota</button> -->
+                <!-- <button class="btn btn-success btn-sm">Mapa</button> -->
+              </td>
+              <td>
+                <ng-container [ngSwitch]="order[13].status">
+                  <h4 *ngSwitchCase="2">
+                    <span class="badge badge-success">ENTREGADO</span>
+                  </h4>
+                  <h4 *ngSwitchCase="7">
+                    <span class="badge badge-danger">DEVUELTO</span>
+                  </h4>
+                  <h4 *ngSwitchCase="3">
+                    <span class="badge badge-danger">CANCELADO POR EL CLIENTE</span>
+                  </h4>
+                  <h4 *ngSwitchCase="0">
+                    <span class="badge badge-warning">PENDIENTE</span>
+                  </h4>
+                  <h4 *ngSwitchCase="9">
+                    <span class="badge badge-danger">RECHAZADO POR EL LOCAL</span>
+                  </h4>
+                  <h4 *ngSwitchCase="4">
+                    <span class="badge badge-info">DESPACHADO</span>
+                  </h4>
+                  <h4 *ngSwitchCase="8">
+                    <span class="badge badge-primary">ACEPTADO</span>
+                  </h4>
+                  <p> <strong>Fecha de orden:</strong>
+                    <span [innerHTML]="order[7]"></span>
+                  </p>
+                  <p> <strong>Entregado en: </strong>
+                    <span [innerHTML]="order[8]"></span>
+                  </p>
+                </ng-container>
+              </td>
+              <td>
+                <ng-container [ngSwitch]="order[13].status">
+                  <div *ngSwitchCase="0">
+                    <button (click)="acceptOrder(order[13].order_id, order[13].restaurant_id, order[13].user_id)" class="btn btn-outline-success">ACEPTAR PEDIDO</button>
+                    <!-- <button class="btn btn-outline-danger">RECHAZAR PEDIDO</button> -->
+                  </div>
+                </ng-container>
+                <ng-container
+                  *ngIf="order[13].status === 2 || order[13].status === 7 || order[13].status === 3 || order[13].status === 9; else elseStatus">
+                  <div class="btn-group-vertical">
+                    <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
+                    <button class="btn btn-outline-info" (click)="getCases(order)">VER CASOS</button>
+                    <button (click)="copyOrder(order)" class="btn btn-outline-primary">COPIAR PEDIDO</button>
+                  </div>
+                </ng-container>
+                <ng-template #elseStatus>
+                  <div class="btn-group-vertical">
+                    <button (click)="assignDriver(order, order[4])" *ngIf="order[13].status === 8"
+                      class="btn btn-success">ASIGNAR MOTO</button>
+                    <!-- <button class="btn btn-warning">Forzar Asignacion</button>
+                  <button class="btn btn-success">Forzar Entrega</button> -->
+                    <button (click)="cancelOrder(order)" *ngIf="order[13].status === 8" class="btn btn-danger">CANCELAR
+                      PEDIDO</button>
+                  </div>
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls [nextLabel]="nextLabel" [previousLabel]="previousLabel" (pageChange)="p = $event">
+        </pagination-controls>
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      <table class="table table-responsive table-striped">
-        <thead class="thead-dark">
-          <tr>
-            <th>Id</th>
-            <th>Pedido</th>
-            <th>Cliente</th>
-            <th>Conductor</th>
-            <th>Local</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let order of deliveryList |filtroId: filterId |filterStatus: filterStatus |filterMerchant: filterMerchant  | paginate: { itemsPerPage: 25, currentPage: p }">
-            <td>
-              {{ order[0] }}
-            </td>
-            <td>
-              <h5 [innerHTML]="order[3]">
-              </h5>
-              <strong>
-                <span class="h5" [innerHTML]="order[6]">
-                </span>
-              </strong> <br>
-              <button (click)="showOrderDetail(order[13].order_id, order[13].restaurant_id)" class="btn btn-primary">Detalle <i class="fa fa-eye"></i></button>
-            </td>
-            <td>
-              <h4 [innerHTML]="order[1]"></h4>
-              <button (click)="openDialogCustomer(order[13].user_id)" class="btn btn-primary">Detalle 
-                <i class="fa fa-eye"></i>
-              </button>
-              <!-- <button class="btn btn-primary btn-sm">Nota</button> -->
-              <!-- <button class="btn btn-success btn-sm">Mapa</button> -->
-            </td>
-            <td>
-              <h4 [innerHTML]="order[9]"></h4>
-              <button *ngIf="order[9] !== '-'" (click)="openDialogDriver(order[9])" class="btn btn-primary">Detalle 
-                <i class="fa fa-eye"></i>
-              </button>
-              <!-- <button class="btn btn-primary btn-sm">Nota</button> -->
-              <!-- <button class="btn btn-success btn-sm">Mapa</button> -->
-            </td>
-            <td>
-              <h4 [innerHTML]="order[2]"></h4>
-              <button (click)="openDialogCommerce(order[13].restaurant_id)" class="btn btn-primary">Detalle 
-                <i class="fa fa-eye"></i>
-              </button>
-              <!-- <button class="btn btn-primary btn-sm">Nota</button> -->
-              <!-- <button class="btn btn-success btn-sm">Mapa</button> -->
-            </td>
-            <td>
-              <ng-container [ngSwitch]="order[13].status">
-                <h4 *ngSwitchCase="2">
-                  <span class="badge badge-success">ENTREGADO</span>
-                </h4>
-                <h4 *ngSwitchCase="7">
-                  <span class="badge badge-danger">DEVUELTO</span>
-                </h4>
-                <h4 *ngSwitchCase="3">
-                  <span class="badge badge-danger">CANCELADO POR EL CLIENTE</span>
-                </h4>
-                <h4 *ngSwitchCase="0">
-                  <span class="badge badge-warning">PENDIENTE</span>
-                </h4>
-                <h4 *ngSwitchCase="9">
-                  <span class="badge badge-danger">RECHAZADO POR EL LOCAL</span>
-                </h4>
-                <h4 *ngSwitchCase="4">
-                  <span class="badge badge-info">DESPACHADO</span>
-                </h4>
-                <h4 *ngSwitchCase="8">
-                  <span class="badge badge-primary">ACEPTADO</span>
-                </h4>
-                <p> <strong>Fecha de orden:</strong>
-                  <span [innerHTML]="order[7]"></span>
-                </p>
-                <p> <strong>Entregado en: </strong>
-                  <span [innerHTML]="order[8]"></span>
-                </p>
-              </ng-container>
-            </td>
-            <td>
-              <ng-container
-                *ngIf="order[13].status === 2 || order[13].status === 7 || order[13].status === 3 || order[13].status === 9; else elseStatus">
-                <div class="btn-group-vertical">
-                  <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
-                <button class="btn btn-outline-info" (click)="getCases(order)">VER CASOS</button>
-                <button (click)="copyOrder(order)" class="btn btn-outline-primary">COPIAR PEDIDO</button>
-                </div>
-              </ng-container>
-              <ng-template #elseStatus>
-                <div class="btn-group-vertical">
-                  <button (click)="assignDriver(order, order[4])" *ngIf="order[13].status === 8" class="btn btn-success">ASIGNAR MOTO</button>
-                <!-- <button class="btn btn-warning">Forzar Asignacion</button>
-                <button class="btn btn-success">Forzar Entrega</button> -->
-                <button (click)="cancelOrder(order)" *ngIf="order[13].status === 8" class="btn btn-danger">CANCELAR PEDIDO</button>
-                </div>
-              </ng-template>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <pagination-controls [nextLabel]="nextLabel" [previousLabel]="previousLabel" (pageChange)="p = $event"></pagination-controls>
-    </div>
-  </div>
-</div>
+</block-ui>

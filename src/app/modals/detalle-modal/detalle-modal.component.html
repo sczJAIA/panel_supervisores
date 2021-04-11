@@ -241,16 +241,16 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label class="form-label" for="commerceId">Id del {{ data.name }}:</label>
-                                <a [href]="redirectJugnoCommerce" target="_blank" class="form-control"> {{ data.resp.vendor_detail.restaurant_id }} </a>
-                                <!-- <input class="form-control" #commerceId [value]="data.resp.vendor_detail.restaurant_id"
-                                    disabled="true" type="text"> -->
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
                                 <label class="form-label" for="nameCommerce">Nombre del {{ data.name }}:</label>
                                 <input class="form-control" [value]="data.resp.vendor_detail.name" disabled="true" #nameCommerce type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="commerceId">Id del {{ data.name }}:</label>
+                                <a [href]="redirectJugnoCommerce" target="_blank" class="form-control"> {{ data.resp.vendor_detail.restaurant_id }} </a>
                             </div>
                         </div>
                         <div class="col">

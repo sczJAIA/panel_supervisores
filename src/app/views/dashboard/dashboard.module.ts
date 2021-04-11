@@ -14,6 +14,10 @@ import { FiltroIdPipe } from '../../pipes/filtro-id.pipe';
 import { FilterStatusPipe } from '../../pipes/filter-status.pipe';
 import { FilterMerchantPipe } from '../../pipes/filter-merchant.pipe';
 import { AsignarMotoModule } from '../../modals/asignar-moto/asignar-moto.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { BlockUIModule } from 'ng-block-ui';
 
 
 
@@ -30,7 +34,11 @@ import { AsignarMotoModule } from '../../modals/asignar-moto/asignar-moto.module
     MatDialogModule,
     NgxPaginationModule,
     GenerarCasosModule,
-    AsignarMotoModule
+    AsignarMotoModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    BlockUIModule.forRoot()
   ],
   declarations: [ DashboardComponent, FiltroIdPipe, FilterStatusPipe, FilterMerchantPipe ]
 })

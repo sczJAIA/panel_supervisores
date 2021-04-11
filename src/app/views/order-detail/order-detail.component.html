@@ -8,15 +8,22 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label class="form-label" for="">Id del pedido:</label>
-                        <a target="_blank" [href]="redirectJugno" class="form-control"> {{ orderInfo?.order_id }} </a>
-                        <!-- <input disabled="true" [value]="orderInfo?.order_id" class="form-control" type="text"> -->
+                        <label class="form-label" for="">Cliente:</label>
+                        <input disabled="true" [value]="orderInfo?.user_name" class="form-control" type="text">
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label class="form-label" for="">Cliente:</label>
-                        <input disabled="true" [value]="orderInfo?.user_name" class="form-control" type="text">
+                        <label class="form-label" for="">Comercio:</label>
+                        <input [value]="orderInfo?.restaurant_name" disabled="true" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-label" for="">Id del pedido:</label>
+                        <a target="_blank" [href]="redirectJugno" class="form-control"> {{ orderInfo?.order_id }} </a>
                     </div>
                 </div>
                 <div class="col">
@@ -28,21 +35,21 @@
                 <div class="col">
                     <div class="form-group">
                         <label class="form-label" for="">Estado:</label>
-                        <ng-container [ngSwitch]="orderInfo?.delivery_status">
-                            <input *ngSwitchCase="1" value="Despachado" disabled="true" class="form-control"
+                        <ng-container [ngSwitch]="orderInfo?.order_status">
+                            <input *ngSwitchCase="4" value="Despachado" disabled="true" class="form-control"
                                 type="text">
+                            <input *ngSwitchCase="0" value="Pendiente" disabled="true" class="form-control" type="text">
+                            <input *ngSwitchCase="8" value="Aceptado" disabled="true" class="form-control" type="text">
+                            <input *ngSwitchCase="2" value="Entregado" disabled="true" class="form-control" type="text">
+                            <input *ngSwitchCase="7" value="Devuelto" disabled="true" class="form-control" type="text">
+                            <input *ngSwitchCase="3" value="Cancelado" disabled="true" class="form-control" type="text">
+                            <input *ngSwitchCase="9" value="Rechazado" disabled="true" class="form-control" type="text">
                             <input *ngSwitchDefault disabled="true" class="form-control" value="" type="text">
                         </ng-container>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label class="form-label" for="">Comercio:</label>
-                        <input [value]="orderInfo?.restaurant_name" disabled="true" class="form-control" type="text">
-                    </div>
-                </div>
                 <div class="col">
                     <div class="form-group">
                         <label class="form-label" for="">Telefono del comercio:</label>
@@ -86,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">                
+            <div class="row">
                 <div class="col">
                     <div class="form-group">
                         <label class="form-label" for="">Notas:</label>
@@ -126,17 +133,18 @@
                 <div class="col">
                     <div class="form-group">
                         <button (click)="sendMessage('cliente')" class="btn btn-success mb-2">Whatsapp cliente</button>
-                        <input [formControl]="textWhatsapp" class="form-control" [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched"
-                        [class.is-success]="textWhatsapp.valid && textWhatsapp.touched"
-                        type="text">
+                        <input [formControl]="textWhatsapp" class="form-control"
+                            [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched"
+                            [class.is-success]="textWhatsapp.valid && textWhatsapp.touched" type="text">
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <button (click)="sendMessage('comercio')" class="btn btn-success mb-2">Whatsapp comercio</button>
-                        <input [formControl]="textWhatsapp" class="form-control" [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched"
-                        [class.is-success]="textWhatsapp.valid && textWhatsapp.touched"
-                         type="text">
+                        <button (click)="sendMessage('comercio')" class="btn btn-success mb-2">Whatsapp
+                            comercio</button>
+                        <input [formControl]="textWhatsapp" class="form-control"
+                            [class.is-invalid]="textWhatsapp.invalid && textWhatsapp.touched"
+                            [class.is-success]="textWhatsapp.valid && textWhatsapp.touched" type="text">
                     </div>
                 </div>
             </div>

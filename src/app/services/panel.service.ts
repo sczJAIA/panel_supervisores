@@ -368,4 +368,35 @@ export class PanelService {
       return throwError(error);
     }
   }
+
+  acceptOrder(orderId: string, restaurantId: string, userId: string) {
+    try {
+      const url = 'https://prod-fresh-api.jugnoo.in:4040/web/accept_order';
+      const headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
+      const params = new URLSearchParams();
+      params.set('order_id', orderId);
+      params.set('restaurant_id', restaurantId);
+      params.set('user_id', userId);
+      params.set('reason', 'aceptado desde el panel de centrales');
+      params.set('force_token', '1');
+      params.set('refund_customer', '0');
+      params.set('locale', 'en');
+      params.set('token', '83c61c67c064fab7a8be68ead432c51a');
+      return this.http.post(
+        url, params.toString(), {
+        headers
+      }).pipe(
+        map(
+          (resp) => {
+            return resp;
+          }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
 }
