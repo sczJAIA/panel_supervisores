@@ -626,6 +626,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
   cancelOrderFunction(order: any, driverId: any, driverName: string, driverPhone: string) {
+    this.blockUI.start('Cancelando el pedido espere un momento por favor...');
     const orderId = order[13].order_id;
     const restaurantId = order[13].restaurant_id;
     const month = moment().format('MM');
@@ -648,28 +649,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
                               'CANCELAR PEDIDO', '0', 'CANCELACION DESDE EL BOTON', month, management, 'SIN USER')
                               .subscribe(
                                 (resp4: any) => {
+                                  this.blockUI.stop();
                                   console.log(resp4);
                                   this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
                                 },
                                 (error: any) => {
+                                  this.blockUI.stop();
                                   console.log('Ha ocurrido un error al guardar un caso', error);
                                 }
                               );
                           }
                         },
                         (error: any) => {
+                          this.blockUI.stop();
                           console.log('Ha ocurrido un error al forzar entrega');
                         }
                       );
                     }
                   },
                   (error: any) => {
+                    this.blockUI.stop();
                     console.log('Ha ocurrido un error al asignar moto');
                   }
                 );
               }
             },
             (error: any) => {
+              this.blockUI.stop();
               console.log('Ha ocurrido un error al desasignar moto');
             }
           );
@@ -685,34 +691,40 @@ export class DashboardComponent implements OnInit, OnDestroy {
                         'CANCELAR PEDIDO', '0', 'CANCELACION DESDE EL BOTON', month, management, 'SIN USER')
                         .subscribe(
                           (resp4: any) => {
+                            this.blockUI.stop();
                             console.log(resp4);
                             this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
                           },
                           (error: any) => {
+                            this.blockUI.stop();
                             console.log('Ha ocurrido un error al guardar un caso', error);
                           }
                         );
                     }
                   },
                   (error: any) => {
+                    this.blockUI.stop();
                     console.log('Ha ocurrido un error al forzar entrega');
                   }
                 );
               }
             },
             (error: any) => {
+              this.blockUI.stop();
               console.log('Ha ocurrido un error al asignar moto');
             }
           );
         }
       },
       (error: any) => {
+        this.blockUI.stop();
         console.log('Ha ocurrido un error inesperado', error);
       }
     );
   }
 
   assignDriver(order: any, cityId: number) {
+    this.blockUI.start('Espere un momento por favor...');
     let hasDriver = true;
     if (order[9] === '-') {
       hasDriver = false;
@@ -723,6 +735,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const city = cityList.filter(value => cityId === value.city_id);
     this.service.getOrderDetail(orderId, restaurantId).subscribe(
       (resp: any) => {
+        this.blockUI.stop();
         const deliveryId = resp.order_info[0].delivery_id;
         const dialog = this.dialog.open(AsignarMotoComponent, {
           disableClose: false,
@@ -742,10 +755,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
         );
       },
-      (error: any) => { }
+      (error: any) => {
+        this.blockUI.stop();
+        this.toast.error('No se puedo asignar la moto!');
+       }
     );
   }
   copyOrder(order: any): void {
+    this.blockUI.start('Copiando el pedido espere un momento por favor...');
     const orderId = order[13].order_id;
     const restaurantId = order[13].restaurant_id;
     let orderInfo = <any>{};
@@ -784,19 +801,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
             console.log(fromLatitude, fromLongitude);
             this.service.copyOrder(details, fromAddress, toAddress, fromLatitude, fromLongitude, toLatitude, toLongitude).subscribe(
               (respCopy: any) => {
+                this.blockUI.stop();
                 console.log(respCopy);
+                this.toast.success('Pedido copiado con exito!');
               },
               (error) => {
+                this.blockUI.stop();
                 this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
               }
             );
           },
           (error) => {
+            this.blockUI.stop();
             this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
           }
         );
       },
       (error) => {
+        this.blockUI.stop();
         this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
       }
     );
@@ -806,13 +828,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.toast.info(order[13].order_id);
   }
   acceptOrder(orderId: string, restaurantId: string, userId: string): void {
+    this.blockUI.start('Aceptando pedido...');
     this.service.acceptOrder(orderId, restaurantId, userId).subscribe(
       (resp: any) => {
+        this.blockUI.stop();
         this.toast.success('Este pedido fue aceptado exitosamente!');
         this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
       },
       (error: any) => {
+        this.blockUI.stop();
         this.toast.error('No se pudo aceptar el pedido!');
+      }
+    );
+  }
+  rejectedOrder(orderId: any, restaurantId: string, userId: string): void {
+    this.blockUI.start('Rechazando el pedido...');
+    this.service.rejectOrder(orderId, restaurantId, userId).subscribe(
+      (resp: any) => {
+        this.blockUI.stop();
+        if (resp.message === 'Your order has been cancelled.') {
+          this.toast.success('Pedido rechazado exitosamente!');
+          this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
+        }
+      },
+      (error: any) => {
+        this.toast.error('El pedido no se pudo rechazar!');
+        this.blockUI.stop();
       }
     );
   }

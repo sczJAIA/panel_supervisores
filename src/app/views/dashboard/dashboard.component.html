@@ -319,16 +319,16 @@
               </td>
               <td>
                 <ng-container [ngSwitch]="order[13].status">
-                  <div *ngSwitchCase="0">
+                  <div class="btn-group-vertical" *ngSwitchCase="0">
                     <button (click)="acceptOrder(order[13].order_id, order[13].restaurant_id, order[13].user_id)" class="btn btn-outline-success">ACEPTAR PEDIDO</button>
-                    <!-- <button class="btn btn-outline-danger">RECHAZAR PEDIDO</button> -->
+                    <button (click)="rejectedOrder(order[13].order_id, order[13].restaurant_id, order[13].user_id)" class="btn btn-outline-danger">RECHAZAR PEDIDO</button>
                   </div>
                 </ng-container>
                 <ng-container
                   *ngIf="order[13].status === 2 || order[13].status === 7 || order[13].status === 3 || order[13].status === 9; else elseStatus">
                   <div class="btn-group-vertical">
                     <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
-                    <button class="btn btn-outline-info" (click)="getCases(order)">VER CASOS</button>
+                    <!-- <button class="btn btn-outline-info" (click)="getCases(order)">VER CASOS</button> -->
                     <button (click)="copyOrder(order)" class="btn btn-outline-primary">COPIAR PEDIDO</button>
                   </div>
                 </ng-container>

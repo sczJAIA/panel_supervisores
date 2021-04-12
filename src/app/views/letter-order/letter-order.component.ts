@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { DetalleModalComponent } from '../../modals/detalle-modal/detalle-modal.component';
@@ -31,6 +32,7 @@ export class LetterOrderComponent implements OnInit {
   nextLabel = 'Siguiente';
   previousLabel = 'Anterior';
   customerSubscripcion: Subscription;
+  @BlockUI() blockUI: NgBlockUI;
 
   constructor(
     private service: PanelService,
@@ -56,34 +58,42 @@ export class LetterOrderComponent implements OnInit {
   getDeliveryList(cityId: string, startDate: any, endDate: any) {
     console.log('valor', startDate, endDate);
     if (endDate !== null) {
+      this.blockUI.start('Obteniendo lista de pedidos...');
       const startDate2 = moment(startDate).format('YYYY-MM-DD');
       const endDate2 = moment(endDate).format('YYYY-MM-DD');
       this.service.getDeliveryListLetter(cityId, startDate2, endDate2).subscribe(
         (resp: any) => {
+          this.blockUI.stop();
           this.orders = resp.aaData;
         },
         (error: any) => {
+          this.blockUI.stop();
           this.toast.error('No se pudo obtener los pedidos!');
         }
       );
     }
   }
   getCityList(): void {
+    this.blockUI.start('Obteniendo lista de ciudades...');
     const cityListsubscripcion = this.service.getCityList();
     this.citiesSubscripcion = cityListsubscripcion.subscribe(
       (resp: any) => {
+        this.blockUI.stop();
         console.log(resp);
         this.cityList = resp.cities_list;
       },
       (error: any) => {
+        this.blockUI.stop();
         this.toast.error('Ha ocurrido un error al obtener las ciudades');
       }
     );
   }
   openDialogCustomer(userId: string): void {
+    this.blockUI.start('Cargando el detalle del cliente...');
     const getCustomerSubscripcion = this.service.getCustomer(userId, '0');
     this.customerSubscripcion = getCustomerSubscripcion.subscribe(
       async (resp: any) => {
+        this.blockUI.stop();
         const dialogRef = await this.dialog.open(DetalleModalComponent, {
           disableClose: false,
           data: {
@@ -95,15 +105,18 @@ export class LetterOrderComponent implements OnInit {
         });
       },
       (error: any) => {
+        this.blockUI.stop();
         this.toast.error('Ha ocurrido un error al intentar ver al cliente');
       }
     );
   }
   openDialogDriver(driverId: any): void {
     if (driverId !== null) {
+      this.blockUI.start('Cargando el detalle del conductor...');
       const getCustomerSubscripcion = this.service.getDriver(driverId, '0');
       this.customerSubscripcion = getCustomerSubscripcion.subscribe(
         async (resp: any) => {
+          this.blockUI.stop();
           const dialogRef = await this.dialog.open(DetalleModalComponent, {
             disableClose: false,
             data: {
@@ -115,6 +128,7 @@ export class LetterOrderComponent implements OnInit {
           });
         },
         (error: any) => {
+          this.blockUI.stop();
           this.toast.error('Ha ocurrido un error al intentar ver al conductor');
         }
       );

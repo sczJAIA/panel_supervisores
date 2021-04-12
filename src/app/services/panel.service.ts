@@ -361,9 +361,9 @@ export class PanelService {
       let params = new HttpParams()
         .append('order_id', orderId)
         .append('token', '83c61c67c064fab7a8be68ead432c51a');
-        return this.http.get(url, {
-          params
-        });
+      return this.http.get(url, {
+        params
+      });
     } catch (error) {
       return throwError(error);
     }
@@ -372,7 +372,7 @@ export class PanelService {
   acceptOrder(orderId: string, restaurantId: string, userId: string) {
     try {
       const url = 'https://prod-fresh-api.jugnoo.in:4040/web/accept_order';
-      const headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
+      const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
       const params = new URLSearchParams();
       params.set('order_id', orderId);
       params.set('restaurant_id', restaurantId);
@@ -399,4 +399,60 @@ export class PanelService {
     }
   }
 
+  rejectOrderLetter(orderId: string) {
+    try {
+      const url = 'https://dodo_jugnoo.in:8024/update_order';
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const data = JSON.stringify({
+        key_type: '5',
+        order_id: orderId,
+        locale: 'en',
+        access_token: '83c61c67c064fab7a8be68ead432c51a'
+      });
+      return this.http.post(
+        url, data, {
+        headers
+      }).pipe(
+        map(
+          (resp) => {
+            return resp;
+          }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  rejectOrder(orderId: string, restaurantId: string, userId: string) {
+    try {
+      const url = 'https://prod-fresh-api.jugnoo.in:4040/web/reject_order';
+      const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded'});
+      const formData = new URLSearchParams();
+      formData.set('order_id', orderId);
+      formData.set('restaurant_id', restaurantId);
+      formData.set('user_id', userId);
+      formData.set('reason', 'Others');
+      formData.set('force_token', '1');
+      formData.set('refund_customer', '0');
+      formData.set('locale', 'en');
+      formData.set('token', '83c61c67c064fab7a8be68ead432c51a');
+      return this.http.post(
+        url, formData.toString(), {
+        headers
+      }).pipe(
+        map(
+          (resp) => {
+            return resp;
+          }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    } catch (error) {
+      return throwError(error);
+    }
+  }
 }

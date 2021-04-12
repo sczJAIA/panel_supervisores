@@ -5,6 +5,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterModule, Routes } from '@angular/router';
+import { BlockUIModule } from 'ng-block-ui';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DetalleModalModule } from '../../modals/detalle-modal/detalle-modal.module';
 import { FilterDriverIdLetterPipe } from '../../pipes/filter-driver-id-letter.pipe';
@@ -33,7 +34,8 @@ const routes: Routes = [
     MatNativeDateModule,
     MatFormFieldModule,
     NgxPaginationModule,
-    DetalleModalModule
+    DetalleModalModule,
+    BlockUIModule.forRoot()
   ]
 })
 export class LetterOrderModule { }

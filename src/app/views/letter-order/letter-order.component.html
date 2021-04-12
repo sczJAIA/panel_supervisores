@@ -1,167 +1,169 @@
-<div class="animated fadeIn card px-4 pt-3">
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <h3 class="h3 text-center">DELIVERY LIST</h3>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="form-group">
-                        <label for="city">CIUDAD:</label>
-                        <select class="form-control" name="city" #selectedCity
-                            (change)="getDeliveryList($event.target.value, startDateField.value, endDateField.value)">
-                            <option *ngFor="let city of cityList; let i = index" [value]="city.city_id"
-                                [selected]="i === 9"> {{ city.city_name }} </option>
-                        </select>
+<block-ui>
+    <div class="animated fadeIn card px-4 pt-3">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <h3 class="h3 text-center">DELIVERY LIST</h3>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="form-group">
-                        <mat-form-field class="mt-2" appearance="fill">
-                            <mat-label>FECHA</mat-label>
-                            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                                <input matStartDate formControlName="start" placeholder="Start date">
-                                <input matEndDate
-                                    (dateChange)="getDeliveryList(selectedCity.value, startDateField.value, endDateField.value)"
-                                    formControlName="end" placeholder="End date">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker></mat-date-range-picker>
-                        </mat-form-field>
+                <div class="row mt-3">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="city">CIUDAD:</label>
+                            <select class="form-control" name="city" #selectedCity
+                                (change)="getDeliveryList($event.target.value, startDateField.value, endDateField.value)">
+                                <option *ngFor="let city of cityList; let i = index" [value]="city.city_id"
+                                    [selected]="i === 9"> {{ city.city_name }} </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field class="mt-2" appearance="fill">
+                                <mat-label>FECHA</mat-label>
+                                <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                                    <input matStartDate formControlName="start" placeholder="Start date">
+                                    <input matEndDate
+                                        (dateChange)="getDeliveryList(selectedCity.value, startDateField.value, endDateField.value)"
+                                        formControlName="end" placeholder="End date">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                            </mat-form-field>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <div class="group-form">
-                        <label for="status">ESTADO:</label>
-                        <select class="form-control" name="status" [(ngModel)]="filterStatus">
-                            <option value="todos">TODOS</option>
-                            <option value="7">DESPACHADO</option>
-                            <option value="5">DEVUELTO</option>
-                            <option value="4">INCUMPLIDO</option>
-                            <option value="2">COMPLETADO</option>
-                            <option value="1">CANCELADO</option>
-                            <option value="6">CONFIRMADO</option>
-                            <option value="0">CONFIRMANDO</option>
-                        </select>
+                <div class="row mb-3">
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="group-form">
+                            <label for="status">ESTADO:</label>
+                            <select class="form-control" name="status" [(ngModel)]="filterStatus">
+                                <option value="todos">TODOS</option>
+                                <option value="7">DESPACHADO</option>
+                                <option value="5">DEVUELTO</option>
+                                <option value="4">INCUMPLIDO</option>
+                                <option value="2">COMPLETADO</option>
+                                <option value="1">CANCELADO</option>
+                                <option value="6">CONFIRMADO</option>
+                                <option value="0">CONFIRMANDO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="group-form">
+                            <label for="orderId">ID PEDIDO:</label>
+                            <input placeholder="Buscar por id del pedido..." class="form-control" [(ngModel)]="filterId"
+                                type="text" name="orderId">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="group-form">
+                            <label for="driverId">ID CONDUCTOR:</label>
+                            <input placeholder="Buscar por el id del conductor..." class="form-control"
+                                [(ngModel)]="filterDriverId" type="text" name="driverId">
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <div class="group-form">
-                        <label for="orderId">ID PEDIDO:</label>
-                        <input placeholder="Buscar por id del pedido..." class="form-control" [(ngModel)]="filterId"
-                            type="text" name="orderId">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <table class="table table-responsive">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>USUARIO</th>
+                                    <th>CONDUCTOR</th>
+                                    <th>DETALLES</th>
+                                    <th>DIRECCION DE ENTREGA</th>
+                                    <th>CIUDAD</th>
+                                    <th>CREADO</th>
+                                    <th>ENTREGA</th>
+                                    <th>MONTO + DELIVERY</th>
+                                    <th>METODO DE PAGO</th>
+                                    <th>ESTADO</th>
+                                    <th>NOTA</th>
+                                    <!-- <th>ACCIONES</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let order of orders |filterOrderIdLetter:filterId |filterDriverIdLetter: filterDriverId |filterStatusLetter: filterStatus | paginate: { itemsPerPage: 25, currentPage: p }; let i = index">
+                                    <td> {{ order.order_id }} </td>
+                                    <td> {{ order.user_name }} <br> {{ order.phone_no }}
+                                        <button (click)="openDialogCustomer(order.user_id)" class="btn btn-primary">Detalle
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </td>
+                                    <td> {{ order.driver_id }} <br> {{ order.driver_name }}
+                                        <button *ngIf="order.driver_id !== null" (click)="openDialogDriver(order.driver_id)"
+                                            class="btn btn-primary">Detalle
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button (click)="openOrderDetails(order.order_id)" class="btn btn-primary">Detalle
+                                            <i class="fa fa-eye"></i>
+                                        </button> <br>
+                                        {{ order.details }}
+                                    </td>
+                                    <td> {{ order.pickup_address }} </td>
+                                    <td>
+                                        <ng-container [ngSwitch]="order.city_id">
+                                            <p *ngSwitchCase="395">Santa Cruz</p>
+                                            <p *ngSwitchCase="818">La Paz</p>
+                                        </ng-container>
+                                    </td>
+                                    <td> {{ order.created_at |date: 'medium' }} </td>
+                                    <td>
+                                        <ng-container *ngIf="order.is_immediate === 1; else noinmmediate">
+                                            <p>DE INMEDIATO</p>
+                                        </ng-container>
+                                        <ng-template #noinmmediate>
+                                            <p>{{ order.delivery_time }}</p>
+                                        </ng-template>
+                                    </td>
+                                    <td> {{ order.original_amount }} + {{ order.delivery_charges }} = {{
+                                        order.original_amount + order.delivery_charges }} </td>
+                                    <td [ngSwitch]="order.payment_mode">
+                                        <h4 *ngSwitchCase="2">
+                                            <span class="badge badge-info">EFECTIVO</span>
+                                        </h4>
+                                    </td>
+                                    <td [ngSwitch]="order.status">
+                                        <h4 *ngSwitchCase="7">
+                                            <span class="badge badge-warning">DESPACHADO</span>
+                                        </h4>
+                                        <h4 *ngSwitchCase="5">
+                                            <span class="badge badge-danger">DEVUELTO</span>
+                                        </h4>
+                                        <h4 *ngSwitchCase="4">
+                                            <span class="badge badge-danger">INCUMPLIDO</span>
+                                        </h4>
+                                        <h4 *ngSwitchCase="2">
+                                            <span class="badge badge-success">COMPLETADO</span>
+                                        </h4>
+                                        <h4 *ngSwitchCase="1">
+                                            <span class="badge badge-danger">CANCELADO</span>
+                                        </h4>
+                                        <h4 *ngSwitchCase="6">
+                                            <span class="badge badge-primary">CONFIRMADO</span>
+                                        </h4>
+                                        <h4 *ngSwitchCase="0">
+                                            <span class="badge badge-warning">CONFIRMANDO</span>
+                                        </h4>
+                                    </td>
+                                    <td> {{ order.remarks }} </td>
+                                    <!-- <td>
+                                        <button type="button" class="btn btn-info">VER DETALLE</button>
+                                    </td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls [nextLabel]="nextLabel" [previousLabel]="previousLabel"
+                            (pageChange)="p = $event"></pagination-controls>
                     </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <div class="group-form">
-                        <label for="driverId">ID CONDUCTOR:</label>
-                        <input placeholder="Buscar por el id del conductor..." class="form-control"
-                            [(ngModel)]="filterDriverId" type="text" name="driverId">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <table class="table table-responsive">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>ID</th>
-                                <th>USUARIO</th>
-                                <th>CONDUCTOR</th>
-                                <th>DETALLES</th>
-                                <th>DIRECCION DE ENTREGA</th>
-                                <th>CIUDAD</th>
-                                <th>CREADO</th>
-                                <th>ENTREGA</th>
-                                <th>MONTO + DELIVERY</th>
-                                <th>METODO DE PAGO</th>
-                                <th>ESTADO</th>
-                                <th>NOTA</th>
-                                <!-- <th>ACCIONES</th> -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr
-                                *ngFor="let order of orders |filterOrderIdLetter:filterId |filterDriverIdLetter: filterDriverId |filterStatusLetter: filterStatus | paginate: { itemsPerPage: 25, currentPage: p }; let i = index">
-                                <td> {{ order.order_id }} </td>
-                                <td> {{ order.user_name }} <br> {{ order.phone_no }}
-                                    <button (click)="openDialogCustomer(order.user_id)" class="btn btn-primary">Detalle
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                </td>
-                                <td> {{ order.driver_id }} <br> {{ order.driver_name }}
-                                    <button *ngIf="order.driver_id !== null" (click)="openDialogDriver(order.driver_id)"
-                                        class="btn btn-primary">Detalle
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button (click)="openOrderDetails(order.order_id)" class="btn btn-primary">Detalle
-                                        <i class="fa fa-eye"></i>
-                                    </button> <br>
-                                    {{ order.details }}
-                                </td>
-                                <td> {{ order.pickup_address }} </td>
-                                <td>
-                                    <ng-container [ngSwitch]="order.city_id">
-                                        <p *ngSwitchCase="395">Santa Cruz</p>
-                                        <p *ngSwitchCase="818">La Paz</p>
-                                    </ng-container>
-                                </td>
-                                <td> {{ order.created_at |date: 'medium' }} </td>
-                                <td>
-                                    <ng-container *ngIf="order.is_immediate === 1; else noinmmediate">
-                                        <p>DE INMEDIATO</p>
-                                    </ng-container>
-                                    <ng-template #noinmmediate>
-                                        <p>{{ order.delivery_time }}</p>
-                                    </ng-template>
-                                </td>
-                                <td> {{ order.original_amount }} + {{ order.delivery_charges }} = {{
-                                    order.original_amount + order.delivery_charges }} </td>
-                                <td [ngSwitch]="order.payment_mode">
-                                    <h4 *ngSwitchCase="2">
-                                        <span class="badge badge-info">EFECTIVO</span>
-                                    </h4>
-                                </td>
-                                <td [ngSwitch]="order.status">
-                                    <h4 *ngSwitchCase="7">
-                                        <span class="badge badge-warning">DESPACHADO</span>
-                                    </h4>
-                                    <h4 *ngSwitchCase="5">
-                                        <span class="badge badge-danger">DEVUELTO</span>
-                                    </h4>
-                                    <h4 *ngSwitchCase="4">
-                                        <span class="badge badge-danger">INCUMPLIDO</span>
-                                    </h4>
-                                    <h4 *ngSwitchCase="2">
-                                        <span class="badge badge-success">COMPLETADO</span>
-                                    </h4>
-                                    <h4 *ngSwitchCase="1">
-                                        <span class="badge badge-danger">CANCELADO</span>
-                                    </h4>
-                                    <h4 *ngSwitchCase="6">
-                                        <span class="badge badge-primary">CONFIRMADO</span>
-                                    </h4>
-                                    <h4 *ngSwitchCase="0">
-                                        <span class="badge badge-warning">CONFIRMANDO</span>
-                                    </h4>
-                                </td>
-                                <td> {{ order.remarks }} </td>
-                                <!-- <td>
-                                    <button type="button" class="btn btn-info">VER DETALLE</button>
-                                </td> -->
-                            </tr>
-                        </tbody>
-                    </table>
-                    <pagination-controls [nextLabel]="nextLabel" [previousLabel]="previousLabel"
-                        (pageChange)="p = $event"></pagination-controls>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</block-ui>
