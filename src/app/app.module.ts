@@ -6,9 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   AppAsideModule,
   AppBreadcrumbModule,
-
   AppFooterModule, AppHeaderModule,
-
   AppSidebarModule
 } from '@coreui/angular';
 import { IconModule, IconSetModule, IconSetService } from '@coreui/icons-angular';

@@ -185,7 +185,7 @@
     </div>
     <div class="row mb-3">
       <div class=" mb-3 col-sm-12 col-md-6 col-lg-4">
-        <select class="form-control" #citySelected (change)="getOrderList($event.target['value'])">
+        <select class="form-control" #citySelected (change)="getOrderList($event.target['value'], this.startDateField.value, this.endDateField.value)">
           <option [value]="city.city_id" [selected]="i === 9" *ngFor="let city of cityList; let i = index"> {{
             city.city_name }} </option>
         </select>
