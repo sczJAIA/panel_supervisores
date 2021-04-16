@@ -39,6 +39,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   nextLabel = 'Siguiente';
   previousLabel = 'Anterior';
   filterId = '';
+  filterPhone = '';
   filterStatus = 'todos';
   filterMerchant = '';
   @BlockUI() blockUI: NgBlockUI;
@@ -418,6 +419,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
+  login = false;
+  user = '';
+
   constructor(
     private service: PanelService,
     private toast: ToastrService,
@@ -433,7 +437,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return this.range.get('end');
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+
+    await this.service.getSession().subscribe(
+      (resp: any) => {
+        this.login = resp.sesion;
+        this.user = resp.username;
+      }
+    );
+
+    if (!this.login) {
+      this.router.navigate(['/']); 
+    }
+    
+
     this.getCityList();
     this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
     const contador = interval(30000);
@@ -758,7 +775,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       (error: any) => {
         this.blockUI.stop();
         this.toast.error('No se puedo asignar la moto!');
-       }
+      }
     );
   }
   copyOrder(order: any): void {
@@ -856,5 +873,67 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.blockUI.stop();
       }
     );
+  }
+
+  horaPasada(hora: string, moto: string) {
+    if (moto !== '-') {
+      return false;
+    } else {
+      if (this.convertirFecha(hora) > 30) {
+        console.log('Se cumplio!');
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  convertirFecha(date: string): any {
+    // const date = '12:06 PM 13th-March-2021';
+    // const date = '-';
+    if (date !== '-') {
+      date = date.replaceAll('<br/>', ' ');
+      const hora = date.substring(0, 8);
+      const fecha = date.substring(9);
+      var regex = /(\d+)/g;
+      var soloLetras = /([A-Za-z])\w+/g;
+      const matchFecha = fecha.match(regex);
+      const dia = matchFecha ? matchFecha[0] : '';
+      const anio = matchFecha ? matchFecha[1] : '';
+      const matchMes = fecha.match(soloLetras);
+      const mes = matchMes ? matchMes[1] : '';
+
+      const mesFound: any = this.obtenerMes(mes);
+      const propiedad = Object.getOwnPropertyNames(mesFound[0]).toString();
+      const mesObtenido = mesFound[0][propiedad] < 9 ? '0' + mesFound[0][propiedad].toString() : mesFound[0][propiedad].toString();
+      const nuevaFecha = new Date(anio + '/' + mesObtenido + '/' + dia + ' ' + hora);
+      const fechaActual = moment();
+      const fechaPedido = moment(nuevaFecha);
+      return fechaActual.diff(fechaPedido, 'minutes');
+    }
+  }
+
+  obtenerMes(mes: any) {
+    const meses = [
+      { 'January': 1 },
+      { 'February': 2 },
+      { 'March': 3 },
+      { 'April': 4 },
+      { 'May': 5 },
+      { 'June': 6 },
+      { 'July': 7 },
+      { 'August': 8 },
+      { 'September': 9 },
+      { 'October': 10 },
+      { 'November': 11 },
+      { 'December': 12 }];
+
+    const found = meses.filter(
+      (element: any) => {
+        if (Object.keys(element).toString() === mes) {
+          return element
+        }
+      });
+    return found;
   }
 }

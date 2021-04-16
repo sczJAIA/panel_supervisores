@@ -19,11 +19,16 @@ export const navItems: INavData[] = [
     url: '/delivery_list/deliveryList',
     icon: 'icon-bell'
   },
-  // {
-  //   name: 'Typography',
-  //   url: '/theme/typography',
-  //   icon: 'icon-pencil'
-  // },
+  {
+    name: 'Search Users',
+    url: '/searchUser',
+    icon: 'icon-user'
+  },
+  {
+    name: 'Log Out',
+    url: '/logout',
+    icon: 'icon-power'
+  },
   // {
   //   title: true,
   //   name: 'Components'

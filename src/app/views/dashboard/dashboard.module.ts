@@ -13,6 +13,7 @@ import { DashboardComponent } from './dashboard.component';
 import { FiltroIdPipe } from '../../pipes/filtro-id.pipe';
 import { FilterStatusPipe } from '../../pipes/filter-status.pipe';
 import { FilterMerchantPipe } from '../../pipes/filter-merchant.pipe';
+import { FilterPhoneCustomerPipe } from '../../pipes/filter-phone-customer.pipe';
 import { AsignarMotoModule } from '../../modals/asignar-moto/asignar-moto.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -40,6 +41,6 @@ import { BlockUIModule } from 'ng-block-ui';
     MatFormFieldModule,
     BlockUIModule.forRoot()
   ],
-  declarations: [ DashboardComponent, FiltroIdPipe, FilterStatusPipe, FilterMerchantPipe ]
+  declarations: [ DashboardComponent, FiltroIdPipe, FilterStatusPipe, FilterMerchantPipe, FilterPhoneCustomerPipe ]
 })
 export class DashboardModule { }

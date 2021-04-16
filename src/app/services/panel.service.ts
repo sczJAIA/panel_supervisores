@@ -25,7 +25,7 @@ export class PanelService {
       params
     });
   }
-  getCustomer(userId: string, searchKey: string = '0', countryCode: string = '+91') {
+  getCustomer(userId: string, searchKey = '0', countryCode: string = '+91') {
     try {
       const url = 'https://api-panels.jugnoo.in:7013/schedule-ride-auth/get/user_details?';
       const header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
@@ -82,7 +82,7 @@ export class PanelService {
       return throwError(error);
     }
   }
-  getDriver(driverId: string, searchKey: string = '0') {
+  getDriver(driverId: string, searchKey = '0') {
     try {
       const url = 'https://api-panels.jugnoo.in:7013/schedule-ride-auth/driver_info?';
       const header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
@@ -451,6 +451,15 @@ export class PanelService {
           return throwError(error);
         })
       );
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  getSession() {
+    try {
+      const url = 'https://labs.patio.com.bo/jobs/loged/';
+      return this.http.get(url);
     } catch (error) {
       return throwError(error);
     }
