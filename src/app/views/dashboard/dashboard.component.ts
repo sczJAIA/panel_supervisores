@@ -447,7 +447,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
 
     if (!this.login) {
-      this.router.navigate(['/']); 
+      window.location.href = 'https://labs.patio.com.bo/?salir=1';
     }
     
 
