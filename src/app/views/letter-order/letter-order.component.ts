@@ -50,6 +50,11 @@ export class LetterOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const sesionJson = this.service.getSessionSesion();
+    console.log(sesionJson);
+    if ( sesionJson === null) {
+      window.location.href = 'https://labs.patio.com.bo/?salir=1';
+    }
     console.log(this.range.value);
     this.getCityList();
     this.getDeliveryList('395', this.startDateField.value, this.endDateField.value);

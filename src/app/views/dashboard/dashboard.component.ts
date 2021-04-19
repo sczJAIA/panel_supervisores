@@ -438,19 +438,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-
+    this.blockUI.start('Espere un momento por favor...');
     await this.service.getSession().subscribe(
       (resp: any) => {
+        this.blockUI.stop();
+        this.toast.info('Logeado');
         this.login = resp.sesion;
-        this.user = resp.username;
+        this.service.isLogin = resp.sesion;
+        this.service.setSession(resp);
+        console.log(this.service.getSessionSesion());
+        const userSession = this.service.getSessionSesion();
+        this.user = userSession.username;
+        if (this.login === false) {
+          window.location.href = 'https://labs.patio.com.bo/?salir=1';
+        }
+      },
+      (error) => {
+        this.blockUI.stop();
       }
     );
-
-    if (!this.login) {
-      window.location.href = 'https://labs.patio.com.bo/?salir=1';
-    }
-    
-
     this.getCityList();
     this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
     const contador = interval(30000);

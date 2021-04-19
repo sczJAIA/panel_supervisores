@@ -11,11 +11,11 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 
 export const routes: Routes = [
-  // {
-    // path: '',
-    // redirectTo: 'dashboard',
-    // pathMatch: 'full',
-  // },
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
   {
     path: '404',
     component: P404Component,
@@ -66,6 +66,10 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
+      },
+      {
+        path: 'logout',
+        loadChildren: () => import('./views/logout/logout.module').then(m => m.LogoutModule)
       },
       {
         path: 'dashboard/orderDetails/:orderId/:restaurantId',

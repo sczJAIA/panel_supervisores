@@ -8,6 +8,7 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class PanelService {
 
+  isLogin: any;
   constructor(
     private http: HttpClient
   ) { }
@@ -463,5 +464,16 @@ export class PanelService {
     } catch (error) {
       return throwError(error);
     }
+  }
+
+  public setSession(sesion: any) {
+    localStorage.setItem('sesion', JSON.stringify(sesion));
+  }
+  public getSessionUser() {
+    return localStorage.getItem('usuario');
+  }
+
+  public getSessionSesion() {
+    return JSON.parse(localStorage.getItem('sesion'));
   }
 }

@@ -26,6 +26,11 @@ export class SearchUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const sesionJson = this.service.getSessionSesion();
+    console.log(sesionJson);
+    if ( sesionJson === null) {
+      window.location.href = 'https://labs.patio.com.bo/?salir=1';
+    }
   }
 
   formBuilder() {

@@ -24,6 +24,11 @@ export class OrderDetailLetterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const sesionJson = this.service.getSessionSesion();
+    console.log(sesionJson);
+    if ( sesionJson === null) {
+      window.location.href = 'https://labs.patio.com.bo/?salir=1';
+    }
     this.activatedRoute?.paramMap.subscribe(
       (params) => {
         const orderId = params.get('orderId');
