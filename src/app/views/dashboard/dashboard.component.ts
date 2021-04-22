@@ -13,6 +13,7 @@ import { GenerarCasosComponent } from '../../modals/generar-casos/generar-casos.
 import { AsignarMotoComponent } from '../../modals/asignar-moto/asignar-moto.component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ConfirmacionComponent } from '../../modals/confirmacion/confirmacion.component';
 
 
 
@@ -50,6 +51,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     start: new FormControl(this.startDate2),
     end: new FormControl(this.endDate2)
   });
+  userSession = this.service.getSessionSesion();
 
   // lineChart1
   public lineChart1Data: Array<any> = [
@@ -459,7 +461,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
     this.getCityList();
     this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
-    const contador = interval(30000);
+    const contador = interval(35000);
     contador.subscribe(
       (n) => {
         this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
@@ -498,14 +500,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getOrderList(cityId: string, startDate: string, endDate: string): void {
     if (endDate !== null) {
-      this.blockUI.start();
+      // this.blockUI.start();
       this.citySelected = cityId;
       const startDate2 = moment(startDate).format('YYYY-MM-DD');
       const endDate2 = moment(endDate).format('YYYY-MM-DD');
       const orderListSubscripcion = this.service.getDeliveryList(cityId, startDate2, endDate2);
       this.ordersListSubscripcion = orderListSubscripcion.subscribe(
         async (resp: any) => {
-          this.toast.success('Se obtuvo la lista correctamente');
+          // this.toast.success('Se obtuvo la lista correctamente');
           this.deliveryList = await resp['aaData'].reverse();
           this.deliveryList2 = await resp;
           console.log('2', this.deliveryList2['stats'].accepted);
@@ -513,11 +515,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
             (this.deliveryList2['stats'].delivered + this.deliveryList2['stats'].accepted + this.deliveryList2['stats'].dispatch)
             / (this.deliveryList2['stats'].total) * 100).toFixed(2);
           this.fulFillment = parseFloat(fulfillment);
-          this.blockUI.stop();
+          // this.blockUI.stop();
         },
         (error: any) => {
           this.toast.error('Ha ocurrido al obtener la lista de pedidos');
-          this.blockUI.stop();
+          // this.blockUI.stop();
         }
       );
     }
@@ -598,55 +600,71 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   cancelOrder(order: any) {
-    switch (order[4]) {
-      case 395:
-        // SANTA CRUZ
-        this.cancelOrderFunction(order, '7107740', 'PEDIDO CANCELADO', '+911190409044');
-        break;
-      case 818:
-        // LA PAZ
-        this.cancelOrderFunction(order, '9029134', 'Pedido Cancelado', '+59160521013');
-        break;
-      case 704:
-        // COCHABAMBA
-        this.cancelOrderFunction(order, '9481627', 'Pedido Cancelado', '+59170790241');
-        break;
-      case 859:
-        // TARIJA
-        this.cancelOrderFunction(order, '9940410', 'Pedido Cancelado', '+5917805356611');
-        break;
-      case 1796:
-        // POTOSI
-        // NO HAY MOTO PEDIDO CANCELADO EN POTOSI
-        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
-        break;
-      case 3190:
-        // SAN JOSE DE MAYO
-        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
-        break;
-      case 204:
-        // NEW YORK
-        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
-        break;
-      case 997:
-        // MONTEVIDEO
-        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
-        break;
-      case 3262:
-        // JULIACA
-        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
-        break;
-      case 1:
-        // CHANDIRGAH
-        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
-        break;
-      case 786:
-        // AREQUIPA
-        alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
-        break;
-      default:
-        break;
-    }
+    const dialogRef = this.dialog.open(ConfirmacionComponent, {
+      disableClose: false,
+      data: 'Desea cancelar el pedido?',
+      minWidth: '80vh',
+      width: '25%',
+      maxHeight: '90vh'
+    });
+
+    dialogRef.afterClosed().subscribe(
+      (resp: any) => {
+        if (resp) {
+          switch (order[4]) {
+            case 395:
+              // SANTA CRUZ
+              this.cancelOrderFunction(order, '7107740', 'PEDIDO CANCELADO', '+911190409044');
+              break;
+            case 818:
+              // LA PAZ
+              this.cancelOrderFunction(order, '9029134', 'Pedido Cancelado', '+59160521013');
+              break;
+            case 704:
+              // COCHABAMBA
+              this.cancelOrderFunction(order, '9481627', 'Pedido Cancelado', '+59170790241');
+              break;
+            case 859:
+              // TARIJA
+              this.cancelOrderFunction(order, '9940410', 'Pedido Cancelado', '+5917805356611');
+              break;
+            case 1796:
+              // POTOSI
+              // NO HAY MOTO PEDIDO CANCELADO EN POTOSI
+              this.cancelOrderFunction(order, '9641029', 'Pedido Cancelado', '+59178735918');
+              // alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+              break;
+            case 3190:
+              // SAN JOSE DE MAYO
+              alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+              break;
+            case 204:
+              // NEW YORK
+              alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+              break;
+            case 997:
+              // MONTEVIDEO
+              alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+              break;
+            case 3262:
+              // JULIACA
+              this.cancelOrderFunction(order, '10081132', 'Cancelado', '+519663700591');
+              // alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+              break;
+            case 1:
+              // CHANDIRGAH
+              alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+              break;
+            case 786:
+              // AREQUIPA
+              alert('ESTA CIUDAD NO TIENE MOTO >PEDIDO CANCELADO<');
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    );
   }
   cancelOrderFunction(order: any, driverId: any, driverName: string, driverPhone: string) {
     this.blockUI.start('Cancelando el pedido espere un momento por favor...');
@@ -669,7 +687,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                           if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
                             console.log('Respues de forzas completado', resp3);
                             this.service.createCases(order[13].order_id,
-                              'CANCELAR PEDIDO', '0', 'CANCELACION DESDE EL BOTON', month, management, 'SIN USER')
+                              'CANCELAR PEDIDO', '0', 'CANCELACION DESDE EL BOTON', month, management, this.userSession.username)
                               .subscribe(
                                 (resp4: any) => {
                                   this.blockUI.stop();
@@ -711,7 +729,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
                       console.log('Respues de forzas completado', resp3);
                       this.service.createCases(order[13].order_id,
-                        'CANCELAR PEDIDO', '0', 'CANCELACION DESDE EL BOTON', month, management, 'SIN USER')
+                        'CANCELAR PEDIDO', '0', 'CANCELACION DESDE EL BOTON', month, management, this.userSession.username)
                         .subscribe(
                           (resp4: any) => {
                             this.blockUI.stop();
@@ -865,18 +883,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
   rejectedOrder(orderId: any, restaurantId: string, userId: string): void {
-    this.blockUI.start('Rechazando el pedido...');
-    this.service.rejectOrder(orderId, restaurantId, userId).subscribe(
-      (resp: any) => {
-        this.blockUI.stop();
-        if (resp.message === 'Your order has been cancelled.') {
-          this.toast.success('Pedido rechazado exitosamente!');
-          this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
+
+    const dialogRef = this.dialog.open(ConfirmacionComponent, {
+      disableClose: false,
+      data: 'Desea rechazar el pedido?',
+      minWidth: '80vh',
+      width: '25%',
+      maxHeight: '90vh'
+    });
+
+    dialogRef.afterClosed().subscribe(
+      (resp2: any) => {
+        if (resp2) {
+          this.blockUI.start('Rechazando el pedido...');
+          this.service.rejectOrder(orderId, restaurantId, userId).subscribe(
+            (resp: any) => {
+              this.blockUI.stop();
+              if (resp.message === 'Your order has been cancelled.') {
+                this.toast.success('Pedido rechazado exitosamente!');
+                this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
+              }
+            },
+            (error: any) => {
+              this.toast.error('El pedido no se pudo rechazar!');
+              this.blockUI.stop();
+            }
+          );
         }
-      },
-      (error: any) => {
-        this.toast.error('El pedido no se pudo rechazar!');
-        this.blockUI.stop();
       }
     );
   }

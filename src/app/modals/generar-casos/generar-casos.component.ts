@@ -12,6 +12,7 @@ import * as moment from 'moment';
 export class GenerarCasosComponent implements OnInit {
   caseForm: FormGroup;
   colorChecked = 'primary';
+  user = this.service.getSessionSesion();
 
   constructor(
     public dialogRef: MatDialogRef<GenerarCasosComponent>,
@@ -23,6 +24,7 @@ export class GenerarCasosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.user.username);
     this.checkedspickOrderField();
     this.checkedsreturnMoneyField();
     this.checkedslockDriverField();
@@ -213,7 +215,7 @@ export class GenerarCasosComponent implements OnInit {
       const management = currenDate.format('YYYY');
       if (this.pickOrderField.value) {
         this.service.createCases(this.data[0], 'recoger pedido', '0', this.pickOrderDescriptionField.value, month,
-        management, this.data[13].user_id)
+        management, this.user.username)
         .subscribe(
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
@@ -226,7 +228,7 @@ export class GenerarCasosComponent implements OnInit {
       }
       if (this.returnMoneyField.value) {
         this.service.createCases(this.data[0], 'reembolsar moto', '0', this.returnMoneyDescriptionField.value, month,
-        management, this.data[13].user_id)
+        management, this.user.username)
         .subscribe(
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
@@ -240,7 +242,7 @@ export class GenerarCasosComponent implements OnInit {
       if (this.lockDriverField.value) {
         // bloquear moto
         this.service.createCases(this.data[0], 'bloquear moto', '0', this.lockDriverField.value, month,
-        management, this.data[13].user_id)
+        management, this.user.username)
         .subscribe(
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
@@ -253,7 +255,7 @@ export class GenerarCasosComponent implements OnInit {
       }
       if (this.chargeCommissionField.value) {
         this.service.createCases(this.data[0], 'cobrar comision', '0', this.chargeCommissionField.value, month,
-        management, this.data[13].user_id)
+        management, this.user.username)
         .subscribe(
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
@@ -266,7 +268,7 @@ export class GenerarCasosComponent implements OnInit {
       }
       if (this.refundUserField.value) {
         this.service.createCases(this.data[0], 'reembolsar usuario', '0', this.refundUserField.value, month,
-        management, this.data[13].user_id)
+        management, this.user.username)
         .subscribe(
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
@@ -280,7 +282,7 @@ export class GenerarCasosComponent implements OnInit {
       if (this.lockUserField.value) {
         // function bloquear usuario
         this.service.createCases(this.data[0], 'bloquear usuario', '0', this.lockUserField.value, month,
-        management, this.data[13].user_id)
+        management, this.user.username)
         .subscribe(
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
@@ -293,7 +295,7 @@ export class GenerarCasosComponent implements OnInit {
       }
       if (this.reportLocalField.value) {
         this.service.createCases(this.data[0], 'reportar local', '0', this.reportLocalField.value, month,
-        management, this.data[13].user_id)
+        management, this.user.username)
         .subscribe(
           (resp: any) => {
             console.log('Respuesta exitosa', resp);

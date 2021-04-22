@@ -19,6 +19,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BlockUIModule } from 'ng-block-ui';
+import { ConfirmacionModule } from '../../modals/confirmacion/confirmacion.module';
 
 
 
@@ -39,7 +40,8 @@ import { BlockUIModule } from 'ng-block-ui';
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    BlockUIModule.forRoot()
+    BlockUIModule.forRoot(),
+    ConfirmacionModule
   ],
   declarations: [ DashboardComponent, FiltroIdPipe, FilterStatusPipe, FilterMerchantPipe, FilterPhoneCustomerPipe ]
 })

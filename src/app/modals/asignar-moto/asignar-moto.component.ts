@@ -19,6 +19,7 @@ export class AsignarMotoComponent implements OnInit {
   // driverName = new FormControl();
   assignDriverForm: FormGroup;
   loading = false;
+  user = this.service.getSessionSesion();
 
   constructor(
     public dialogRef: MatDialogRef<AsignarMotoComponent>,
@@ -30,7 +31,7 @@ export class AsignarMotoComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    console.log('data', this.data);
+    console.log('data', this.user);
     this.getDriversActives();
     this.driversFiltered = this.driverNameField.valueChanges.pipe(
       startWith(''),
@@ -84,7 +85,8 @@ export class AsignarMotoComponent implements OnInit {
                   if (response.message === 'Successfully assigned driver') {
                     const month = moment().format('MM');
                     const management = moment().format('YYYY');
-                    this.service.createCases(this.data.orderIdLast, 'ASIGNAR MOTO', '0', 'ASIGNACION AUTOMATICA', month, management, 'DESDE EL MODAL')
+                    this.service.createCases(this.data.orderIdLast, 'ASIGNAR MOTO', '0', 'ASIGNACION AUTOMATICA',
+                    month, management, this.user.username)
                     .subscribe(
                       (respo: any) => {
                         if (respo.message === 'Product was created.') {
@@ -113,7 +115,8 @@ export class AsignarMotoComponent implements OnInit {
             if (response.message === 'Successfully assigned driver') {
               const month = moment().format('MM');
               const management = moment().format('YYYY');
-              this.service.createCases(this.data.orderId, 'ASIGNAR MOTO', '0', 'ASIGNACION AUTOMATICA', month, management, 'DESDE EL MODAL')
+              this.service.createCases(this.data.orderId, 'ASIGNAR MOTO', '0', 'ASIGNACION AUTOMATICA', month,
+              management, this.user.username)
               .subscribe(
                 (respo: any) => {
                   if (respo.message === 'Product was created.') {
