@@ -64,11 +64,16 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <div class="form-group">
-                        <label class="form-label" for="">Notas:</label>
-                        <input [value]="orderInfo?.d_notes" disabled="true" class="form-control" type="text">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label" for="">Notas:</label>
+                            <div> {{ orderInfo?.d_notes }} </div>
+                            <!-- <input [value]="orderInfo?.d_notes" disabled="true" class="form-control" type="text"> -->
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col">
                     <div class="form-group">
                         <label class="form-label" for="">Distancia:</label>
@@ -85,10 +90,16 @@
                 </div>
             </div>
             <div class="row">
+                
+            </div>
+            <div class="row">
                 <div class="col">
-                    <div class="form-group">
-                        <label class="form-label" for="">Direccion de entrega:</label>
-                        <input disabled="true" [value]="orderInfo?.from_address" class="form-control" type="text">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label" for="">Direccion de entrega:</label>
+                            <!-- <input disabled="true" [value]="orderInfo?.from_address" class="form-control" type="text"> -->
+                            <div> {{ orderInfo?.from_address }} </div>
+                        </div>
                     </div>
                 </div>
             </div>

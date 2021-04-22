@@ -535,7 +535,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             name: 'cliente'
           },
           minWidth: '80vh',
-          minHeight: '80vh'
+          maxHeight: '80vh'
         });
       },
       (error: any) => {
@@ -558,7 +558,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
               name: 'conductor'
             },
             minWidth: '80vh',
-            minHeight: '80vh'
+            maxHeight: '80vh'
           });
         },
         (error: any) => {
@@ -803,64 +803,78 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
   copyOrder(order: any): void {
-    this.blockUI.start('Copiando el pedido espere un momento por favor...');
-    const orderId = order[13].order_id;
-    const restaurantId = order[13].restaurant_id;
-    let orderInfo = <any>{};
-    this.service.getOrderDetail(orderId, restaurantId).subscribe(
-      (resp: any) => {
-        orderInfo = resp.order_info[0];
-        const orderItems = orderInfo.order_items;
-        let details = 'CLIENTE: ' + orderInfo.user_name + ' - ' + orderInfo.phone_no + ' PEDIDO --> ' + '\n';
-        const fromAddress = orderInfo.restaurant_name + ' - ' + orderInfo.restaurant_address;
-        const toAddress = orderInfo.delivery_address;
-        const toLatitude = orderInfo.delivery_latitude;
-        const toLongitude = orderInfo.delivery_longitude;
-        let fromLatitude = '';
-        let fromLongitude = '';
-        orderItems.forEach((orderI: any, index: number) => {
-          const customizeOptionName = [];
-          if (!orderI.hasOwnProperty('customize_item')) {
-            orderI['customize_item'] = [];
-          }
-          for (const customizeItem of orderI.customize_item) {
-            const customizeItemName = customizeItem.customize_item_name;
-            customizeOptionName.push(customizeItemName);
-            for (const value of customizeItem.customize_options) {
-              customizeOptionName.push(value.customize_option_name);
+    const dialogRef = this.dialog.open(ConfirmacionComponent, {
+      disableClose: false,
+      data: 'Desea copiar el pedido?',
+      minWidth: '80vh',
+      width: '25%',
+      maxHeight: '90vh'
+    });
+
+    dialogRef.afterClosed().subscribe(
+      (resp3) => {
+        if (resp3) {
+          this.blockUI.start('Copiando el pedido espere un momento por favor...');
+          const orderId = order[13].order_id;
+          const restaurantId = order[13].restaurant_id;
+          let orderInfo = <any>{};
+          this.service.getOrderDetail(orderId, restaurantId).subscribe(
+            (resp: any) => {
+              orderInfo = resp.order_info[0];
+              const orderItems = orderInfo.order_items;
+              let details = 'CLIENTE: ' + orderInfo.user_name + ' - ' + orderInfo.phone_no + ' PEDIDO --> ' + '\n';
+              const fromAddress = orderInfo.restaurant_name + ' - ' + orderInfo.restaurant_address;
+              const toAddress = orderInfo.delivery_address;
+              const toLatitude = orderInfo.delivery_latitude;
+              const toLongitude = orderInfo.delivery_longitude;
+              let fromLatitude = '';
+              let fromLongitude = '';
+              orderItems.forEach((orderI: any, index: number) => {
+                const customizeOptionName = [];
+                if (!orderI.hasOwnProperty('customize_item')) {
+                  orderI['customize_item'] = [];
+                }
+                for (const customizeItem of orderI.customize_item) {
+                  const customizeItemName = customizeItem.customize_item_name;
+                  customizeOptionName.push(customizeItemName);
+                  for (const value of customizeItem.customize_options) {
+                    customizeOptionName.push(value.customize_option_name);
+                  }
+                }
+                console.log(customizeOptionName.toString());
+                // tslint:disable-next-line:max-line-length
+                details += '# ' + (index + 1).toString() + ' Cantidad: ' + orderI.item_quantity + ' Nombre: ' + orderI.item_name + ' Detalle: ' + customizeOptionName.toString() + '\n';
+              });
+              console.log(details);
+              this.service.getCommerce(restaurantId).subscribe(
+                (respCommerce: any) => {
+                  fromLatitude = respCommerce.vendor_detail.latitude;
+                  fromLongitude = respCommerce.vendor_detail.longitude;
+                  console.log(fromLatitude, fromLongitude);
+                  this.service.copyOrder(details, fromAddress, toAddress, fromLatitude, fromLongitude, toLatitude, toLongitude).subscribe(
+                    (respCopy: any) => {
+                      this.blockUI.stop();
+                      console.log(respCopy);
+                      this.toast.success('Pedido copiado con exito!');
+                    },
+                    (error) => {
+                      this.blockUI.stop();
+                      this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
+                    }
+                  );
+                },
+                (error) => {
+                  this.blockUI.stop();
+                  this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
+                }
+              );
+            },
+            (error) => {
+              this.blockUI.stop();
+              this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
             }
-          }
-          console.log(customizeOptionName.toString());
-          // tslint:disable-next-line:max-line-length
-          details += '# ' + (index + 1).toString() + ' Cantidad: ' + orderI.item_quantity + ' Nombre: ' + orderI.item_name + ' Detalle: ' + customizeOptionName.toString() + '\n';
-        });
-        console.log(details);
-        this.service.getCommerce(restaurantId).subscribe(
-          (respCommerce: any) => {
-            fromLatitude = respCommerce.vendor_detail.latitude;
-            fromLongitude = respCommerce.vendor_detail.longitude;
-            console.log(fromLatitude, fromLongitude);
-            this.service.copyOrder(details, fromAddress, toAddress, fromLatitude, fromLongitude, toLatitude, toLongitude).subscribe(
-              (respCopy: any) => {
-                this.blockUI.stop();
-                console.log(respCopy);
-                this.toast.success('Pedido copiado con exito!');
-              },
-              (error) => {
-                this.blockUI.stop();
-                this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
-              }
-            );
-          },
-          (error) => {
-            this.blockUI.stop();
-            this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
-          }
-        );
-      },
-      (error) => {
-        this.blockUI.stop();
-        this.toast.error('Ha ocurrido un error al intentar copiar el pedido!');
+          );
+        }
       }
     );
   }
@@ -914,15 +928,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  horaPasada(hora: string, moto: string) {
+  horaPasada(hora: string, moto: string, estado: number) {
     if (moto !== '-') {
       return false;
     } else {
-      if (this.convertirFecha(hora) > 30) {
-        console.log('Se cumplio!');
-        return true;
-      } else {
-        return false;
+      if (estado === 8 || estado === 0) {
+        if (this.convertirFecha(hora) > 30) {
+          console.log('Se cumplio!');
+          return true;
+        } else {
+          return false;
+        }
       }
     }
   }

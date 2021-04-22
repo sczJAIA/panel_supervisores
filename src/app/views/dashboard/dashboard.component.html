@@ -252,6 +252,11 @@
     </div>
     <div class="row">
       <div class="col">
+        <h5 class="h5"> Total de pedidos: {{ deliveryList.length }} </h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
         <table class="table table-responsive table-striped">
           <thead class="thead-dark">
             <tr>
@@ -265,7 +270,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr [ngClass]="{ 'bg-red': horaPasada(order[7], order[9]) }"
+            <tr [ngClass]="{ 'bg-red': horaPasada(order[7], order[9], order[13].status) }"
               *ngFor="let order of deliveryList | filterPhoneCustomer: filterPhone | filtroId: filterId |filterStatus: filterStatus |filterMerchant: filterMerchant  | paginate: { itemsPerPage: 25, currentPage: p }">
               <td class="py-0 my-0">
                 {{ order[0] }}

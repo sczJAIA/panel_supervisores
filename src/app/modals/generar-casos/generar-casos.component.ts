@@ -241,7 +241,7 @@ export class GenerarCasosComponent implements OnInit {
       }
       if (this.lockDriverField.value) {
         // bloquear moto
-        this.service.createCases(this.data[0], 'bloquear moto', '0', this.lockDriverField.value, month,
+        this.service.createCases(this.data[0], 'bloquear moto', '0', this.lockDriverDescriptionField.value, month,
         management, this.user.username)
         .subscribe(
           (resp: any) => {
@@ -254,7 +254,7 @@ export class GenerarCasosComponent implements OnInit {
         );
       }
       if (this.chargeCommissionField.value) {
-        this.service.createCases(this.data[0], 'cobrar comision', '0', this.chargeCommissionField.value, month,
+        this.service.createCases(this.data[0], 'cobrar comision', '0', this.chargeCommissionDescriptionField.value, month,
         management, this.user.username)
         .subscribe(
           (resp: any) => {
@@ -267,7 +267,7 @@ export class GenerarCasosComponent implements OnInit {
         );
       }
       if (this.refundUserField.value) {
-        this.service.createCases(this.data[0], 'reembolsar usuario', '0', this.refundUserField.value, month,
+        this.service.createCases(this.data[0], 'reembolsar usuario', '0', this.refundUserDescriptionField.value, month,
         management, this.user.username)
         .subscribe(
           (resp: any) => {
@@ -281,7 +281,7 @@ export class GenerarCasosComponent implements OnInit {
       }
       if (this.lockUserField.value) {
         // function bloquear usuario
-        this.service.createCases(this.data[0], 'bloquear usuario', '0', this.lockUserField.value, month,
+        this.service.createCases(this.data[0], 'bloquear usuario', '0', this.lockUserDescriptionField.value, month,
         management, this.user.username)
         .subscribe(
           (resp: any) => {
@@ -294,7 +294,7 @@ export class GenerarCasosComponent implements OnInit {
         );
       }
       if (this.reportLocalField.value) {
-        this.service.createCases(this.data[0], 'reportar local', '0', this.reportLocalField.value, month,
+        this.service.createCases(this.data[0], 'reportar local', '0', this.reportLocalDescriptionField.value, month,
         management, this.user.username)
         .subscribe(
           (resp: any) => {
