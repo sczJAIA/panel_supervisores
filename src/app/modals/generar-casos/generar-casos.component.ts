@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -13,6 +14,7 @@ export class GenerarCasosComponent implements OnInit {
   caseForm: FormGroup;
   colorChecked = 'primary';
   user = this.service.getSessionSesion();
+  // user = {username: ''};
 
   constructor(
     public dialogRef: MatDialogRef<GenerarCasosComponent>,
@@ -24,7 +26,7 @@ export class GenerarCasosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.user.username);
+    // console.log(this.user.username);
     this.checkedspickOrderField();
     this.checkedsreturnMoneyField();
     this.checkedslockDriverField();
@@ -206,6 +208,9 @@ export class GenerarCasosComponent implements OnInit {
     return this.caseForm.get('reportLocalDescription');
   }
 
+  close(){
+    this.dialogRef.close('close');
+  }
 
   sendCases(event: Event): void {
     event.preventDefault();
@@ -220,6 +225,7 @@ export class GenerarCasosComponent implements OnInit {
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
             this.caseForm.reset();
+            this.dialogRef.close(true);
           },
           (error: any) => {
             console.log('Ha ocurrido un error', error);
@@ -233,6 +239,7 @@ export class GenerarCasosComponent implements OnInit {
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
             this.caseForm.reset();
+            this.dialogRef.close(true);
           },
           (error: any) => {
             console.log('Ha ocurrido un error', error);
@@ -247,6 +254,7 @@ export class GenerarCasosComponent implements OnInit {
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
             this.caseForm.reset();
+            this.dialogRef.close(true);
           },
           (error: any) => {
             console.log('Ha ocurrido un error', error);
@@ -260,6 +268,7 @@ export class GenerarCasosComponent implements OnInit {
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
             this.caseForm.reset();
+            this.dialogRef.close(true);
           },
           (error: any) => {
             console.log('Ha ocurrido un error', error);
@@ -273,6 +282,7 @@ export class GenerarCasosComponent implements OnInit {
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
             this.caseForm.reset();
+            this.dialogRef.close(true);
           },
           (error: any) => {
             console.log('Ha ocurrido un error', error);
@@ -287,6 +297,7 @@ export class GenerarCasosComponent implements OnInit {
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
             this.caseForm.reset();
+            this.dialogRef.close(true);
           },
           (error: any) => {
             console.log('Ha ocurrido un error', error);
@@ -300,6 +311,7 @@ export class GenerarCasosComponent implements OnInit {
           (resp: any) => {
             console.log('Respuesta exitosa', resp);
             this.caseForm.reset();
+            this.dialogRef.close(true);
           },
           (error: any) => {
             console.log('Ha ocurrido un error', error);

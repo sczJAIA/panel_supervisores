@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -26,6 +26,12 @@ export class PanelService {
       params
     });
   }
+
+  getSuspensionLogDriver(driverId: string, cityId: string) {
+    const url = `https://api-panels.jugnoo.in:8020/get_suspension_logs?driver_id=${driverId}&token=83c61c67c064fab7a8be68ead432c51a&email_id=null&city=${cityId}`;
+    return this.http.get(url);
+  }
+
   getCustomer(userId: string, searchKey = '0', countryCode: string = '+91') {
     try {
       const url = 'https://api-panels.jugnoo.in:7013/schedule-ride-auth/get/user_details?';
@@ -196,8 +202,13 @@ export class PanelService {
     } catch (error) {
       return throwError(error);
     }
-
   }
+
+  getCases(orderId: string){
+    const url = `https://labs.patio.com.bo/api/kardex_functions?id_pedido=${orderId}`;
+    return this.http.get(url);
+  }
+
   unassignDriver(orderId: number) {
     try {
       const url = 'https://dodo.jugnoo.in:8024/unassign_driver';
@@ -469,11 +480,17 @@ export class PanelService {
   public setSession(sesion: any) {
     localStorage.setItem('sesion', JSON.stringify(sesion));
   }
+
   public getSessionUser() {
     return localStorage.getItem('usuario');
   }
 
   public getSessionSesion() {
     return JSON.parse(localStorage.getItem('sesion'));
+  }
+
+  getDriversBusys(cityId: string) {
+    const url = `https://api-panels.jugnoo.in:8020/get_driver_details?token=83c61c67c064fab7a8be68ead432c51a&city_id=${cityId}&status=1&delivery_enabled=1&is_delivery_panel=1`;
+    return this.http.get(url);
   }
 }

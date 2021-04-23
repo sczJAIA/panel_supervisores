@@ -14,6 +14,7 @@ export class SearchUserComponent implements OnInit {
   searchForm: FormGroup;
   customer: any = {};
   driver: any = {};
+  reason :any[] = [];
   @BlockUI() blockUI: NgBlockUI;
 
 
@@ -57,7 +58,8 @@ export class SearchUserComponent implements OnInit {
   search(event: Event) {
     event.preventDefault();
     this.blockUI.start('Buscando...');
-    if (this.searchForm.valid) {      
+    if (this.searchForm.valid) {
+      this.reason = [];
       this.customer = {};
       this.driver = {};
       if (this.userField.value === 'cliente') {
@@ -98,10 +100,20 @@ export class SearchUserComponent implements OnInit {
         if (numero.includes('+591')) {
           this.service.getDriver(this.phoneField.value, '2').subscribe(
             ( resp: any ) => {
-              this.blockUI.stop();
-              this.toast.success('Usuario encontrado!');
               this.driver = resp;
               console.log(resp);
+              this.service.getSuspensionLogDriver(this.driver['Driver Id'], this.driver['City']).subscribe(
+                (resp2: any) => {
+                  this.reason = resp2.data;
+                  this.blockUI.stop();
+                  this.toast.success('Usuario encontrado!');
+                },
+                ( error: any ) => {
+                  this.blockUI.stop();
+                  this.toast.error('Ocurrio un error al buscar!!!');
+                  console.log(error);
+                }
+              );
             },
             ( error: any ) => {
               this.blockUI.stop();
@@ -113,10 +125,20 @@ export class SearchUserComponent implements OnInit {
           const numero2 = '+591' + this.phoneField.value;
           this.service.getDriver(numero2, '2').subscribe(
             ( resp: any ) => {
-              this.blockUI.stop();
-              this.toast.success('Usuario encontrado!');
               this.driver = resp;
               console.log(resp);
+              this.service.getSuspensionLogDriver(this.driver['Driver Id'], this.driver['City']).subscribe(
+                (resp2: any) => {
+                  this.reason = resp2.data;
+                  this.blockUI.stop();
+                  this.toast.success('Usuario encontrado!');
+                },
+                ( error: any ) => {
+                  this.blockUI.stop();
+                  this.toast.error('Ocurrio un error al buscar!!!');
+                  console.log(error);
+                }
+              );
             },
             ( error: any ) => {
               this.blockUI.stop();

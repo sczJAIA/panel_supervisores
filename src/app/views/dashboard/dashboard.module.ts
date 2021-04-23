@@ -20,6 +20,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BlockUIModule } from 'ng-block-ui';
 import { ConfirmacionModule } from '../../modals/confirmacion/confirmacion.module';
+import { CountFilterPipe } from '../../pipes/count-filter.pipe';
 
 
 
@@ -43,6 +44,6 @@ import { ConfirmacionModule } from '../../modals/confirmacion/confirmacion.modul
     BlockUIModule.forRoot(),
     ConfirmacionModule
   ],
-  declarations: [ DashboardComponent, FiltroIdPipe, FilterStatusPipe, FilterMerchantPipe, FilterPhoneCustomerPipe ]
+  declarations: [ DashboardComponent, FiltroIdPipe, FilterStatusPipe, CountFilterPipe, FilterMerchantPipe, FilterPhoneCustomerPipe ]
 })
 export class DashboardModule { }

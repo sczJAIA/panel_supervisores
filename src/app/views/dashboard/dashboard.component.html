@@ -63,7 +63,7 @@
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
             </div> -->
-            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].accepted : 0}} </div>
+            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].accepted : 0 }} </div>
             <div>PEDIDOS ACEPTADOS</div>
           </div>
           <!-- <div class="chart-wrapper mt-3" style="height:70px;">
@@ -136,59 +136,51 @@
             <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].dispatch : 0 }} </div>
             <div>ENTREGA EN PROGRESO</div>
           </div>
-          <!-- <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-            <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
-              [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
-              [chartType]="barChart1Type"></canvas>
-          </div> -->
         </div>
       </div>
       <div class="col-sm-6 col-lg-2">
         <div class="card text-white bg-success">
           <div class="card-body pb-0">
-            <!-- <div class="btn-group float-right" dropdown>
-              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-                <i class="icon-settings"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </div> -->
             <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].delivered : 0 }} </div>
             <div>PEDIDOS ENVIADOS</div>
           </div>
-          <!-- <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-            <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
-              [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
-              [chartType]="barChart1Type"></canvas>
-          </div> -->
         </div>
       </div>
       <div class="col-sm-6 col-lg-2">
         <div class="card text-white bg-danger">
           <div class="card-body pb-0">
-            <!-- <div class="btn-group float-right" dropdown>
-              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-                <i class="icon-settings"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </div> -->
             <div class="text-value"> {{ fulFillment }} % </div>
             <div>FUL FILLMENT</div>
           </div>
-          <!-- <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-            <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
-              [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
-              [chartType]="barChart1Type"></canvas>
-          </div> -->
         </div>
       </div>
+      <div class="col-sm-6 col-lg-2">
+        <div class="card text-white bg-danger">
+          <div class="card-body pb-0">
+            <div class="text-value"> {{ driverBusysCount }} </div>
+            <div>MOTOS OCUPADAS</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <div class="card text-white" [ngClass]="{ 'bg-red': alertOperation(), 'bg-green': !alertOperation() }">
+          <div class="row">
+            <div class="card-body pb-0">
+              <div class="text-value"> {{ (driverBusysCount * 1.8).toFixed(0) }} </div>
+              <div>CAPACIDAD DE ENTREGA</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="card-body pb-0">
+              <div class="text-value"> {{ (deliveryList.length > 0 ? deliveryList2['stats'].dispatch : 0) +
+                (deliveryList.length > 0 ? deliveryList2['stats'].accepted : 0) }} </div>
+              <div>PEDIDOS REALES</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3 px-3">
       <div class=" mb-3 col-sm-12 col-md-6 col-lg-3">
         <div class="form-group">
           <label class="form-label">Ciudad:</label>
@@ -211,8 +203,6 @@
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
       </div>
-    </div>
-    <div class="row mb-3 px-3">
     </div>
     <div class="row px-3">
       <div class=" mb-3 col-sm-12 col-md-6 col-lg-2">
@@ -252,7 +242,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <h5 class="h5"> Total de pedidos: {{ deliveryList.length }} </h5>
+        <h5 class="h5"> Total de pedidos: {{ deliveryList |countFilter: filterStatus }} </h5>
       </div>
     </div>
     <div class="row">
@@ -270,8 +260,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr [ngClass]="{ 'bg-red': horaPasada(order[7], order[9], order[13].status) }"
-              *ngFor="let order of deliveryList | filterPhoneCustomer: filterPhone | filtroId: filterId |filterStatus: filterStatus |filterMerchant: filterMerchant  | paginate: { itemsPerPage: 25, currentPage: p }">
+            <tr [ngClass]="{ 'bg-red': horaPasada(order[7], order[9], order[13].status) }" 
+            *ngFor="let order of deliveryList | filterPhoneCustomer: filterPhone | filtroId: filterId | filterStatus: filterStatus
+              |filterMerchant: filterMerchant  | paginate: { itemsPerPage: 25, currentPage: p }">
               <td class="py-0 my-0">
                 {{ order[0] }}
               </td>
@@ -353,7 +344,7 @@
                   *ngIf="order[13].status === 2 || order[13].status === 7 || order[13].status === 3 || order[13].status === 9; else elseStatus">
                   <div class="btn-group-vertical">
                     <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
-                    <!-- <button class="btn btn-outline-info" (click)="getCases(order)">VER CASOS</button> -->
+                    <button class="btn btn-outline-info" (click)="getCases(order[13].order_id)">VER CASOS</button>
                     <button (click)="copyOrder(order)" class="btn btn-outline-primary">COPIAR PEDIDO</button>
                   </div>
                 </ng-container>

@@ -76,6 +76,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/order-detail/order-detail.module').then(m => m.OrderDetailModule)
       },
       {
+        path: 'dashboard/caseDetails/:orderId',
+        loadChildren: () => import('./views/case-details/case-details.module').then(m => m.CaseDetailsModule)
+      },
+      {
         path: 'delivery_list/deliveryList/:orderId',
         loadChildren: () => import('./views/order-detail-letter/order-detail-letter.module').then(m => m.OrderDetailLetterModule),
       },

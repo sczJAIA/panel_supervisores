@@ -423,13 +423,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   login = false;
   user = '';
+  driverBusysCount = 0;
 
   constructor(
     private service: PanelService,
     private toast: ToastrService,
     public dialog: MatDialog,
     private router: Router
-  ) { }
+  ) {
+    this.toast.toastrConfig.closeButton = true;
+   }
 
   get startDateField() {
     return this.range.get('start');
@@ -498,10 +501,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
+  getDriversBusysList(cityId: string) {
+    this.service.getDriversBusys(cityId).subscribe(
+      (resp: any) => {
+        this.driverBusysCount = resp.data.length;
+      },
+      (error: any) => {
+        this.toast.error('Ocurrio un error al obtener la cantidad de motos ocupadas');
+      }
+    );
+  }
+
   getOrderList(cityId: string, startDate: string, endDate: string): void {
     if (endDate !== null) {
       // this.blockUI.start();
       this.citySelected = cityId;
+      this.deliveryList2 = [];
+      this.getDriversBusysList(this.citySelected);
+      this.alertOperation();
       const startDate2 = moment(startDate).format('YYYY-MM-DD');
       const endDate2 = moment(endDate).format('YYYY-MM-DD');
       const orderListSubscripcion = this.service.getDeliveryList(cityId, startDate2, endDate2);
@@ -510,7 +527,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           // this.toast.success('Se obtuvo la lista correctamente');
           this.deliveryList = await resp['aaData'].reverse();
           this.deliveryList2 = await resp;
-          console.log('2', this.deliveryList2['stats'].accepted);
           const fulfillment = (
             (this.deliveryList2['stats'].delivered + this.deliveryList2['stats'].accepted + this.deliveryList2['stats'].dispatch)
             / (this.deliveryList2['stats'].total) * 100).toFixed(2);
@@ -525,9 +541,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
   openDialogCustomer(userId: string): void {
+    this.blockUI.start();
     const getCustomerSubscripcion = this.service.getCustomer(userId, '0');
     this.customerSubscripcion = getCustomerSubscripcion.subscribe(
       async (resp: any) => {
+        this.blockUI.stop();
         const dialogRef = await this.dialog.open(DetalleModalComponent, {
           disableClose: false,
           data: {
@@ -539,18 +557,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
       },
       (error: any) => {
+        this.blockUI.stop();
         this.toast.error('Ha ocurrido un error al intentar ver al cliente');
       }
     );
   }
   openDialogDriver(indexOrderList: string): void {
     if (indexOrderList !== '-') {
+      this.blockUI.start();
       const convertString = indexOrderList.replaceAll('<br/>', ' ');
       const arrayString = convertString.split(' ');
       const driverId = arrayString[0];
       const getCustomerSubscripcion = this.service.getDriver(driverId, '0');
       this.customerSubscripcion = getCustomerSubscripcion.subscribe(
         async (resp: any) => {
+          this.blockUI.stop();
           const dialogRef = await this.dialog.open(DetalleModalComponent, {
             disableClose: false,
             data: {
@@ -562,15 +583,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
           });
         },
         (error: any) => {
+          this.blockUI.stop();
           this.toast.error('Ha ocurrido un error al intentar ver al conductor');
         }
       );
     }
   }
   openDialogCommerce(restaurantId: string): void {
+    this.blockUI.start();
     const getCommerceSubscripcion = this.service.getCommerce(restaurantId);
     this.restaurantSubscripcion = getCommerceSubscripcion.subscribe(
       async (resp: any) => {
+        this.blockUI.stop();
         const dialogRef = await this.dialog.open(DetalleModalComponent, {
           disableClose: false,
           data: {
@@ -582,6 +606,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
       },
       (error: any) => {
+        this.blockUI.stop();
         this.toast.error('Ha ocurrido un error al intentar obtener el comercio');
       }
     );
@@ -590,13 +615,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.router.navigate(['dashboard/orderDetails', orderId, restaurantId]);
   }
   createCase(order: any) {
-    this.dialog.open(GenerarCasosComponent, {
-      disableClose: false,
+    const dialogRef = this.dialog.open(GenerarCasosComponent, {
+      disableClose: true,
       data: order,
       minWidth: '80vh',
       width: '50%',
       maxHeight: '90vh'
     });
+
+    dialogRef.afterClosed().subscribe(
+      (resp) => {
+        if (resp === 'close') {
+          this.toast.info('Cerrado');
+        } else if (resp) {
+          this.toast.success('Se ha creado el caso correctamente!');
+        } else {
+          this.toast.error('No se pudo guardar!');
+        }
+      }
+    );
   }
 
   cancelOrder(order: any) {
@@ -808,7 +845,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       data: 'Desea copiar el pedido?',
       minWidth: '80vh',
       width: '25%',
-      maxHeight: '90vh'
+      maxHeight: '90vh',
     });
 
     dialogRef.afterClosed().subscribe(
@@ -879,8 +916,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  getCases(order: any) {
-    this.toast.info(order[13].order_id);
+  getCases(orderId: string) {
+    this.router.navigate(['dashboard/caseDetails', orderId]);
   }
   acceptOrder(orderId: string, restaurantId: string, userId: string): void {
     this.blockUI.start('Aceptando pedido...');
@@ -990,5 +1027,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       });
     return found;
+  }
+
+  alertOperation() {
+    const capacityDelivery = this.driverBusysCount * 1.8;
+    const realOrders = this.deliveryList2['stats']?.dispatch + this.deliveryList2['stats']?.accepted;
+    if (realOrders > capacityDelivery) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
