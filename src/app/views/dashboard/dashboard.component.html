@@ -14,7 +14,7 @@
             <!-- <button type="button" class="btn btn-transparent p-0 float-right">
               <i class="icon-location-pin"></i>
             </button> -->
-            <div class="text-value">{{ deliveryList.length > 0 ? deliveryList2['stats'].total : 0 }}</div>
+            <div class="text-value">{{ deliveryList.length > 0 ? deliveryList2['stats']?.total : 0 }}</div>
             <div>TOTAL DE PEDIDOS</div>
           </div>
           <!-- <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -39,7 +39,7 @@
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
             </div> -->
-            <div class="text-value">{{ deliveryList.length > 0 ? deliveryList2['stats'].new : 0 }}</div>
+            <div class="text-value">{{ deliveryList.length > 0 ? deliveryList2['stats']?.new : 0 }}</div>
             <div>PEDIDOS NUEVOS</div>
           </div>
           <!-- <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -63,7 +63,7 @@
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
             </div> -->
-            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].accepted : 0 }} </div>
+            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats']?.accepted : 0 }} </div>
             <div>PEDIDOS ACEPTADOS</div>
           </div>
           <!-- <div class="chart-wrapper mt-3" style="height:70px;">
@@ -87,7 +87,7 @@
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
             </div> -->
-            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].rejected : 0 }} </div>
+            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats']?.rejected : 0 }} </div>
             <div>PEDIDOS RECHAZADOS</div>
           </div>
           <!-- <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -110,7 +110,7 @@
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
             </div> -->
-            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].cancelled : 0 }} </div>
+            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats']?.cancelled : 0 }} </div>
             <div>PEDIDOS CANCELADOS</div>
           </div>
           <!-- <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -133,7 +133,7 @@
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
             </div> -->
-            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].dispatch : 0 }} </div>
+            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats']?.dispatch : 0 }} </div>
             <div>ENTREGA EN PROGRESO</div>
           </div>
         </div>
@@ -141,7 +141,7 @@
       <div class="col-sm-6 col-lg-2">
         <div class="card text-white bg-success">
           <div class="card-body pb-0">
-            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats'].delivered : 0 }} </div>
+            <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats']?.delivered : 0 }} </div>
             <div>PEDIDOS ENVIADOS</div>
           </div>
         </div>
@@ -261,7 +261,7 @@
           </thead>
           <tbody>
             <tr [ngClass]="{ 'bg-red': horaPasada(order[7], order[9], order[13].status) }" 
-            *ngFor="let order of deliveryList | filterPhoneCustomer: filterPhone | filtroId: filterId | filterStatus: filterStatus
+            *ngFor="let order of deliveryList |sortPrice | filterPhoneCustomer: filterPhone | filtroId: filterId | filterStatus: filterStatus
               |filterMerchant: filterMerchant  | paginate: { itemsPerPage: 25, currentPage: p }">
               <td class="py-0 my-0">
                 {{ order[0] }}
@@ -289,16 +289,12 @@
                 <button *ngIf="order[9] !== '-'" (click)="openDialogDriver(order[9])" class="btn btn-primary">Detalle
                   <i class="fa fa-eye"></i>
                 </button>
-                <!-- <button class="btn btn-primary btn-sm">Nota</button> -->
-                <!-- <button class="btn btn-success btn-sm">Mapa</button> -->
               </td>
               <td class="py-0 my-0">
                 <p [innerHTML]="order[2]"></p>
                 <button (click)="openDialogCommerce(order[13].restaurant_id)" class="btn btn-primary">Detalle
                   <i class="fa fa-eye"></i>
                 </button>
-                <!-- <button class="btn btn-primary btn-sm">Nota</button> -->
-                <!-- <button class="btn btn-success btn-sm">Mapa</button> -->
               </td>
               <td class="py-0 my-0">
                 <ng-container [ngSwitch]="order[13].status">
@@ -349,12 +345,11 @@
                   </div>
                 </ng-container>
                 <ng-template #elseStatus>
-                  <div class="btn-group-vertical">
-                    <button (click)="assignDriver(order, order[4])" *ngIf="order[13].status === 8"
-                      class="btn btn-success">ASIGNAR MOTO</button>
-                    <!-- <button class="btn btn-warning">Forzar Asignacion</button>
-                  <button class="btn btn-success">Forzar Entrega</button> -->
-                    <button (click)="cancelOrder(order)" *ngIf="order[13].status === 8" class="btn btn-danger">CANCELAR
+                  <div class="btn-group-vertical" *ngIf="order[13].status === 8">
+                    <button (click)="assignDriver(order, order[4])" class="btn btn-success">ASIGNAR MOTO</button>
+                    <button (click)="forceOrderCompleteV(order[13].order_id, order[13].restaurant_id, order[9])"
+                      class="btn btn-info">Forzar Entrega</button>
+                    <button (click)="cancelOrder(order)" class="btn btn-danger">CANCELAR
                       PEDIDO</button>
                   </div>
                 </ng-template>

@@ -21,6 +21,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { BlockUIModule } from 'ng-block-ui';
 import { ConfirmacionModule } from '../../modals/confirmacion/confirmacion.module';
 import { CountFilterPipe } from '../../pipes/count-filter.pipe';
+import { SortPricePipe } from '../../pipes/sort-price.pipe';
 
 
 
@@ -44,6 +45,6 @@ import { CountFilterPipe } from '../../pipes/count-filter.pipe';
     BlockUIModule.forRoot(),
     ConfirmacionModule
   ],
-  declarations: [ DashboardComponent, FiltroIdPipe, FilterStatusPipe, CountFilterPipe, FilterMerchantPipe, FilterPhoneCustomerPipe ]
+  declarations: [ DashboardComponent, SortPricePipe, FiltroIdPipe, FilterStatusPipe, CountFilterPipe, FilterMerchantPipe, FilterPhoneCustomerPipe ]
 })
 export class DashboardModule { }

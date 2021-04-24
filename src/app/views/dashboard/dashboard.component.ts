@@ -801,6 +801,63 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
+  forceOrderCompleteV(orderId: string, restaurantId: string, driver: string) {
+    const dialogRef = this.dialog.open(ConfirmacionComponent, {
+      disableClose: true,
+      data: 'Desea forzar la entrega del pedido?',
+      minWidth: '80vh',
+      width: '25%',
+      maxHeight: '90vh',
+    });
+    let index = driver.indexOf('<br/>');
+    let driverId = driver.slice(0, index);
+    dialogRef.afterClosed().subscribe(
+      (resp) => {
+        this.blockUI.start('Espere por favor');
+        if (resp) {
+          this.service.getOrderDetail(orderId, restaurantId).subscribe(
+            (resp2: any) => {
+              if (resp2.order_info[0].driver_name === '') {
+                this.toast.error('Este pedido no tiene moto!', 'No se pudo forzar la entrega!');
+              } else {
+                this.service.getDriver(driverId, '0').subscribe(
+                  (resp3: any) => {
+                    this.service.forceOrderComplete(parseInt(orderId), resp2.order_info[0].driver_name, resp3['Phone No']).subscribe(
+                      (resp4: any) => {
+                        if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
+                          this.blockUI.stop();
+                          this.toast.success('Se ha forzado exitosamente!');
+                        } else {
+                          this.blockUI.stop();
+                          this.toast.error('Ha ocurrido un error al forzar la entrega!');
+                        }
+                      },
+                      (error: any) => {
+                        this.blockUI.stop();
+                        this.toast.error('Ha ocurrido un error al forzar la entrega!');
+                      }
+                    );
+                  },
+                  (error: any) => {
+                    this.blockUI.stop();
+                    this.toast.error('Ha ocurrido un error al forzar la entrega!');
+                  }
+                );
+              }
+            },
+            (error: any) => {
+              this.toast.error('Ha ocurrido un error al forzar la entrega!');
+              this.blockUI.stop();
+            }
+          );
+        } else {
+          this.blockUI.stop();
+          this.toast.info('Ventana cerrada!');
+        }
+      }
+    );
+  }
+
   assignDriver(order: any, cityId: number) {
     this.blockUI.start('Espere un momento por favor...');
     let hasDriver = true;
