@@ -14,6 +14,7 @@ import { AsignarMotoComponent } from '../../modals/asignar-moto/asignar-moto.com
 import { FormControl, FormGroup } from '@angular/forms';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ConfirmacionComponent } from '../../modals/confirmacion/confirmacion.component';
+import { RechazarDescripcionComponent } from '../../modals/rechazar-descripcion/rechazar-descripcion.component';
 
 
 
@@ -22,6 +23,7 @@ import { ConfirmacionComponent } from '../../modals/confirmacion/confirmacion.co
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
+  cantidadPedidos = '10';
   radioModel: string = 'Month';
   deliveryList: any[] = [];
   deliveryList2: any[] = [];
@@ -432,7 +434,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.toast.toastrConfig.closeButton = true;
-   }
+  }
 
   get startDateField() {
     return this.range.get('start');
@@ -454,7 +456,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         console.log(this.service.getSessionSesion());
         const userSession = this.service.getSessionSesion();
         this.user = userSession.username;
-        if (this.login === false) {
+        if (this.login === false) { // cambiar a false para que funcione en produccion
           window.location.href = 'https://labs.patio.com.bo/?salir=1';
         }
       },
@@ -991,25 +993,36 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
   rejectedOrder(orderId: any, restaurantId: string, userId: string): void {
-
-    const dialogRef = this.dialog.open(ConfirmacionComponent, {
+    this.blockUI.start('...');
+    const month = moment().format('MM');
+    const management = moment().format('YYYY');
+    const dialogRef = this.dialog.open(RechazarDescripcionComponent, {
       disableClose: false,
-      data: 'Desea rechazar el pedido?',
+      data: { pregunta: 'Desea rechazar el pedido?', form: '', flag: false },
       minWidth: '80vh',
       width: '25%',
       maxHeight: '90vh'
     });
+    dialogRef.afterOpened().subscribe(
+      (resp: any) => {
+        this.blockUI.stop();
+      }
+    );
 
     dialogRef.afterClosed().subscribe(
-      (resp2: any) => {
-        if (resp2) {
+      (resp2: { form: string, flag: boolean }) => {
+        if (resp2.flag) {
           this.blockUI.start('Rechazando el pedido...');
           this.service.rejectOrder(orderId, restaurantId, userId).subscribe(
             (resp: any) => {
               this.blockUI.stop();
               if (resp.message === 'Your order has been cancelled.') {
-                this.toast.success('Pedido rechazado exitosamente!');
-                this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
+                this.service.createCases(orderId, 'RECHAZAR PEDIDO POR CENTRAL' + this.userSession.username, '0', resp2.form, month, management, this.userSession.username).subscribe(
+                  (resp: any) => {
+                    this.toast.success('Pedido rechazado exitosamente!');
+                    this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
+                  }
+                );
               }
             },
             (error: any) => {

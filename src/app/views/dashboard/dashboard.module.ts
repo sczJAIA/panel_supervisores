@@ -22,6 +22,7 @@ import { BlockUIModule } from 'ng-block-ui';
 import { ConfirmacionModule } from '../../modals/confirmacion/confirmacion.module';
 import { CountFilterPipe } from '../../pipes/count-filter.pipe';
 import { SortPricePipe } from '../../pipes/sort-price.pipe';
+import { RechazarDescripcionModule } from '../../modals/rechazar-descripcion/rechazar-descripcion.module';
 
 
 
@@ -43,7 +44,9 @@ import { SortPricePipe } from '../../pipes/sort-price.pipe';
     MatNativeDateModule,
     MatFormFieldModule,
     BlockUIModule.forRoot(),
-    ConfirmacionModule
+    ConfirmacionModule,
+    RechazarDescripcionModule
+
   ],
   declarations: [ DashboardComponent, SortPricePipe, FiltroIdPipe, FilterStatusPipe, CountFilterPipe, FilterMerchantPipe, FilterPhoneCustomerPipe ]
 })

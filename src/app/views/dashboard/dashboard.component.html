@@ -172,8 +172,8 @@
           </div>
           <div class="row">
             <div class="card-body pb-0">
-              <div class="text-value"> {{ (deliveryList.length > 0 ? deliveryList2['stats'].dispatch : 0) +
-                (deliveryList.length > 0 ? deliveryList2['stats'].accepted : 0) }} </div>
+              <div class="text-value"> {{ (deliveryList?.length > 0 ? deliveryList2['stats']?.dispatch : 0) +
+                (deliveryList?.length > 0 ? deliveryList2['stats']?.accepted : 0) }} </div>
               <div>PEDIDOS REALES</div>
             </div>
           </div>
@@ -247,22 +247,38 @@
     </div>
     <div class="row">
       <div class="col">
+        <div class="form-group-inline">
+          <label>Seleccionar cantidad de pedidos: </label>
+          <select [(ngModel)]="cantidadPedidos" class="form-select form-select-sm">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
         <table class="table table-responsive table-striped">
           <thead class="thead-dark">
             <tr>
+              <th>#</th>
               <th>Id</th>
-              <th>Pedido</th>
-              <th>Cliente</th>
-              <th>Conductor</th>
-              <th>Local</th>
-              <th>Estado</th>
+              <th [ngStyle]="{ 'width': '200px' }">Pedido</th>
+              <th [ngStyle]="{ 'width': '150px' }">Cliente</th>
+              <th [ngStyle]="{ 'width': '150px' }">Conductor</th>
+              <th [ngStyle]="{ 'width': '150px' }">Local</th>
+              <th [ngStyle]="{ 'width': '200px' }">Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
+            <!-- |sortPrice -->
             <tr [ngClass]="{ 'bg-red': horaPasada(order[7], order[9], order[13].status) }" 
-            *ngFor="let order of deliveryList |sortPrice | filterPhoneCustomer: filterPhone | filtroId: filterId | filterStatus: filterStatus
-              |filterMerchant: filterMerchant  | paginate: { itemsPerPage: 25, currentPage: p }">
+            *ngFor="let order of deliveryList | filterPhoneCustomer: filterPhone | filtroId: filterId | filterStatus: filterStatus
+              |filterMerchant: filterMerchant | paginate: { itemsPerPage: cantidadPedidos, currentPage: p }; let i = index">
+              <td> {{ i + 1  }} </td>
               <td class="py-0 my-0">
                 {{ order[0] }}
               </td>
@@ -320,10 +336,10 @@
                     <span class="badge badge-primary">ACEPTADO</span>
                   </p>
                   <p> <strong>Fecha de orden:</strong>
-                    <span [innerHTML]="order[7]"></span>
+                    <br> <span [innerHTML]="order[7]"></span>
                   </p>
                   <p> <strong>Entregado en: </strong>
-                    <span [innerHTML]="order[8]"></span>
+                    <br> <span [innerHTML]="order[8]"></span>
                   </p>
                 </ng-container>
               </td>
