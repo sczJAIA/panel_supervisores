@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { SearchUserComponent } from './search-user.component';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 import { BlockUIModule } from 'ng-block-ui';
+import { SearchUserComponent } from './search-user.component';
+
 
 const routes: Routes = [
   {

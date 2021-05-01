@@ -24,12 +24,13 @@ export class SearchUserComponent implements OnInit {
     private toast: ToastrService
   ) {
     this.formBuilder();
+    this.userField.setValue('cliente');
   }
 
   ngOnInit(): void {
     const sesionJson = this.service.getSessionSesion();
     console.log(sesionJson);
-    if ( sesionJson === null) {
+    if ( sesionJson === false) { // null
       window.location.href = 'https://labs.patio.com.bo/?salir=1';
     }
   }
@@ -37,7 +38,8 @@ export class SearchUserComponent implements OnInit {
   formBuilder() {
     this.searchForm = this.fbuilder.group({
       user: ['', [Validators.required]],
-      phone: ['', [Validators.required]]
+      phone: ['', [Validators.required]],
+      id: ['', [Validators.required]]
     });
 
     this.searchForm.valueChanges.subscribe(
@@ -53,6 +55,10 @@ export class SearchUserComponent implements OnInit {
 
   get phoneField() {
     return this.searchForm.get('phone');
+  }
+
+  get idField() {
+    return this.searchForm.get('id');
   }
 
   search(event: Event) {
@@ -150,7 +156,7 @@ export class SearchUserComponent implements OnInit {
       }
     } else {
       this.blockUI.stop();
-      this.toast.error('Ocurrio un error al buscar!!!');
+      this.toast.error('Datos invalidos!!!');
       this.searchForm.markAllAsTouched();
     }
   }

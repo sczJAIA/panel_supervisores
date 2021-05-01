@@ -184,10 +184,11 @@
       <div class=" mb-3 col-sm-12 col-md-6 col-lg-3">
         <div class="form-group">
           <label class="form-label">Ciudad:</label>
-          <select class="form-control" #citySelected
-            (change)="getOrderList($event.target['value'], this.startDateField.value, this.endDateField.value)">
-            <option [value]="city.city_id" [selected]="i === 9" *ngFor="let city of cityList; let i = index"> {{
-              city.city_name }} </option>
+          <select class="form-control"
+            (change)="setCiudad($event)">
+            <option [value]="city.city_id" [selected]="i === selectedIndexCity" *ngFor="let city of cityList; let i = index">
+              {{ city.city_name }} 
+            </option>
           </select>
         </div>
       </div>
@@ -196,7 +197,7 @@
           <mat-label>FECHA</mat-label>
           <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
             <input matStartDate formControlName="start" placeholder="Start date">
-            <input matEndDate (dateChange)="getOrderList(citySelected.value, startDateField.value, endDateField.value)"
+            <input matEndDate (dateChange)="setEndDate($event)"
               formControlName="end" placeholder="End date">
           </mat-date-range-input>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -210,6 +211,13 @@
           <label id="filterPhone" class="form-label">Telefono Cliente:</label>
           <input name="filterPhone" [(ngModel)]="filterPhone" class="form-control" type="text"
             placeholder="+59171234567">
+        </div>
+      </div>
+      <div class=" mb-3 col-sm-12 col-md-6 col-lg-2">
+        <div class="form-group">
+          <label id="filterPhone" class="form-label">Driver Id:</label>
+          <input name="filterPhone" [(ngModel)]="filterDriverId" class="form-control" type="text"
+            placeholder="Id del conductor">
         </div>
       </div>
       <div class="col-lg-2 col-sm-12 col-md-4">
@@ -270,13 +278,14 @@
               <th [ngStyle]="{ 'width': '150px' }">Conductor</th>
               <th [ngStyle]="{ 'width': '150px' }">Local</th>
               <th [ngStyle]="{ 'width': '200px' }">Estado</th>
+              <th [ngStyle]="{ 'width': '100px' }">Extra</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             <!-- |sortPrice -->
             <tr [ngClass]="{ 'bg-red': horaPasada(order[7], order[9], order[13].status) }" 
-            *ngFor="let order of deliveryList | filterPhoneCustomer: filterPhone | filtroId: filterId | filterStatus: filterStatus
+            *ngFor="let order of deliveryList |driverId: filterDriverId  | filterPhoneCustomer: filterPhone | filtroId: filterId | filterStatus: filterStatus
               |filterMerchant: filterMerchant | paginate: { itemsPerPage: cantidadPedidos, currentPage: p }; let i = index">
               <td> {{ i + 1  }} </td>
               <td class="py-0 my-0">
@@ -289,8 +298,9 @@
                   <span [innerHTML]="order[6]">
                   </span>
                 </strong> <br>
-                <button (click)="showOrderDetail(order[13].order_id, order[13].restaurant_id)"
-                  class="btn btn-primary">Detalle <i class="fa fa-eye"></i></button>
+                <a target="_blank" [routerLink]="['orderDetails/'+ order[13].order_id + '/' + order[13].restaurant_id]" class="btn btn-primary">
+                  Detalle <i class="fa fa-eye"></i>
+                </a>
               </td>
               <td class="py-0 my-0">
                 <p [innerHTML]="order[1]"></p>
@@ -342,6 +352,9 @@
                     <br> <span [innerHTML]="order[8]"></span>
                   </p>
                 </ng-container>
+              </td>
+              <td>
+                <p [innerHTML]="order[10]"></p>
               </td>
               <td class="py-0 my-0">
                 <ng-container [ngSwitch]="order[13].status">

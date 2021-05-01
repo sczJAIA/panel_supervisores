@@ -23,6 +23,7 @@ import { ConfirmacionModule } from '../../modals/confirmacion/confirmacion.modul
 import { CountFilterPipe } from '../../pipes/count-filter.pipe';
 import { SortPricePipe } from '../../pipes/sort-price.pipe';
 import { RechazarDescripcionModule } from '../../modals/rechazar-descripcion/rechazar-descripcion.module';
+import { DriverIdPipe } from '../../pipes/driver-id.pipe';
 
 
 
@@ -46,8 +47,7 @@ import { RechazarDescripcionModule } from '../../modals/rechazar-descripcion/rec
     BlockUIModule.forRoot(),
     ConfirmacionModule,
     RechazarDescripcionModule
-
   ],
-  declarations: [ DashboardComponent, SortPricePipe, FiltroIdPipe, FilterStatusPipe, CountFilterPipe, FilterMerchantPipe, FilterPhoneCustomerPipe ]
+  declarations: [ DashboardComponent, SortPricePipe, DriverIdPipe, FiltroIdPipe, FilterStatusPipe, CountFilterPipe, FilterMerchantPipe, FilterPhoneCustomerPipe ]
 })
 export class DashboardModule { }

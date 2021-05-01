@@ -15,6 +15,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ConfirmacionComponent } from '../../modals/confirmacion/confirmacion.component';
 import { RechazarDescripcionComponent } from '../../modals/rechazar-descripcion/rechazar-descripcion.component';
+import { FiltrosLocalStorageService } from '../../services/filtros-local-storage.service';
 
 
 
@@ -43,6 +44,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   previousLabel = 'Anterior';
   filterId = '';
   filterPhone = '';
+  filterDriverId = '';
   filterStatus = 'todos';
   filterMerchant = '';
   @BlockUI() blockUI: NgBlockUI;
@@ -426,9 +428,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   login = false;
   user = '';
   driverBusysCount = 0;
+  selectedIndexCity: number = 9;
 
   constructor(
     private service: PanelService,
+    private localSService: FiltrosLocalStorageService,
     private toast: ToastrService,
     public dialog: MatDialog,
     private router: Router
@@ -442,6 +446,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   get endDateField() {
     return this.range.get('end');
+  }
+
+  setCiudad(event: any) {
+    const ciudad = event.target['value'];
+    this.selectedIndexCity = event.target.selectedIndex;
+    this.localSService.setCity(ciudad, this.selectedIndexCity.toString());
+    const json = this.localSService.getCity();
+    this.citySelected = json.citySelected;
+    this.selectedIndexCity = parseInt(json.index ,10);
+    this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
+  }
+
+  setEndDate(event: any) {
+    console.log(this.endDateField.value);
+    this.localSService.setDate(this.startDateField.value, this.endDateField.value);
+    this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
   }
 
   async ngOnInit() {
@@ -465,6 +485,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     );
     this.getCityList();
+    if (this.localSService.getCity()) {
+      const json = this.localSService.getCity();
+      this.selectedIndexCity = parseInt(json.index, 10);
+      this.citySelected = json.citySelected;
+    }
+    if (this.localSService.getDate()) {
+      const json = this.localSService.getDate();
+      console.log(this.startDateField.value);
+      console.log(this.endDateField.value);
+      this.startDateField.patchValue(json.startDate);
+      this.endDateField.patchValue(json.endDate);
+      console.log(this.startDateField.value);
+      console.log(this.endDateField.value);
+    }
     this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
     const contador = interval(35000);
     contador.subscribe(
