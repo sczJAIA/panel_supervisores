@@ -8,19 +8,22 @@
                         <div class="mt-4 form-check form-check-inline">
                             <input formControlName="user" value="cliente" name="user" class="form-check-input"
                                 type="radio">
-                            <label class="form-check-label">Cliente </label>
+                            <label class="form-check-label">Cliente</label>
                         </div>
                         <div class="mt-4 form-check form-check-inline">
                             <input formControlName="user" value="conductor" name="user" class="form-check-input"
                                 type="radio">
-                            <label class="form-check-label">Conductor </label>
+                            <label class="form-check-label">Conductor</label>
+                        </div>
+                        <div *ngIf="userField.hasError('required') && userField.touched" class="row">
+                            <p class="text-danger">Debe seleccionar una opcion!</p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <div class="form-group">
                                 <label class="form-label">ID: </label>
-                                <input formControlName="id" type="text" class="form-control">
+                                <input [readOnly]="telf?.value !== ''" #idDriver formControlName="id" type="text" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -28,7 +31,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <div class="form-group">
                                 <label class="form-label">Telefono: </label>
-                                <input formControlName="phone" type="text" class="form-control">
+                                <input [readonly]="idDriver?.value !== ''" #telf formControlName="phone" type="text" class="form-control">
                             </div>
                         </div>
                     </div>

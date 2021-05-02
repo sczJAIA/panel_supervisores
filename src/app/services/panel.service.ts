@@ -32,7 +32,7 @@ export class PanelService {
     return this.http.get(url);
   }
 
-  getCustomer(userId: string, searchKey = '0', countryCode: string = '+91') {
+  getCustomer(userId: string, searchKey = '0', countryCode: string = '+591') {
     try {
       const url = 'https://api-panels.jugnoo.in:7013/schedule-ride-auth/get/user_details?';
       const header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });

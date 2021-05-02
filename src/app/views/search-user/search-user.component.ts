@@ -3,6 +3,7 @@ import { PanelService } from './../../services/panel.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-user',
@@ -14,7 +15,7 @@ export class SearchUserComponent implements OnInit {
   searchForm: FormGroup;
   customer: any = {};
   driver: any = {};
-  reason :any[] = [];
+  reason: any[] = [];
   @BlockUI() blockUI: NgBlockUI;
 
 
@@ -24,13 +25,13 @@ export class SearchUserComponent implements OnInit {
     private toast: ToastrService
   ) {
     this.formBuilder();
-    this.userField.setValue('cliente');
+    // this.userField.setValue('cliente');
   }
 
   ngOnInit(): void {
     const sesionJson = this.service.getSessionSesion();
     console.log(sesionJson);
-    if ( sesionJson === false) { // null
+    if (sesionJson === false) { // null
       window.location.href = 'https://labs.patio.com.bo/?salir=1';
     }
   }
@@ -38,15 +39,9 @@ export class SearchUserComponent implements OnInit {
   formBuilder() {
     this.searchForm = this.fbuilder.group({
       user: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      id: ['', [Validators.required]]
+      phone: ['', []],
+      id: ['', []]
     });
-
-    this.searchForm.valueChanges.subscribe(
-      (value) => {
-        console.log(value);
-      }
-    );
   }
 
   get userField() {
@@ -61,6 +56,22 @@ export class SearchUserComponent implements OnInit {
     return this.searchForm.get('id');
   }
 
+  get phoneFieldInvalid() {
+    return this.phoneField.invalid && this.phoneField.touched;
+  }
+
+  get phoneFieldValid() {
+    return this.phoneField.valid && this.phoneField.touched;
+  }
+
+  get idFieldInvalid() {
+    return this.idField.invalid && this.idField.touched;
+  }
+
+  get idFieldValid() {
+    return this.idField.valid && this.idField.touched;
+  }
+
   search(event: Event) {
     event.preventDefault();
     this.blockUI.start('Buscando...');
@@ -69,89 +80,146 @@ export class SearchUserComponent implements OnInit {
       this.customer = {};
       this.driver = {};
       if (this.userField.value === 'cliente') {
-        const numero = this.phoneField.value;
-        if (numero.includes('+591')) {
-          this.service.getCustomer(this.phoneField.value, '2', '+591').subscribe(
-            ( resp: any ) => {
+
+        if (this.phoneField.value !== '') {
+          const numero = this.phoneField.value;
+          if (numero.includes('+591')) {
+            this.service.getCustomer(this.phoneField.value, '2', '+591').subscribe(
+              (resp: any) => {
+                this.blockUI.stop();
+                this.toast.success('Usuario encontrado!');
+                this.customer = resp;
+                console.log(resp);
+              },
+              (error: any) => {
+                this.blockUI.stop();
+                this.toast.error('Ocurrio un error al buscar!!!');
+                console.log(error);
+              }
+            );
+          } else if (!numero.includes('+591')) {
+            const numero2 = '+591' + this.phoneField.value;
+            this.service.getCustomer(numero2, '2', '+591').subscribe(
+              (resp: any) => {
+                this.blockUI.stop();
+                this.toast.success('Usuario encontrado!');
+                this.customer = resp;
+                console.log(resp);
+              },
+              (error: any) => {
+                this.blockUI.stop();
+                this.toast.error('Ocurrio un error al buscar!!!');
+                console.log(error);
+              }
+            );
+          }
+        } else if (this.idField.value !== '') {
+          const idCliente = this.idField.value;
+          this.service.getCustomer(idCliente).subscribe(
+            (resp: any) => {
               this.blockUI.stop();
-              this.toast.success('Usuario encontrado!');
               this.customer = resp;
-              console.log(resp);
             },
-            ( error: any ) => {
+            (error: any) => {
               this.blockUI.stop();
-              this.toast.error('Ocurrio un error al buscar!!!');
-              console.log(error);
+              this.toast.error('No se encontraron datos!');
             }
           );
-        } else if (!numero.includes('+591')) {
-          const numero2 = '+591' + this.phoneField.value;
-          this.service.getCustomer(numero2, '2', '+591').subscribe(
-            ( resp: any ) => {
-              this.blockUI.stop();
-              this.toast.success('Usuario encontrado!');
-              this.customer = resp;
-              console.log(resp);
-            },
-            ( error: any ) => {
-              this.blockUI.stop();
-              this.toast.error('Ocurrio un error al buscar!!!');
-              console.log(error);
-            }
-          );
+        } else {
+          this.blockUI.stop();
+          this.toast.error('Datos insuficientes para buscar!');
         }
+
       } else if (this.userField.value === 'conductor') {
 
-        const numero = this.phoneField.value;
-        if (numero.includes('+591')) {
-          this.service.getDriver(this.phoneField.value, '2').subscribe(
-            ( resp: any ) => {
+        if (this.phoneField.value !== '') {
+          const numero = this.phoneField.value;
+          if (numero.includes('+591')) {
+            this.service.getDriver(this.phoneField.value, '2').subscribe(
+              (resp: any) => {
+                if (resp?.log === 'Invalid Driver id') {
+                  this.blockUI.stop();
+                  this.toast.error('No se encontro a la moto!');
+                } else {
+                  this.driver = resp;
+                  console.log(resp);
+                  this.service.getSuspensionLogDriver(this.driver['Driver Id'], this.driver['City']).subscribe(
+                    (resp2: any) => {
+                      this.reason = resp2.data;
+                      this.blockUI.stop();
+                      this.toast.success('Usuario encontrado!');
+                    },
+                    (error: any) => {
+                      this.blockUI.stop();
+                      this.toast.error('Ocurrio un error al buscar!!!');
+                      console.log(error);
+                    }
+                  );
+                }
+              },
+              (error: any) => {
+                this.blockUI.stop();
+                this.toast.error('Ocurrio un error al buscar!!!');
+                console.log(error);
+              }
+            );
+          } else if (!numero.includes('+591')) {
+            const numero2 = '+591' + this.phoneField.value;
+            this.service.getDriver(numero2, '2').subscribe(
+              (resp: any) => {
+                if (resp?.log === 'Invalid Driver id') {
+                  this.blockUI.stop();
+                  this.toast.error('No se encontro a la moto!');
+                } else {
+                  this.driver = resp;
+                  console.log(resp);
+                  this.service.getSuspensionLogDriver(this.driver['Driver Id'], this.driver['City']).subscribe(
+                    (resp2: any) => {
+                      this.reason = resp2.data;
+                      this.blockUI.stop();
+                      this.toast.success('Usuario encontrado!');
+                    },
+                    (error: any) => {
+                      this.blockUI.stop();
+                      this.toast.error('Ocurrio un error al buscar!!!');
+                      console.log(error);
+                    }
+                  );
+                }
+              },
+              (error: any) => {
+                this.blockUI.stop();
+                this.toast.error('Ocurrio un error al buscar!!!');
+                console.log(error);
+              }
+            );
+          }
+        } else if (this.idField.value !== '') {
+          const idDriver = this.idField.value;
+          this.service.getDriver(idDriver).subscribe(
+            (resp: any) => {
               this.driver = resp;
-              console.log(resp);
               this.service.getSuspensionLogDriver(this.driver['Driver Id'], this.driver['City']).subscribe(
                 (resp2: any) => {
-                  this.reason = resp2.data;
                   this.blockUI.stop();
+                  this.reason = resp2.data;
                   this.toast.success('Usuario encontrado!');
                 },
-                ( error: any ) => {
+                (error: any) => {
                   this.blockUI.stop();
                   this.toast.error('Ocurrio un error al buscar!!!');
                   console.log(error);
                 }
               );
             },
-            ( error: any ) => {
+            (error: any) => {
               this.blockUI.stop();
-              this.toast.error('Ocurrio un error al buscar!!!');
-              console.log(error);
+              this.toast.error('No se encontro al conductor');
             }
           );
-        } else if (!numero.includes('+591')) {
-          const numero2 = '+591' + this.phoneField.value;
-          this.service.getDriver(numero2, '2').subscribe(
-            ( resp: any ) => {
-              this.driver = resp;
-              console.log(resp);
-              this.service.getSuspensionLogDriver(this.driver['Driver Id'], this.driver['City']).subscribe(
-                (resp2: any) => {
-                  this.reason = resp2.data;
-                  this.blockUI.stop();
-                  this.toast.success('Usuario encontrado!');
-                },
-                ( error: any ) => {
-                  this.blockUI.stop();
-                  this.toast.error('Ocurrio un error al buscar!!!');
-                  console.log(error);
-                }
-              );
-            },
-            ( error: any ) => {
-              this.blockUI.stop();
-              this.toast.error('Ocurrio un error al buscar!!!');
-              console.log(error);
-            }
-          );
+        } else {
+          this.blockUI.stop();
+          this.toast.error('Datos insuficientes para buscar!');
         }
       }
     } else {
