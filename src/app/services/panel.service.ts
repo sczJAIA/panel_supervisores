@@ -32,6 +32,30 @@ export class PanelService {
     return this.http.get(url);
   }
 
+  autoAssign(orderId: string) {
+    try {
+      const url = 'https://dodo.jugnoo.in:8024/assign_driver';
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const json = JSON.stringify({
+        user_id: null,
+        order_id: orderId,
+        locale: 'en',
+        access_token: '83c61c67c064fab7a8be68ead432c51a'
+      });
+      this.http.post(url, json, { headers }).pipe(
+        map(
+          (resp) => {
+            return resp;
+          }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );;
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
   getCustomer(userId: string, searchKey = '0', countryCode: string = '+591') {
     try {
       const url = 'https://api-panels.jugnoo.in:7013/schedule-ride-auth/get/user_details?';
@@ -204,7 +228,7 @@ export class PanelService {
     }
   }
 
-  getCases(orderId: string){
+  getCases(orderId: string) {
     const url = `https://labs.patio.com.bo/api/kardex_functions?id_pedido=${orderId}`;
     return this.http.get(url);
   }
@@ -441,7 +465,7 @@ export class PanelService {
   rejectOrder(orderId: string, restaurantId: string, userId: string) {
     try {
       const url = 'https://prod-fresh-api.jugnoo.in:4040/web/reject_order';
-      const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded'});
+      const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
       const formData = new URLSearchParams();
       formData.set('order_id', orderId);
       formData.set('restaurant_id', restaurantId);

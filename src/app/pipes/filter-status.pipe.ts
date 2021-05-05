@@ -5,15 +5,19 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterStatusPipe implements PipeTransform {
 
-  transform(value: any, arg: any): any {
-    if (value !== undefined && arg !== undefined && arg.length > 0 && arg !== 'todos') {
+  transform(value: any, args: any[]): any {
+    if (args !== null && args.length > 0) {
       const resultOrder = [];
-      for (const order of value) {
-        const orderStatus = order[13].status;
-        if (orderStatus.toString().toLowerCase().indexOf(arg.toLowerCase()) > -1) {
-          resultOrder.push(order);
-        }
-      }
+      args.forEach(
+        (arg: string) => {
+          for (const order of value) {
+            let orderStatus = order[13].status;
+            orderStatus = orderStatus.toString()
+            if (orderStatus.indexOf(arg) > -1) {
+              resultOrder.push(order);
+            }
+          }
+        });
       return resultOrder;
     } else {
       return value;

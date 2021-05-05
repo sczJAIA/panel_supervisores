@@ -82,9 +82,10 @@ export class SearchUserComponent implements OnInit {
       if (this.userField.value === 'cliente') {
 
         if (this.phoneField.value !== '') {
-          const numero = this.phoneField.value;
+          let numero = this.phoneField.value;
+          numero = numero.replaceAll(' ', '');
           if (numero.includes('+591')) {
-            this.service.getCustomer(this.phoneField.value, '2', '+591').subscribe(
+            this.service.getCustomer(numero, '2', '+591').subscribe(
               (resp: any) => {
                 this.blockUI.stop();
                 this.toast.success('Usuario encontrado!');
@@ -98,7 +99,8 @@ export class SearchUserComponent implements OnInit {
               }
             );
           } else if (!numero.includes('+591')) {
-            const numero2 = '+591' + this.phoneField.value;
+            let numero2 = '+591' + this.phoneField.value;
+            numero2 = numero2.replaceAll(' ', '');
             this.service.getCustomer(numero2, '2', '+591').subscribe(
               (resp: any) => {
                 this.blockUI.stop();
@@ -114,7 +116,8 @@ export class SearchUserComponent implements OnInit {
             );
           }
         } else if (this.idField.value !== '') {
-          const idCliente = this.idField.value;
+          let idCliente = this.idField.value;
+          idCliente = idCliente.replaceAll(' ', '');
           this.service.getCustomer(idCliente).subscribe(
             (resp: any) => {
               this.blockUI.stop();
@@ -133,9 +136,10 @@ export class SearchUserComponent implements OnInit {
       } else if (this.userField.value === 'conductor') {
 
         if (this.phoneField.value !== '') {
-          const numero = this.phoneField.value;
+          let numero = this.phoneField.value;
+          numero = numero.replaceAll(' ', '');
           if (numero.includes('+591')) {
-            this.service.getDriver(this.phoneField.value, '2').subscribe(
+            this.service.getDriver(numero, '2').subscribe(
               (resp: any) => {
                 if (resp?.log === 'Invalid Driver id') {
                   this.blockUI.stop();
@@ -164,7 +168,8 @@ export class SearchUserComponent implements OnInit {
               }
             );
           } else if (!numero.includes('+591')) {
-            const numero2 = '+591' + this.phoneField.value;
+            let numero2 = '+591' + this.phoneField.value;
+            numero2 = numero2.replaceAll(' ', '');
             this.service.getDriver(numero2, '2').subscribe(
               (resp: any) => {
                 if (resp?.log === 'Invalid Driver id') {
@@ -195,7 +200,8 @@ export class SearchUserComponent implements OnInit {
             );
           }
         } else if (this.idField.value !== '') {
-          const idDriver = this.idField.value;
+          let idDriver = this.idField.value;
+          idDriver = idDriver.replaceAll(' ', '');
           this.service.getDriver(idDriver).subscribe(
             (resp: any) => {
               this.driver = resp;

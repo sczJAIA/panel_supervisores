@@ -184,10 +184,10 @@
       <div class=" mb-3 col-sm-12 col-md-6 col-lg-3">
         <div class="form-group">
           <label class="form-label">Ciudad:</label>
-          <select class="form-control"
-            (change)="setCiudad($event)">
-            <option [value]="city.city_id" [selected]="i === selectedIndexCity" *ngFor="let city of cityList; let i = index">
-              {{ city.city_name }} 
+          <select class="form-control" (change)="setCiudad($event)">
+            <option [value]="city.city_id" [selected]="i === selectedIndexCity"
+              *ngFor="let city of cityList; let i = index">
+              {{ city.city_name }}
             </option>
           </select>
         </div>
@@ -197,8 +197,7 @@
           <mat-label>FECHA</mat-label>
           <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
             <input matStartDate formControlName="start" placeholder="Start date">
-            <input matEndDate (dateChange)="setEndDate($event)"
-              formControlName="end" placeholder="End date">
+            <input matEndDate (dateChange)="setEndDate($event)" formControlName="end" placeholder="End date">
           </mat-date-range-input>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
@@ -234,8 +233,17 @@
       </div>
       <div class="col-lg-2 col-sm-12 col-md-4">
         <div class="form-group">
-          <label class="form-label" for="status">Estados: </label>
-          <select class="form-control" [(ngModel)]="filterStatus" name="status">
+
+
+          <mat-form-field appearance="fill">
+            <mat-label>Estados: </mat-label>
+            <mat-select [formControl]="statusForm" multiple>
+              <mat-option *ngFor="let status of statusList" [value]="status.value">{{ status.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- <label class="form-label select-label" for="status">Estados: </label>
+          <select [(ngModel)]="filterStatus" name="status" multiple>
             <option value="todos">TODOS</option>
             <option value="0">PENDIENTE</option>
             <option value="8">ACEPTADO</option>
@@ -244,7 +252,7 @@
             <option value="7">DEVUELTO</option>
             <option value="3">CANCELADO POR EL CLIENTE</option>
             <option value="9">RECHAZADO POR EL LOCAL</option>
-          </select>
+          </select> -->
         </div>
       </div>
     </div>
@@ -284,10 +292,10 @@
           </thead>
           <tbody>
             <!-- |sortPrice -->
-            <tr [ngClass]="{ 'bg-red': horaPasada(order[7], order[9], order[13].status) }" 
-            *ngFor="let order of deliveryList |driverId: filterDriverId  | filterPhoneCustomer: filterPhone | filtroId: filterId | filterStatus: filterStatus
+            <tr [ngClass]="{ 'bg-red': horaPasada(order[7], order[9], order[13].status) }"
+              *ngFor="let order of deliveryList |driverId: filterDriverId  | filterPhoneCustomer: filterPhone | filtroId: filterId | filterStatus: statusForm.value
               |filterMerchant: filterMerchant | paginate: { itemsPerPage: cantidadPedidos, currentPage: p }; let i = index">
-              <td> {{ i + 1  }} </td>
+              <td> {{ i + 1 }} </td>
               <td class="py-0 my-0">
                 {{ order[0] }}
               </td>
@@ -298,9 +306,16 @@
                   <span [innerHTML]="order[6]">
                   </span>
                 </strong> <br>
-                <a target="_blank" [routerLink]="['orderDetails/'+ order[13].order_id + '/' + order[13].restaurant_id]" class="btn btn-primary">
-                  Detalle <i class="fa fa-eye"></i>
+                <a target="_blank" [routerLink]="['orderDetails/'+ order[13].order_id + '/' + order[13].restaurant_id]"
+                  class="btn btn-primary">
+                  Detalle
+                  <i class="fa fa-eye"></i>
                 </a>
+                <button *ngIf="order[9] === '-'" (click)="autoAssingOrder(order[13].order_id)" class="btn btn-primary mt-2">Auto Asignar</button>
+                <!-- <button (click)="showOrderDetail(order[13].order_id, order[13].restaurant_id)" type="button" class="btn btn-primary" >
+                  Detalle 2
+                  <i class="fa fa-eye"></i>
+                </button> -->
               </td>
               <td class="py-0 my-0">
                 <p [innerHTML]="order[1]"></p>
@@ -357,30 +372,35 @@
                 <p [innerHTML]="order[10]"></p>
               </td>
               <td class="py-0 my-0">
-                <ng-container [ngSwitch]="order[13].status">
-                  <div class="btn-group-vertical" *ngSwitchCase="0">
-                    <button (click)="acceptOrder(order[13].order_id, order[13].restaurant_id, order[13].user_id)"
-                      class="btn btn-outline-success">ACEPTAR PEDIDO</button>
-                    <button (click)="rejectedOrder(order[13].order_id, order[13].restaurant_id, order[13].user_id)"
-                      class="btn btn-outline-danger">RECHAZAR PEDIDO</button>
-                  </div>
+                <ng-container *ngIf="!order[13].additional_info.hasOwnProperty('self_pickup'); else selfPickUp">
+                  <ng-container [ngSwitch]="order[13].status">
+                    <div class="btn-group-vertical" *ngSwitchCase="0">
+                      <button (click)="acceptOrder(order[13].order_id, order[13].restaurant_id, order[13].user_id)"
+                        class="btn btn-outline-success">ACEPTAR PEDIDO</button>
+                      <button (click)="rejectedOrder(order[13].order_id, order[13].restaurant_id, order[13].user_id)"
+                        class="btn btn-outline-danger">RECHAZAR PEDIDO</button>
+                    </div>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="order[13].status === 2 || order[13].status === 7 || order[13].status === 3 || order[13].status === 9; else elseStatus">
+                    <div class="btn-group-vertical">
+                      <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
+                      <button class="btn btn-outline-info" (click)="getCases(order[13].order_id)">VER CASOS</button>
+                      <button (click)="copyOrder(order)" class="btn btn-outline-primary">COPIAR PEDIDO</button>
+                    </div>
+                  </ng-container>
+                  <ng-template #elseStatus>
+                    <div class="btn-group-vertical" *ngIf="order[13].status === 8">
+                      <button (click)="assignDriver(order, order[4])" class="btn btn-success">ASIGNAR MOTO</button>
+                      <button (click)="forceOrderCompleteV(order[13].order_id, order[13].restaurant_id, order[9])"
+                        class="btn btn-info">Forzar Entrega</button>
+                      <button (click)="cancelOrder(order)" class="btn btn-danger">CANCELAR
+                        PEDIDO</button>
+                    </div>
+                  </ng-template>
                 </ng-container>
-                <ng-container
-                  *ngIf="order[13].status === 2 || order[13].status === 7 || order[13].status === 3 || order[13].status === 9; else elseStatus">
-                  <div class="btn-group-vertical">
-                    <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
-                    <button class="btn btn-outline-info" (click)="getCases(order[13].order_id)">VER CASOS</button>
-                    <button (click)="copyOrder(order)" class="btn btn-outline-primary">COPIAR PEDIDO</button>
-                  </div>
-                </ng-container>
-                <ng-template #elseStatus>
-                  <div class="btn-group-vertical" *ngIf="order[13].status === 8">
-                    <button (click)="assignDriver(order, order[4])" class="btn btn-success">ASIGNAR MOTO</button>
-                    <button (click)="forceOrderCompleteV(order[13].order_id, order[13].restaurant_id, order[9])"
-                      class="btn btn-info">Forzar Entrega</button>
-                    <button (click)="cancelOrder(order)" class="btn btn-danger">CANCELAR
-                      PEDIDO</button>
-                  </div>
+                <ng-template #selfPickUp>
+                  <b><h3 class="h3">SELF PICK UP</h3></b>
                 </ng-template>
               </td>
             </tr>

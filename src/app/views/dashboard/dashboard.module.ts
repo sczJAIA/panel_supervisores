@@ -24,6 +24,7 @@ import { CountFilterPipe } from '../../pipes/count-filter.pipe';
 import { SortPricePipe } from '../../pipes/sort-price.pipe';
 import { RechazarDescripcionModule } from '../../modals/rechazar-descripcion/rechazar-descripcion.module';
 import { DriverIdPipe } from '../../pipes/driver-id.pipe';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -46,7 +47,8 @@ import { DriverIdPipe } from '../../pipes/driver-id.pipe';
     MatFormFieldModule,
     BlockUIModule.forRoot(),
     ConfirmacionModule,
-    RechazarDescripcionModule
+    RechazarDescripcionModule,
+    MatSelectModule
   ],
   declarations: [ DashboardComponent, SortPricePipe, DriverIdPipe, FiltroIdPipe, FilterStatusPipe, CountFilterPipe, FilterMerchantPipe, FilterPhoneCustomerPipe ]
 })

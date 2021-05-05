@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { PanelService } from '../../services/panel.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, Validators } from '@angular/forms';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-order-detail',
@@ -19,15 +20,16 @@ export class OrderDetailComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private service: PanelService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
     const sesionJson = this.service.getSessionSesion();
     console.log(sesionJson);
-    if ( sesionJson === null) {
-      window.location.href = 'https://labs.patio.com.bo/?salir=1';
-    }
+    // if ( sesionJson === null) {
+    //   window.location.href = 'https://labs.patio.com.bo/?salir=1';
+    // }
     this.activatedRoute?.paramMap.subscribe(
       (params) => {
         const orderId = params.get('orderId');
@@ -36,6 +38,10 @@ export class OrderDetailComponent implements OnInit {
         this.redirectJugno = 'https://fatafat.ec2dashboard.com/#/app/orderDetails/' + orderId + '/' + restaurantId;
       }
     );
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   getOrderDetails(orderId: string, restaurantId: string) {

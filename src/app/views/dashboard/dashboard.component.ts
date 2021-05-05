@@ -429,6 +429,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   user = '';
   driverBusysCount = 0;
   selectedIndexCity: number = 9;
+  statusList = [
+    { value: '0', name: 'PENDIENTE' },
+    { value: '8', name: 'ACEPTADO' },
+    { value: '4', name: 'DESPACHADO' },
+    { value: '2', name: 'ENTREGADO' },
+    { value: '7', name: 'DEVUELTO' },
+    { value: '3', name: 'CANCELADO POR EL CLIENTE' },
+    { value: '9', name: 'RECHAZADO POR EL LOCAL' }
+  ];
+  statusForm = new FormControl();
 
   constructor(
     private service: PanelService,
@@ -647,6 +657,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  autoAssingOrder(orderId: string) {
+    this.service.autoAssign(orderId).subscribe(
+      (resp: any) => {
+        this.toast.success('Auto asignando con exito!');
+      },
+      (error) => {
+        this.toast.error('Ha ocurrido un error inesperado!');
+      }
+    );
+  }
+
   showOrderDetail(orderId: string, restaurantId: string): void {
     this.router.navigate(['dashboard/orderDetails', orderId, restaurantId]);
   }
