@@ -258,7 +258,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <h5 class="h5"> Total de pedidos: {{ deliveryList |countFilter: filterStatus }} </h5>
+        <h5 class="h5"> Total de pedidos: {{ deliveryList |countFilter: statusForm.value }} </h5>
       </div>
     </div>
     <div class="row">
@@ -311,7 +311,9 @@
                   Detalle
                   <i class="fa fa-eye"></i>
                 </a>
-                <button *ngIf="order[9] === '-'" (click)="autoAssingOrder(order[13].order_id)" class="btn btn-primary mt-2">Auto Asignar</button>
+                <ng-container *ngIf="order[9] === '-'">
+                  <button *ngIf="order[13].status === 0 || order[13].status === 8" (click)="autoAssingOrder(order[13].order_id)" class="btn btn-primary mt-2">Auto Asignar</button>
+                </ng-container>
                 <!-- <button (click)="showOrderDetail(order[13].order_id, order[13].restaurant_id)" type="button" class="btn btn-primary" >
                   Detalle 2
                   <i class="fa fa-eye"></i>

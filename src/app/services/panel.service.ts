@@ -36,13 +36,13 @@ export class PanelService {
     try {
       const url = 'https://dodo.jugnoo.in:8024/assign_driver';
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      const json = JSON.stringify({
+      const json = {
         user_id: null,
         order_id: orderId,
         locale: 'en',
         access_token: '83c61c67c064fab7a8be68ead432c51a'
-      });
-      this.http.post(url, json, { headers }).pipe(
+      };
+      return this.http.post(url, json, { headers }).pipe(
         map(
           (resp) => {
             return resp;
@@ -50,7 +50,33 @@ export class PanelService {
         catchError((error) => {
           return throwError(error);
         })
-      );;
+      );
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  getDriversListXDistance(deliveryId: number, deliveryLatitude: number, deliveryLongitude: number) {
+    try {
+      const url = 'https://dodo.jugnoo.in:8024/get_available_drivers';
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const json = {
+        order_id: deliveryId,
+        latitude: deliveryLatitude,
+        longitude: deliveryLongitude,
+        show_all:1,
+        locale: 'en',
+        access_token: '83c61c67c064fab7a8be68ead432c51a'
+      };
+      return this.http.post(url, json, { headers }).pipe(
+        map(
+          (resp) => {
+            return resp;
+          }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
     } catch (error) {
       return throwError(error);
     }

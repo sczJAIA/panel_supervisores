@@ -658,12 +658,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  autoAssingOrder(orderId: string) {
-    this.service.autoAssign(orderId).subscribe(
+  autoAssingOrder(orderId: string, restaurantId: string) {
+    this.service.getOrderDetail(orderId, restaurantId).subscribe(
       (resp: any) => {
-        this.toast.success('Auto asignando con exito!');
+        if (resp.flag === 143 && resp.message === 'Response has been sent successfully') {
+          this.service.autoAssign(resp.order_info[0].delivery_id).subscribe(
+            (resp: any) => {
+              this.toast.success('Auto asignando con exito!');
+            },
+            (error) => {
+              this.toast.error('Ha ocurrido un error!','No se pudo auto asignar!');
+            }
+          );
+        }
       },
-      (error) => {
+      (error: any) => {
         this.toast.error('Ha ocurrido un error inesperado!');
       }
     );
@@ -917,11 +926,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   assignDriver(order: any, cityId: number) {
+    
     this.blockUI.start('Espere un momento por favor...');
     let hasDriver = true;
-    if (order[9] === '-') {
-      hasDriver = false;
-    }
     const cityList = this.cityList;
     const orderId = order[13].order_id;
     const restaurantId = order[13].restaurant_id;
@@ -930,10 +937,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
       (resp: any) => {
         this.blockUI.stop();
         const deliveryId = resp.order_info[0].delivery_id;
+        const latitude = resp.order_info[0].delivery_latitude;
+        const longitude = resp.order_info[0].delivery_longitude;
+        const driverName = resp.order_info[0].driver_name;
+        if (driverName !== '') {
+          hasDriver = false;
+        } else {
+          hasDriver = true;
+        }
         const dialog = this.dialog.open(AsignarMotoComponent, {
           disableClose: false,
           data: {
             orderId: deliveryId,
+            latitude,
+            longitude,
             city,
             hasDriver,
             orderIdLast: orderId

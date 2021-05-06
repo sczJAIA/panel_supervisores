@@ -11,7 +11,7 @@
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <div class="form-group">
                             <label class="form-label" for="driverSelect">Seleccionar moto:</label>
-                            <input *ngIf="loading; else noloading" class="form-control" type="text" placeholder="Buscar por nombre"
+                            <input [readOnly]="driverNameField2.value !== ''" *ngIf="loading; else noloading" class="form-control" type="text" placeholder="Buscar por nombre"
                                 formControlName="driverName" [matAutocomplete]="auto">
                             <ng-template #noloading>
                                 <mat-progress-bar mode="indeterminate"></mat-progress-bar>
@@ -21,6 +21,24 @@
                                     {{option.driver_name}}
                                 </mat-option>
                             </mat-autocomplete>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label class="form-label">Seleccionar moto por distancia:</label>
+                            <input [readOnly]="driverNameField.value !== ''" *ngIf="loading2; else noloading2" class="form-control" type="text" placeholder="Buscar por nombre"
+                                formControlName="driverName2" [matAutocomplete]="auto2">
+                            <ng-template #noloading2>
+                                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                            </ng-template>
+                            <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn2">
+                                <mat-option *ngFor="let option of driversFiltered2|async" [value]="option">
+                                  {{option.user_name}} | Distancia: {{ option.distance }} mtrs | Telf.: {{ option.phone_no }}
+                                </mat-option>
+                              </mat-autocomplete>
                         </div>
                     </div>
                 </div>
