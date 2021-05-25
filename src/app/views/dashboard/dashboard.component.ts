@@ -24,7 +24,7 @@ import { FiltrosLocalStorageService } from '../../services/filtros-local-storage
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
-  cantidadPedidos = '10';
+  cantidadPedidos = '25';
   radioModel: string = 'Month';
   deliveryList: any[] = [];
   deliveryList2: any[] = [];
@@ -57,369 +57,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   });
   userSession = this.service.getSessionSesion();
 
-  // lineChart1
-  public lineChart1Data: Array<any> = [
-    {
-      data: [65, 59, 84, 84, 51, 55, 40],
-      label: 'Series A'
-    }
-  ];
-  public lineChart1Labels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChart1Options: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        gridLines: {
-          color: 'transparent',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          fontSize: 2,
-          fontColor: 'transparent',
-        }
-
-      }],
-      yAxes: [{
-        display: false,
-        ticks: {
-          display: false,
-          min: 40 - 5,
-          max: 84 + 5,
-        }
-      }],
-    },
-    elements: {
-      line: {
-        borderWidth: 1
-      },
-      point: {
-        radius: 4,
-        hitRadius: 10,
-        hoverRadius: 4,
-      },
-    },
-    legend: {
-      display: false
-    }
-  };
-  public lineChart1Colours: Array<any> = [
-    {
-      backgroundColor: getStyle('--primary'),
-      borderColor: 'rgba(255,255,255,.55)'
-    }
-  ];
-  public lineChart1Legend = false;
-  public lineChart1Type = 'line';
-
-  // lineChart2
-  public lineChart2Data: Array<any> = [
-    {
-      data: [1, 18, 9, 17, 34, 22, 11],
-      label: 'Series A'
-    }
-  ];
-  public lineChart2Labels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChart2Options: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        gridLines: {
-          color: 'transparent',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          fontSize: 2,
-          fontColor: 'transparent',
-        }
-
-      }],
-      yAxes: [{
-        display: false,
-        ticks: {
-          display: false,
-          min: 1 - 5,
-          max: 34 + 5,
-        }
-      }],
-    },
-    elements: {
-      line: {
-        tension: 0.00001,
-        borderWidth: 1
-      },
-      point: {
-        radius: 4,
-        hitRadius: 10,
-        hoverRadius: 4,
-      },
-    },
-    legend: {
-      display: false
-    }
-  };
-  public lineChart2Colours: Array<any> = [
-    { // grey
-      backgroundColor: getStyle('--info'),
-      borderColor: 'rgba(255,255,255,.55)'
-    }
-  ];
-  public lineChart2Legend = false;
-  public lineChart2Type = 'line';
 
 
-  // lineChart3
-  public lineChart3Data: Array<any> = [
-    {
-      data: [78, 81, 80, 45, 34, 12, 40],
-      label: 'Series A'
-    }
-  ];
-  public lineChart3Labels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChart3Options: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        display: false
-      }],
-      yAxes: [{
-        display: false
-      }]
-    },
-    elements: {
-      line: {
-        borderWidth: 2
-      },
-      point: {
-        radius: 0,
-        hitRadius: 10,
-        hoverRadius: 4,
-      },
-    },
-    legend: {
-      display: false
-    }
-  };
-  public lineChart3Colours: Array<any> = [
-    {
-      backgroundColor: 'rgba(255,255,255,.2)',
-      borderColor: 'rgba(255,255,255,.55)',
-    }
-  ];
-  public lineChart3Legend = false;
-  public lineChart3Type = 'line';
-
-
-  // barChart1
-  public barChart1Data: Array<any> = [
-    {
-      data: [78, 81, 80, 45, 34, 12, 40, 78, 81, 80, 45, 34, 12, 40, 12, 40],
-      label: 'Series A',
-      barPercentage: 0.6,
-    }
-  ];
-  public barChart1Labels: Array<any> = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'];
-  public barChart1Options: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        display: false,
-      }],
-      yAxes: [{
-        display: false
-      }]
-    },
-    legend: {
-      display: false
-    }
-  };
-  public barChart1Colours: Array<any> = [
-    {
-      backgroundColor: 'rgba(255,255,255,.3)',
-      borderWidth: 0
-    }
-  ];
-  public barChart1Legend = false;
-  public barChart1Type = 'bar';
-
-  // mainChart
-
-  public mainChartElements = 27;
-  public mainChartData1: Array<number> = [];
-  public mainChartData2: Array<number> = [];
-  public mainChartData3: Array<number> = [];
-
-  public mainChartData: Array<any> = [
-    {
-      data: this.mainChartData1,
-      label: 'Current'
-    },
-    {
-      data: this.mainChartData2,
-      label: 'Previous'
-    },
-    {
-      data: this.mainChartData3,
-      label: 'BEP'
-    }
-  ];
-  /* tslint:disable:max-line-length */
-  public mainChartLabels: Array<any> = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Thursday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  /* tslint:enable:max-line-length */
-  public mainChartOptions: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips,
-      intersect: true,
-      mode: 'index',
-      position: 'nearest',
-      callbacks: {
-        labelColor: function (tooltipItem, chart) {
-          return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor };
-        }
-      }
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        gridLines: {
-          drawOnChartArea: false,
-        },
-        ticks: {
-          callback: function (value: any) {
-            return value.charAt(0);
-          }
-        }
-      }],
-      yAxes: [{
-        ticks: {
-          beginAtZero: true,
-          maxTicksLimit: 5,
-          stepSize: Math.ceil(250 / 5),
-          max: 250
-        }
-      }]
-    },
-    elements: {
-      line: {
-        borderWidth: 2
-      },
-      point: {
-        radius: 0,
-        hitRadius: 10,
-        hoverRadius: 4,
-        hoverBorderWidth: 3,
-      }
-    },
-    legend: {
-      display: false
-    }
-  };
-  public mainChartColours: Array<any> = [
-    { // brandInfo
-      backgroundColor: hexToRgba(getStyle('--info'), 10),
-      borderColor: getStyle('--info'),
-      pointHoverBackgroundColor: '#fff'
-    },
-    { // brandSuccess
-      backgroundColor: 'transparent',
-      borderColor: getStyle('--success'),
-      pointHoverBackgroundColor: '#fff'
-    },
-    { // brandDanger
-      backgroundColor: 'transparent',
-      borderColor: getStyle('--danger'),
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 1,
-      borderDash: [8, 5]
-    }
-  ];
-  public mainChartLegend = false;
-  public mainChartType = 'line';
-
-  // social box charts
-
-  public brandBoxChartData1: Array<any> = [
-    {
-      data: [65, 59, 84, 84, 51, 55, 40],
-      label: 'Facebook'
-    }
-  ];
-  public brandBoxChartData2: Array<any> = [
-    {
-      data: [1, 13, 9, 17, 34, 41, 38],
-      label: 'Twitter'
-    }
-  ];
-  public brandBoxChartData3: Array<any> = [
-    {
-      data: [78, 81, 80, 45, 34, 12, 40],
-      label: 'LinkedIn'
-    }
-  ];
-  public brandBoxChartData4: Array<any> = [
-    {
-      data: [35, 23, 56, 22, 97, 23, 64],
-      label: 'Google+'
-    }
-  ];
-
-  public brandBoxChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public brandBoxChartOptions: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        display: false,
-      }],
-      yAxes: [{
-        display: false,
-      }]
-    },
-    elements: {
-      line: {
-        borderWidth: 2
-      },
-      point: {
-        radius: 0,
-        hitRadius: 10,
-        hoverRadius: 4,
-        hoverBorderWidth: 3,
-      }
-    },
-    legend: {
-      display: false
-    }
-  };
-  public brandBoxChartColours: Array<any> = [
-    {
-      backgroundColor: 'rgba(255,255,255,.1)',
-      borderColor: 'rgba(255,255,255,.55)',
-      pointHoverBackgroundColor: '#fff'
-    }
-  ];
-  public brandBoxChartLegend = false;
-  public brandBoxChartType = 'line';
+  
 
   public random(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -439,6 +79,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     { value: '9', name: 'RECHAZADO POR EL LOCAL' }
   ];
   statusForm = new FormControl();
+  selectedStatus = ["0", "8"];
+
+  filterList = [
+    { value: 'demoradoDespachado', name: 'DEMORADO & DESPACHADO' },
+    { value: 'sinMoto', name: 'PEDIDOS SIN MOTO'},
+    { value: 'terminadosCancelados', name: 'TERMINADOS O CANCELADOS'}
+  ];
+
+  filterListForm = new FormControl();
+
+  cityListLocal: any[] = []
 
   constructor(
     private service: PanelService,
@@ -458,13 +109,38 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return this.range.get('end');
   }
 
+  setCountOrder(event: any) {
+    this.cantidadPedidos = event.target['value'];
+    this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value, parseInt(this.cantidadPedidos, 10));
+  }
+  
+  getStatusList(event: any) {
+    console.log(event.value);
+  }
+
+  searchTableMerchant() {
+    this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value, parseInt(this.cantidadPedidos, 10), this.filterMerchant);
+  }
+
+  searchTablePhone() {
+    this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value, parseInt(this.cantidadPedidos, 10), this.filterPhone);
+  }
+
+  searchTableIdOrder() {
+    this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value, parseInt(this.cantidadPedidos, 10), this.filterId);
+  }
+
+  searchTableIdDriver() {
+    this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value, parseInt(this.cantidadPedidos, 10), this.filterDriverId);
+  }
+
   setCiudad(event: any) {
     const ciudad = event.target['value'];
     this.selectedIndexCity = event.target.selectedIndex;
     this.localSService.setCity(ciudad, this.selectedIndexCity.toString());
     const json = this.localSService.getCity();
     this.citySelected = json.citySelected;
-    this.selectedIndexCity = parseInt(json.index ,10);
+    this.selectedIndexCity = parseInt(json.index, 10);
     this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
   }
 
@@ -483,7 +159,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.login = resp.sesion;
         this.service.isLogin = resp.sesion;
         this.service.setSession(resp);
-        console.log(this.service.getSessionSesion());
         const userSession = this.service.getSessionSesion();
         this.user = userSession.username;
         if (this.login === false) { // cambiar a false para que funcione en produccion
@@ -494,7 +169,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.blockUI.stop();
       }
     );
-    this.getCityList();
+    this.cityListLocal = this.localSService.getCityList();
+    this.cityList = this.cityListLocal;
+    if (this.cityListLocal.length < 1) {
+      this.getCityList();
+    }
     if (this.localSService.getCity()) {
       const json = this.localSService.getCity();
       this.selectedIndexCity = parseInt(json.index, 10);
@@ -510,18 +189,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log(this.endDateField.value);
     }
     this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
-    const contador = interval(35000);
+    const contador = interval(180000);
     contador.subscribe(
       (n) => {
         this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
       }
     );
-    // generate random values for mainChart
-    for (let i = 0; i <= this.mainChartElements; i++) {
-      this.mainChartData1.push(this.random(50, 200));
-      this.mainChartData2.push(this.random(80, 100));
-      this.mainChartData3.push(65);
-    }
   }
   ngOnDestroy(): void {
     this.citiesSubscripcion?.unsubscribe();
@@ -538,6 +211,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       (resp: any) => {
         console.log(resp);
         this.cityList = resp.cities_list;
+        this.localSService.setCityList(this.cityList);
         this.blockUI.stop();
       },
       (error: any) => {
@@ -558,20 +232,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  getOrderList(cityId: string, startDate: string, endDate: string): void {
+  getOrderList(cityId: string, startDate: string, endDate: string, countOrder: number = 25, search: string = ''): void {
     if (endDate !== null) {
       // this.blockUI.start();
       this.citySelected = cityId;
       this.deliveryList2 = [];
-      this.getDriversBusysList(this.citySelected);
+      // this.getDriversBusysList(this.citySelected);
       this.alertOperation();
       const startDate2 = moment(startDate).format('YYYY-MM-DD');
       const endDate2 = moment(endDate).format('YYYY-MM-DD');
-      const orderListSubscripcion = this.service.getDeliveryList(cityId, startDate2, endDate2);
+      const orderListSubscripcion = this.service.getDeliveryList(cityId, startDate2, endDate2, countOrder, search);
       this.ordersListSubscripcion = orderListSubscripcion.subscribe(
         async (resp: any) => {
           // this.toast.success('Se obtuvo la lista correctamente');
-          this.deliveryList = await resp['aaData'].reverse();
+          // this.deliveryList = await resp['aaData'].reverse();
+          this.deliveryList = await resp['aaData'];
           this.deliveryList2 = await resp;
           const fulfillment = (
             (this.deliveryList2['stats'].delivered + this.deliveryList2['stats'].accepted + this.deliveryList2['stats'].dispatch)
@@ -667,7 +342,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
               this.toast.success('Auto asignando con exito!');
             },
             (error) => {
-              this.toast.error('Ha ocurrido un error!','No se pudo auto asignar!');
+              this.toast.error('Ha ocurrido un error!', 'No se pudo auto asignar!');
             }
           );
         }
@@ -779,6 +454,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.service.getOrderDetail(orderId, restaurantId).subscribe(
       (resp: any) => {
         const deliveryId = resp.order_info[0].delivery_id;
+        const driverName2 = resp.order_info[0].driver_name;
+        const idLocal = resp.order_info[0].restaurant_id;
+        const montoCarrera = resp.order_info[0].delivery_charges;
+        const montoPedido = resp.order_info[0].sub_total;
+        const montoTotal = resp.order_info[0].order_amount;
+        const idCiudad = resp.order_info[0].city_id;
+        const fecha = moment(resp.order_info[0].created_at).format('YYYY/MM/DD hh:mm:ss');
+        const fecha2 = moment(resp.order_info[0].created_at).format('YYYY/MM/DD');
         if (order[9] !== '-') {
           this.service.unassignDriver(deliveryId).subscribe(
             (resp1: any) => {
@@ -791,7 +474,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                           if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
                             console.log('Respues de forzas completado', resp3);
                             this.service.createCases(order[13].order_id,
-                              'CANCELAR PEDIDO', '0', 'CANCELACION DESDE EL BOTON', month, management, this.userSession.username)
+                              'CANCELAR PEDIDO', '0', 'CANCELACION DESDE EL BOTON', month, management, this.user, idLocal, fecha, fecha2, idCiudad, montoPedido, montoCarrera, montoTotal)
                               .subscribe(
                                 (resp4: any) => {
                                   this.blockUI.stop();
@@ -833,7 +516,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
                       console.log('Respues de forzas completado', resp3);
                       this.service.createCases(order[13].order_id,
-                        'CANCELAR PEDIDO', '0', 'CANCELACION DESDE EL BOTON', month, management, this.userSession.username)
+                        'CANCELAR PEDIDO', '0', 'CANCELACION DESDE EL BOTON', month, management, this.user,
+                        idLocal, fecha, fecha2, idCiudad, montoPedido, montoCarrera, montoTotal)
                         .subscribe(
                           (resp4: any) => {
                             this.blockUI.stop();
@@ -889,7 +573,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
               } else {
                 this.service.getDriver(driverId, '0').subscribe(
                   (resp3: any) => {
-                    this.service.forceOrderComplete(parseInt(orderId), resp2.order_info[0].driver_name, resp3['Phone No']).subscribe(
+                    this.service.forceOrderComplete(parseInt(resp2.order_info[0].delivery_id), resp2.order_info[0].driver_name, resp3['Phone No']).subscribe(
                       (resp4: any) => {
                         if (resp3.message === 'Successfully Completed' && resp3.status === 200) {
                           this.blockUI.stop();
@@ -926,7 +610,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   assignDriver(order: any, cityId: number) {
-    
+
     this.blockUI.start('Espere un momento por favor...');
     let hasDriver = true;
     const cityList = this.cityList;
@@ -940,6 +624,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const latitude = resp.order_info[0].delivery_latitude;
         const longitude = resp.order_info[0].delivery_longitude;
         const driverName = resp.order_info[0].driver_name;
+        const idLocal = resp.order_info[0].restaurant_id;
+        const montoCarrera = resp.order_info[0].delivery_charges;
+        const montoPedido = resp.order_info[0].sub_total;
+        const montoTotal = resp.order_info[0].order_amount;
+        const fecha = moment(resp.order_info[0].created_at).format('YYYY/MM/DD hh:mm:ss');
+        const fecha2 = moment(resp.order_info[0].created_at).format('YYYY/MM/DD');
         if (driverName !== '') {
           hasDriver = false;
         } else {
@@ -949,9 +639,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
           disableClose: false,
           data: {
             orderId: deliveryId,
+            idLocal,
+            montoCarrera,
+            montoPedido,
+            montoTotal,
+            fecha,
+            fecha2,
             latitude,
             longitude,
             city,
+            cityId,
             hasDriver,
             orderIdLast: orderId
           },
@@ -1085,22 +782,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(
       (resp2: { form: string, flag: boolean }) => {
         if (resp2.flag) {
-          this.blockUI.start('Rechazando el pedido...');
-          this.service.rejectOrder(orderId, restaurantId, userId).subscribe(
-            (resp: any) => {
-              this.blockUI.stop();
-              if (resp.message === 'Your order has been cancelled.') {
-                this.service.createCases(orderId, 'RECHAZAR PEDIDO POR CENTRAL' + this.userSession.username, '0', resp2.form, month, management, this.userSession.username).subscribe(
-                  (resp: any) => {
-                    this.toast.success('Pedido rechazado exitosamente!');
-                    this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
+          this.service.getOrderDetail(orderId, restaurantId).subscribe(
+            (resp2: any) => {
+              const detalle = resp2.order_info[0];
+              const fecha = moment(detalle.created_at).format('YYYY/MM/DD hh:mm:ss');
+              const fecha2 = moment(detalle.created_at).format('YYYY/MM/DD');
+              const idCiudad = detalle.city_id;
+              const montoPedido = detalle.sub_total;
+              const montoCarrera = detalle.delivery_charges;
+              const montoTotal = detalle.order_amount;
+              this.blockUI.start('Rechazando el pedido...');
+              this.service.rejectOrder(orderId, restaurantId, userId).subscribe(
+                (resp: any) => {
+                  this.blockUI.stop();
+                  if (resp.message === 'Your order has been cancelled.') {
+                    this.service.createCases(orderId, 'RECHAZAR PEDIDO POR CENTRAL' + this.userSession.username, '0',
+                      resp2.form, month, management, this.userSession.username, restaurantId, fecha, fecha2, idCiudad, montoPedido, montoCarrera, montoTotal).subscribe(
+                        (resp: any) => {
+                          this.toast.success('Pedido rechazado exitosamente!');
+                          this.getOrderList(this.citySelected, this.startDateField.value, this.endDateField.value);
+                        }
+                      );
                   }
-                );
-              }
-            },
-            (error: any) => {
-              this.toast.error('El pedido no se pudo rechazar!');
-              this.blockUI.stop();
+                },
+                (error: any) => {
+                  this.toast.error('El pedido no se pudo rechazar!');
+                  this.blockUI.stop();
+                }
+              );
             }
           );
         }
@@ -1114,7 +823,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       if (estado === 8 || estado === 0) {
         if (this.convertirFecha(hora) > 30) {
-          console.log('Se cumplio!');
           return true;
         } else {
           return false;
@@ -1124,8 +832,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   convertirFecha(date: string): any {
-    // const date = '12:06 PM 13th-March-2021';
-    // const date = '-';
     if (date !== '-') {
       date = date.replaceAll('<br/>', ' ');
       const hora = date.substring(0, 8);

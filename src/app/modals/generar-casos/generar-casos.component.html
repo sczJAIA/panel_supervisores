@@ -5,7 +5,11 @@
             <div class="row">
                 <div class="col p-2">
                     <mat-checkbox formControlName="pickOrder" [color]="colorChecked">Recoger Pedido</mat-checkbox>
-                    <input type="text" formControlName="pickOrderDescription" class="form-control">
+                    <!-- <input type="text" formControlName="pickOrderDescription" class="form-control"> -->
+                    <select class="custom-select" formControlName="pickOrderDescription">
+                        <option value="pagar al comercio al recoger"> Pagar al comercio al recoger </option>
+                        <option value="recoger sin pagar"> Recoger sin pagar </option>
+                    </select>
                 </div>
                 <div class="col p-2">
                     <mat-checkbox formControlName="returnMoney" [color]="colorChecked">Reembolsar moto</mat-checkbox>
@@ -19,7 +23,11 @@
             <div class="row">
                 <div class="col p-2">
                     <mat-checkbox formControlName="chargeCommission" [color]="colorChecked">Cobrar comision</mat-checkbox>
-                    <input type="text" formControlName="chargeCommissionDescription" class="form-control">
+                    <!-- <input type="text" formControlName="chargeCommissionDescription" class="form-control"> -->
+                    <select class="custom-select" formControlName="chargeCommissionDescription">
+                        <option value="pedido recogido pero cancelado por el cliente"> Pedido recogido pero cancelado por el cliente </option>
+                        <option value="pedido entregado dado fallido por error"> Pedido entregado dado fallido por error </option>
+                    </select>
                 </div>
                 <div class="col p-2">
                     <mat-checkbox formControlName="refundUser" [color]="colorChecked">Reembolsar Usuario</mat-checkbox>
@@ -31,12 +39,30 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col p-2"></div>
                 <div class="col p-2">
                     <mat-checkbox formControlName="reportLocal" [color]="colorChecked">Reportar Local</mat-checkbox>
-                    <input type="text" formControlName="reportLocalDescription" class="form-control">
+                    <!-- <input type="text" formControlName="reportLocalDescription" class="form-control"> -->
+                    <select class="custom-select" formControlName="reportLocalDescription">
+                        <option value="Reclamo del cliente por el pedido">Reclamo del cliente por el pedido</option>
+                        <option value="Local cerrado">Local cerrado</option>
+                        <option value="Comercio ya no atiende cerrado definitivo">Comercio ya no atiende cerrado definitivo</option>
+                        <option value="No habia lo que pidio el cliente">No habia lo que pidio el cliente</option>
+                        <option value="Mala actitud a la moto">Mala actitud a la moto</option>
+                        <option value="Mala actitud al cliente">Mala actitud al cliente</option>
+                    </select>
                 </div>
-                <div class="col p-2"></div>
+                <div class="col p-2">
+                    <mat-checkbox formControlName="refundLocal" [color]="colorChecked">Devolucion Local</mat-checkbox>
+                    <input type="text" formControlName="refundLocalDescription" class="form-control">
+                </div>
+                <div class="col p-2">
+                    <mat-checkbox formControlName="cancelOrder" [color]="colorChecked">Cancelar Pedido</mat-checkbox>
+                    <select class="custom-select" formControlName="cancelOrderDescription">
+                        <option value="Pedido duplicado">Pedido duplicado</option>
+                        <option value="Cliente cancelo">Cliente cancelo</option>
+                        <option value="Cliente no quiso esperar">Cliente no quiso esperar</option>
+                    </select>
+                </div>
                 <!-- <div class="col p-2">
                     <mat-checkbox formControlName="customerContact" [color]="colorChecked">Contacto cliente</mat-checkbox>
                     <input type="text" [disabled]="!customerContactField.value" class="form-control">

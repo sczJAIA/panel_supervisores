@@ -25,6 +25,11 @@ import { SortPricePipe } from '../../pipes/sort-price.pipe';
 import { RechazarDescripcionModule } from '../../modals/rechazar-descripcion/rechazar-descripcion.module';
 import { DriverIdPipe } from '../../pipes/driver-id.pipe';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { DemoradoDespachadoPipe } from '../../pipes/demorado-despachado.pipe';
+import { SinMotoPipe } from '../../pipes/sin-moto.pipe';
+import { TerminadosCanceladosPipe } from '../../pipes/terminados-cancelados.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 
@@ -48,8 +53,10 @@ import { MatSelectModule } from '@angular/material/select';
     BlockUIModule.forRoot(),
     ConfirmacionModule,
     RechazarDescripcionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTabsModule,
+    MatTooltipModule
   ],
-  declarations: [ DashboardComponent, SortPricePipe, DriverIdPipe, FiltroIdPipe, FilterStatusPipe, CountFilterPipe, FilterMerchantPipe, FilterPhoneCustomerPipe ]
+  declarations: [DashboardComponent, TerminadosCanceladosPipe, SortPricePipe, DriverIdPipe, FiltroIdPipe, FilterStatusPipe, CountFilterPipe, FilterMerchantPipe, FilterPhoneCustomerPipe, DemoradoDespachadoPipe, SinMotoPipe]
 })
 export class DashboardModule { }

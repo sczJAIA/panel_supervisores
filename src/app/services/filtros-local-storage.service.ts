@@ -14,6 +14,7 @@ export class FiltrosLocalStorageService {
     };
     localStorage.setItem('ciudadSeleccionada', JSON.stringify(json));
   }
+
   getCity(){
     return JSON.parse(localStorage.getItem('ciudadSeleccionada'));
   }
@@ -27,5 +28,13 @@ export class FiltrosLocalStorageService {
   }
   getDate(){
     return JSON.parse(localStorage.getItem('dateSelected'));
+  }
+
+  setCityList(cityList: any[]){
+    localStorage.setItem('lista_ciudad', JSON.stringify(cityList));
+  }
+
+  getCityList(){
+    return JSON.parse(localStorage.getItem('lista_ciudad'));
   }
 }

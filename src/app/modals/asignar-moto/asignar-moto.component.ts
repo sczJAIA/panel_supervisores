@@ -123,7 +123,7 @@ export class AsignarMotoComponent implements OnInit {
                     const month = moment().format('MM');
                     const management = moment().format('YYYY');
                     this.service.createCases(this.data.orderIdLast, 'ASIGNAR MOTO', '0', 'ASIGNACION AUTOMATICA',
-                      month, management, this.user.username)
+                      month, management, this.user.username, this.data.idLocal, this.data.fecha, this.data.fecha2, this.data.cityId, this.data.montoPedido, this.data.montoCarrera, this.data.montoTotal)
                       .subscribe(
                         (respo: any) => {
                           if (respo.message === 'Product was created.') {
@@ -153,7 +153,7 @@ export class AsignarMotoComponent implements OnInit {
               const month = moment().format('MM');
               const management = moment().format('YYYY');
               this.service.createCases(this.data.orderId, 'ASIGNAR MOTO', '0', 'ASIGNACION AUTOMATICA', month,
-                management, this.user.username)
+                management, this.user.username, this.data.idLocal, this.data.fecha, this.data.fecha2, this.data.cityId, this.data.montoPedido, this.data.montoCarrera, this.data.montoTotal)
                 .subscribe(
                   (respo: any) => {
                     if (respo.message === 'Product was created.') {
@@ -184,7 +184,7 @@ export class AsignarMotoComponent implements OnInit {
                     const month = moment().format('MM');
                     const management = moment().format('YYYY');
                     this.service.createCases(this.data.orderIdLast, 'ASIGNAR MOTO', '0', 'ASIGNACION AUTOMATICA',
-                      month, management, this.user.username)
+                      month, management, this.user.username, this.data.idLocal, this.data.fecha, this.data.fecha2, this.data.cityId, this.data.montoPedido, this.data.montoCarrera, this.data.montoTotal)
                       .subscribe(
                         (respo: any) => {
                           if (respo.message === 'Product was created.') {
@@ -211,7 +211,7 @@ export class AsignarMotoComponent implements OnInit {
               const month = moment().format('MM');
               const management = moment().format('YYYY');
               this.service.createCases(this.data.orderId, 'ASIGNAR MOTO', '0', 'ASIGNACION AUTOMATICA', month,
-                management, this.user.username)
+                management, this.user.username, this.data.idLocal, this.data.fecha, this.data.fecha2, this.data.cityId, this.data.montoPedido, this.data.montoCarrera, this.data.montoTotal)
                 .subscribe(
                   (respo: any) => {
                     if (respo.message === 'Product was created.') {

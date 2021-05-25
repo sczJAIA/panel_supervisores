@@ -34,6 +34,8 @@ export class GenerarCasosComponent implements OnInit {
     this.checkedsrefundUserField();
     this.checkedslockUserField();
     this.checkedsreportLocalField();
+    this.checkedsrefundLocalField();
+    this.cancelOrderCheckedField();
   }
 
   builderForm(): void {
@@ -51,7 +53,11 @@ export class GenerarCasosComponent implements OnInit {
       lockUser: [false, []],
       lockUserDescription: ['', [Validators.required]],
       reportLocal: [false, []],
-      reportLocalDescription: ['', [Validators.required]]
+      reportLocalDescription: ['', [Validators.required]],
+      refundLocal: [false, []],
+      refundLocalDescription: ['', [Validators.required]],
+      cancelOrder: [false, []],
+      cancelOrderDescription: ['', [Validators.required]]
     });
 
     this.caseForm.valueChanges.pipe(debounceTime(500)).subscribe(
@@ -93,6 +99,16 @@ export class GenerarCasosComponent implements OnInit {
     this.reportLocalField.valueChanges.subscribe(
       (value: any) => {
         this.checkedsreportLocalField();
+      }
+    );
+    this.refundLocalField.valueChanges.subscribe(
+      (value: any) => {
+        this.checkedsrefundLocalField();
+      }
+    );
+    this.cancelOrderField.valueChanges.subscribe(
+      (value: any) => {
+        this.cancelOrderCheckedField();
       }
     );
   }
@@ -145,11 +161,27 @@ export class GenerarCasosComponent implements OnInit {
     }
   }
 
+  checkedsrefundLocalField() {
+    if (!this.refundLocalField.value) {
+      this.refundLocalDescriptionField.disable();
+    } else {
+      this.refundLocalDescriptionField.enable();
+    }
+  }
+
   checkedspickOrderField() {
     if (!this.pickOrderField.value) {
       this.pickOrderDescriptionField.disable();
     } else {
       this.pickOrderDescriptionField.enable();
+    }
+  }
+
+  cancelOrderCheckedField() {
+    if (!this.cancelOrderField.value) {
+      this.cancelOrderDescriptionField.disable();
+    } else {
+      this.cancelOrderDescriptionField.enable();
     }
   }
 
@@ -177,6 +209,9 @@ export class GenerarCasosComponent implements OnInit {
   get reportLocalField() {
     return this.caseForm.get('reportLocal');
   }
+  get refundLocalField() {
+    return this.caseForm.get('refundLocal');
+  }
   get customerContactField() {
     return this.caseForm.get('customerContact');
   }
@@ -184,7 +219,15 @@ export class GenerarCasosComponent implements OnInit {
     return this.caseForm.get('localContact');
   }
 
+  get cancelOrderField() {
+    return this.caseForm.get('cancelOrder');
+  }
 
+
+
+  get cancelOrderDescriptionField() {
+    return this.caseForm.get('cancelOrderDescription');
+  }
 
   get pickOrderDescriptionField() {
     return this.caseForm.get('pickOrderDescription');
@@ -207,8 +250,11 @@ export class GenerarCasosComponent implements OnInit {
   get reportLocalDescriptionField() {
     return this.caseForm.get('reportLocalDescription');
   }
+  get refundLocalDescriptionField() {
+    return this.caseForm.get('refundLocalDescription');
+  }
 
-  close(){
+  close() {
     this.dialogRef.close('close');
   }
 
@@ -218,108 +264,151 @@ export class GenerarCasosComponent implements OnInit {
       const currenDate = moment();
       const month = currenDate.format('MM');
       const management = currenDate.format('YYYY');
-      if (this.pickOrderField.value) {
-        this.service.createCases(this.data[0], 'recoger pedido', '0', this.pickOrderDescriptionField.value, month,
-        management, this.user.username)
-        .subscribe(
-          (resp: any) => {
-            console.log('Respuesta exitosa', resp);
-            this.caseForm.reset();
-            this.dialogRef.close(true);
-          },
-          (error: any) => {
-            console.log('Ha ocurrido un error', error);
+      this.service.getOrderDetail(this.data[13].order_id, this.data[13].restaurant_id).subscribe(
+        (respD: any) => {
+          const idLocal = this.data[13].restaurant_id;
+          const fecha = moment(respD.order_info[0].created_at).format('YYYY/MM/DD hh:mm:ss');
+          const fecha2 = moment(respD.order_info[0].created_at).format('YYYY/MM/DD');
+          const idCiudad = respD.order_info[0].city_id;
+          const montoPedido = respD.order_info[0].sub_total;
+          const montoCarrera = respD.order_info[0].delivery_charges;
+          const montoTotal = respD.order_info[0].order_amount;
+          if (this.refundLocalField.value) {
+            this.service.createCases(this.data[0], 'devolucion local', '0', this.refundLocalDescriptionField.value, month,
+              management, this.user.username, idLocal, fecha, fecha2, idCiudad, montoPedido, montoCarrera, montoTotal)
+              .subscribe(
+                (resp: any) => {
+                  console.log('Respuesta exitosa', resp);
+                  this.caseForm.reset();
+                  this.dialogRef.close(true);
+                },
+                (error: any) => {
+                  console.log('Ha ocurrido un error', error);
+                }
+              );
           }
-        );
-      }
-      if (this.returnMoneyField.value) {
-        this.service.createCases(this.data[0], 'reembolsar moto', '0', this.returnMoneyDescriptionField.value, month,
-        management, this.user.username)
-        .subscribe(
-          (resp: any) => {
-            console.log('Respuesta exitosa', resp);
-            this.caseForm.reset();
-            this.dialogRef.close(true);
-          },
-          (error: any) => {
-            console.log('Ha ocurrido un error', error);
+          if (this.cancelOrderField.value) {
+            this.service.createCases(this.data[0], 'cancelar pedido', '0', this.cancelOrderDescriptionField.value, month,
+              management, this.user.username, idLocal, fecha, fecha2, idCiudad, montoPedido, montoCarrera, montoTotal)
+              .subscribe(
+                (resp: any) => {
+                  console.log('Respuesta exitosa', resp);
+                  this.caseForm.reset();
+                  this.dialogRef.close(true);
+                },
+                (error: any) => {
+                  console.log('Ha ocurrido un error', error);
+                }
+              );
           }
-        );
-      }
-      if (this.lockDriverField.value) {
-        // bloquear moto
-        this.service.createCases(this.data[0], 'bloquear moto', '0', this.lockDriverDescriptionField.value, month,
-        management, this.user.username)
-        .subscribe(
-          (resp: any) => {
-            console.log('Respuesta exitosa', resp);
-            this.caseForm.reset();
-            this.dialogRef.close(true);
-          },
-          (error: any) => {
-            console.log('Ha ocurrido un error', error);
+          if (this.pickOrderField.value) {
+            this.service.createCases(this.data[0], 'recoger pedido', '0', this.pickOrderDescriptionField.value, month,
+              management, this.user.username, idLocal, fecha, fecha2, idCiudad, montoPedido, montoCarrera, montoTotal)
+              .subscribe(
+                (resp: any) => {
+                  console.log('Respuesta exitosa', resp);
+                  this.caseForm.reset();
+                  this.dialogRef.close(true);
+                },
+                (error: any) => {
+                  console.log('Ha ocurrido un error', error);
+                }
+              );
           }
-        );
-      }
-      if (this.chargeCommissionField.value) {
-        this.service.createCases(this.data[0], 'cobrar comision', '0', this.chargeCommissionDescriptionField.value, month,
-        management, this.user.username)
-        .subscribe(
-          (resp: any) => {
-            console.log('Respuesta exitosa', resp);
-            this.caseForm.reset();
-            this.dialogRef.close(true);
-          },
-          (error: any) => {
-            console.log('Ha ocurrido un error', error);
+          if (this.returnMoneyField.value) {
+            this.service.createCases(this.data[0], 'reembolsar moto', '0', this.returnMoneyDescriptionField.value, month,
+              management, this.user.username, idLocal, fecha, fecha2, idCiudad, montoPedido, montoCarrera, montoTotal)
+              .subscribe(
+                (resp: any) => {
+                  console.log('Respuesta exitosa', resp);
+                  this.caseForm.reset();
+                  this.dialogRef.close(true);
+                },
+                (error: any) => {
+                  console.log('Ha ocurrido un error', error);
+                }
+              );
           }
-        );
-      }
-      if (this.refundUserField.value) {
-        this.service.createCases(this.data[0], 'reembolsar usuario', '0', this.refundUserDescriptionField.value, month,
-        management, this.user.username)
-        .subscribe(
-          (resp: any) => {
-            console.log('Respuesta exitosa', resp);
-            this.caseForm.reset();
-            this.dialogRef.close(true);
-          },
-          (error: any) => {
-            console.log('Ha ocurrido un error', error);
+          if (this.lockDriverField.value) {
+            // bloquear moto
+            this.service.createCases(this.data[0], 'bloquear moto', '0', this.lockDriverDescriptionField.value, month,
+              management, this.user.username, idLocal, fecha, fecha2, idCiudad, montoPedido, montoCarrera, montoTotal)
+              .subscribe(
+                (resp: any) => {
+                  console.log('Respuesta exitosa', resp);
+                  this.caseForm.reset();
+                  this.dialogRef.close(true);
+                },
+                (error: any) => {
+                  console.log('Ha ocurrido un error', error);
+                }
+              );
           }
-        );
-      }
-      if (this.lockUserField.value) {
-        // function bloquear usuario
-        this.service.createCases(this.data[0], 'bloquear usuario', '0', this.lockUserDescriptionField.value, month,
-        management, this.user.username)
-        .subscribe(
-          (resp: any) => {
-            console.log('Respuesta exitosa', resp);
-            this.caseForm.reset();
-            this.dialogRef.close(true);
-          },
-          (error: any) => {
-            console.log('Ha ocurrido un error', error);
+          if (this.chargeCommissionField.value) {
+            this.service.createCases(this.data[0], 'cobrar comision', '0', this.chargeCommissionDescriptionField.value, month,
+              management, this.user.username, idLocal, fecha, fecha2, idCiudad, montoPedido, montoCarrera, montoTotal)
+              .subscribe(
+                (resp: any) => {
+                  console.log('Respuesta exitosa', resp);
+                  this.caseForm.reset();
+                  this.dialogRef.close(true);
+                },
+                (error: any) => {
+                  console.log('Ha ocurrido un error', error);
+                }
+              );
           }
-        );
-      }
-      if (this.reportLocalField.value) {
-        this.service.createCases(this.data[0], 'reportar local', '0', this.reportLocalDescriptionField.value, month,
-        management, this.user.username)
-        .subscribe(
-          (resp: any) => {
-            console.log('Respuesta exitosa', resp);
-            this.caseForm.reset();
-            this.dialogRef.close(true);
-          },
-          (error: any) => {
-            console.log('Ha ocurrido un error', error);
+          if (this.refundUserField.value) {
+            this.service.createCases(this.data[0], 'reembolsar usuario', '0', this.refundUserDescriptionField.value, month,
+              management, this.user.username, idLocal, fecha, fecha2, idCiudad, montoPedido, montoCarrera, montoTotal)
+              .subscribe(
+                (resp: any) => {
+                  console.log('Respuesta exitosa', resp);
+                  this.caseForm.reset();
+                  this.dialogRef.close(true);
+                },
+                (error: any) => {
+                  console.log('Ha ocurrido un error', error);
+                }
+              );
           }
-        );
-      }
-    } else {
-      this.caseForm.markAllAsTouched();
+          if (this.lockUserField.value) {
+            // function bloquear usuario
+            this.service.createCases(this.data[0], 'bloquear usuario', '0', this.lockUserDescriptionField.value, month,
+              management, this.user.username, idLocal, fecha, fecha2, idCiudad, montoPedido, montoCarrera, montoTotal)
+              .subscribe(
+                (resp: any) => {
+                  console.log('Respuesta exitosa', resp);
+                  this.caseForm.reset();
+                  this.dialogRef.close(true);
+                },
+                (error: any) => {
+                  console.log('Ha ocurrido un error', error);
+                }
+              );
+          }
+          if (this.reportLocalField.value) {
+            this.service.createCases(this.data[0], 'reportar local', '0', this.reportLocalDescriptionField.value, month,
+              management, this.user.username, idLocal, fecha, fecha2, idCiudad, montoPedido, montoCarrera, montoTotal)
+              .subscribe(
+                (resp: any) => {
+                  console.log('Respuesta exitosa', resp);
+                  this.caseForm.reset();
+                  this.dialogRef.close(true);
+                },
+                (error: any) => {
+                  console.log('Ha ocurrido un error', error);
+                }
+              );
+          }
+          else {
+            this.caseForm.markAllAsTouched();
+          }
+        },
+        (error: any) => {
+          console.log('Ha ocurrido un error...');
+        }
+      );
     }
   }
 }

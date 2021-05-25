@@ -1,187 +1,100 @@
 <block-ui>
   <div class="animated fadeIn">
-    <div class="row text-center">
-      <div class="col">
-        <h2 class="h2">
-          {{ user }}
-        </h2>
-      </div>
-    </div>
-    <div class="row px-3">
-      <div class="col-sm-6 col-lg-2">
-        <div class="card text-white bg-info">
-          <div class="card-body pb-0">
-            <!-- <button type="button" class="btn btn-transparent p-0 float-right">
-              <i class="icon-location-pin"></i>
-            </button> -->
+    <div class="row px-2">
+      <div class="col-sm-12 col-md-4 col-lg-1">
+        <div matTooltip="Total de pedidos" class="card text-white bg-primary">
+          <div class="p-0">
             <div class="text-value">{{ deliveryList.length > 0 ? deliveryList2['stats']?.total : 0 }}</div>
-            <div>TOTAL DE PEDIDOS</div>
+            <div>TOTAL</div>
           </div>
-          <!-- <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-            <canvas baseChart class="chart" [datasets]="lineChart2Data" [labels]="lineChart2Labels"
-              [options]="lineChart2Options" [colors]="lineChart2Colours" [legend]="lineChart2Legend"
-              [chartType]="lineChart2Type"></canvas>
-          </div> -->
         </div>
       </div>
-      <!--/.col-->
-      <div class="col-sm-6 col-lg-2">
-        <div class="card text-white bg-primary">
-          <div class="card-body pb-0">
-            <!-- <div class="btn-group float-right" dropdown>
-              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-                <i class="icon-settings"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </div> -->
+      <div class="col-sm-12 col-md-4 col-lg-1">
+        <div matTooltip="Pedidos nuevos" class="card text-white bg-primary">
+          <div class="p-0">
             <div class="text-value">{{ deliveryList.length > 0 ? deliveryList2['stats']?.new : 0 }}</div>
-            <div>PEDIDOS NUEVOS</div>
+            <div>NUEVOS</div>
           </div>
-          <!-- <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-            <canvas baseChart class="chart" [datasets]="lineChart1Data" [labels]="lineChart1Labels"
-              [options]="lineChart1Options" [colors]="lineChart1Colours" [legend]="lineChart1Legend"
-              [chartType]="lineChart1Type"></canvas>
-          </div> -->
         </div>
       </div>
-      <!--/.col-->
-      <div class="col-sm-6 col-lg-2">
-        <div class="card text-white bg-warning">
-          <div class="card-body pb-0">
-            <!-- <div class="btn-group float-right" dropdown>
-              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-                <i class="icon-settings"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </div> -->
+      <div class="col-sm-12 col-md-4 col-lg-1">
+        <div matTooltip="Pedidos aceptados" class="card text-white bg-primary">
+          <div class="p-0">
             <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats']?.accepted : 0 }} </div>
-            <div>PEDIDOS ACEPTADOS</div>
+            <div>ACEPTAD</div>
           </div>
-          <!-- <div class="chart-wrapper mt-3" style="height:70px;">
-            <canvas baseChart class="chart" [datasets]="lineChart3Data" [labels]="lineChart3Labels"
-              [options]="lineChart3Options" [colors]="lineChart3Colours" [legend]="lineChart3Legend"
-              [chartType]="lineChart3Type"></canvas>
-          </div> -->
         </div>
       </div>
-      <!--/.col-->
-      <div class="col-sm-6 col-lg-2">
-        <div class="card text-white bg-danger">
-          <div class="card-body pb-0">
-            <!-- <div class="btn-group float-right" dropdown>
-              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-                <i class="icon-settings"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </div> -->
+      <div class="col-sm-12 col-md-4 col-lg-1">
+        <div matTooltip="Pedidos rechazados" class="card text-white bg-primary">
+          <div class="p-0">
             <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats']?.rejected : 0 }} </div>
-            <div>PEDIDOS RECHAZADOS</div>
+            <div>RECHAZA</div>
           </div>
-          <!-- <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-            <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
-              [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
-              [chartType]="barChart1Type"></canvas>
-          </div> -->
         </div>
       </div>
-      <div class="col-sm-6 col-lg-2">
-        <div class="card text-white bg-danger">
-          <div class="card-body pb-0">
-            <!-- <div class="btn-group float-right" dropdown>
-              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-                <i class="icon-settings"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </div> -->
+      <div class="col-sm-6 col-lg-1">
+        <div matTooltip="Pedidos cancelados" class="card text-white bg-primary">
+          <div class="p-0">
             <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats']?.cancelled : 0 }} </div>
-            <div>PEDIDOS CANCELADOS</div>
+            <div>CANCEL</div>
           </div>
-          <!-- <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-            <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels"
-              [options]="barChart1Options" [colors]="barChart1Colours" [legend]="barChart1Legend"
-              [chartType]="barChart1Type"></canvas>
-          </div> -->
         </div>
       </div>
-      <div class="col-sm-6 col-lg-2">
-        <div class="card text-white bg-info">
-          <div class="card-body pb-0">
-            <!-- <div class="btn-group float-right" dropdown>
-              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-                <i class="icon-settings"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </div> -->
+      <div class="col-sm-6 col-lg-1">
+        <div matTooltip="Pedidos despachados" class="card text-white bg-primary">
+          <div class="p-0">
             <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats']?.dispatch : 0 }} </div>
-            <div>ENTREGA EN PROGRESO</div>
+            <div>DESPACH</div>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-lg-2">
-        <div class="card text-white bg-success">
-          <div class="card-body pb-0">
+      <div class="col-sm-6 col-lg-1">
+        <div matTooltip="Pedidos enviados" class="card text-white bg-primary">
+          <div class="p-0">
             <div class="text-value"> {{ deliveryList.length > 0 ? deliveryList2['stats']?.delivered : 0 }} </div>
-            <div>PEDIDOS ENVIADOS</div>
+            <div>ENVIADO</div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-sm-12 col-md-4 col-lg-1">
+        <div matTooltip="Motos ocupadas" class="card text-white bg-primary">
+          <div class="p-0">
+            <div class="text-value"> {{ driverBusysCount }} </div>
+            <div>OCUPADA</div>
+          </div>
+        </div>
+      </div> -->
+      <div class="col-sm-12 col-md-4 col-lg-1">
+        <div matTooltip="Capacidad de entrega" class="card text-white" [ngClass]="{ 'bg-red': alertOperation(), 'bg-primary': !alertOperation() }">
+          <div class="p-0">
+            <div class="text-value"> {{ (driverBusysCount * 1.8).toFixed(0) }} </div>
+            <div>CAPACIDA</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-1">
+        <div matTooltip="Pedidos reales" class="card text-white" [ngClass]="{ 'bg-red': alertOperation(), 'bg-primary': !alertOperation() }">
+          <div class="p-0">
+            <div class="text-value"> {{ (deliveryList?.length > 0 ? deliveryList2['stats']?.dispatch : 0) +
+              (deliveryList?.length > 0 ? deliveryList2['stats']?.accepted : 0) }} </div>
+            <div>REALES</div>
           </div>
         </div>
       </div>
       <div class="col-sm-6 col-lg-2">
-        <div class="card text-white bg-danger">
-          <div class="card-body pb-0">
+        <div matTooltip="fulFillment" class="card text-white bg-primary">
+          <div class="card-body p-0">
             <div class="text-value"> {{ fulFillment }} % </div>
             <div>FUL FILLMENT</div>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-lg-2">
-        <div class="card text-white bg-danger">
-          <div class="card-body pb-0">
-            <div class="text-value"> {{ driverBusysCount }} </div>
-            <div>MOTOS OCUPADAS</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-lg-2">
-        <div class="card text-white" [ngClass]="{ 'bg-red': alertOperation(), 'bg-green': !alertOperation() }">
-          <div class="row">
-            <div class="card-body pb-0">
-              <div class="text-value"> {{ (driverBusysCount * 1.8).toFixed(0) }} </div>
-              <div>CAPACIDAD DE ENTREGA</div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="card-body pb-0">
-              <div class="text-value"> {{ (deliveryList?.length > 0 ? deliveryList2['stats']?.dispatch : 0) +
-                (deliveryList?.length > 0 ? deliveryList2['stats']?.accepted : 0) }} </div>
-              <div>PEDIDOS REALES</div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
+    <!-- <div class="row px-2">
+    </div> -->
     <div class="row mb-3 px-3">
-      <div class=" mb-3 col-sm-12 col-md-6 col-lg-3">
+      <div class="mb-3 col-sm-12 col-md-3 col-lg-3">
         <div class="form-group">
           <label class="form-label">Ciudad:</label>
           <select class="form-control" (change)="setCiudad($event)">
@@ -192,7 +105,7 @@
           </select>
         </div>
       </div>
-      <div class="col-sm-12 col-md-6 col-lg-3 pt-2">
+      <div class="col-sm-12 col-md-3 col-lg-3">
         <mat-form-field appearance="fill">
           <mat-label>FECHA</mat-label>
           <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
@@ -203,213 +116,245 @@
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
       </div>
+      <div class="col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field appearance="fill">
+          <mat-label>Estados: </mat-label>
+          <mat-select (selectionChange)="getStatusList($event)" [(ngModel)]="selectedStatus" [formControl]="statusForm" multiple>
+            <mat-option *ngFor="let status of statusList" [value]="status.value">{{ status.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field appearance="fill">
+          <mat-label>Seleccionar: </mat-label>
+          <mat-select [formControl]="filterListForm">
+            <mat-option [value]="null">TODOS</mat-option>
+            <mat-option *ngFor="let status of filterList" [value]="status.value">{{ status.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
     <div class="row px-3">
-      <div class=" mb-3 col-sm-12 col-md-6 col-lg-2">
-        <div class="form-group">
-          <label id="filterPhone" class="form-label">Telefono Cliente:</label>
-          <input name="filterPhone" [(ngModel)]="filterPhone" class="form-control" type="text"
-            placeholder="+59171234567">
+      <div class="col-sm-12 col-md-3 col-lg-2">
+        <div>
+          <!-- <label class="form-label" for="filterId">Buscar Id:</label> -->
+          <input (blur)="searchTableIdOrder()" [(ngModel)]="filterId" name="filterId" class="form-control" type="text" placeholder="Id del pedido">
         </div>
       </div>
-      <div class=" mb-3 col-sm-12 col-md-6 col-lg-2">
-        <div class="form-group">
-          <label id="filterPhone" class="form-label">Driver Id:</label>
-          <input name="filterPhone" [(ngModel)]="filterDriverId" class="form-control" type="text"
+      <div class="col-sm-12 col-md-3 col-lg-2">
+        <div>
+          <!-- <label id="filterPhone" class="form-label">Telefono Cliente:</label> -->
+          <input (blur)="searchTablePhone()" name="filterPhone" [(ngModel)]="filterPhone" class="form-control" type="text"
+            placeholder="Telefono Cliente">
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-3 col-lg-2">
+        <div>
+          <!-- <label id="filterPhone" class="form-label">Driver Id:</label> -->
+          <input name="filterDriverId" (blur)="searchTableIdDriver()" [(ngModel)]="filterDriverId" class="form-control" type="text"
             placeholder="Id del conductor">
         </div>
       </div>
-      <div class="col-lg-2 col-sm-12 col-md-4">
-        <div class="form-group">
-          <label class="form-label" for="filterId">Buscar Id:</label>
-          <input [(ngModel)]="filterId" name="filterId" class="form-control" type="text" placeholder="Id del pedido">
+      <div class="col-sm-12 col-md-3 col-lg-2">
+        <div>
+          <!-- <label class="form-label" for="merchantFilter">Buscar por comercio:</label> -->
+          <input (blur)="searchTableMerchant()" type="text" [(ngModel)]="filterMerchant" class="form-control" placeholder="Nombre del comercio">
         </div>
       </div>
-      <div class="col-lg-2 col-sm-12 col-md-4">
-        <div class="form-group">
-          <label class="form-label" for="merchantFilter">Buscar por comercio:</label>
-          <input type="text" [(ngModel)]="filterMerchant" class="form-control" placeholder="Nombre del comercio">
-        </div>
+      <div class="col-sm-12 col-md-4 col-lg-2">
+        <button type="button" (click)="ngOnInit()" class="btn btn-dark btn-block">Actualizar</button>
       </div>
-      <div class="col-lg-2 col-sm-12 col-md-4">
-        <div class="form-group">
-
-
-          <mat-form-field appearance="fill">
-            <mat-label>Estados: </mat-label>
-            <mat-select [formControl]="statusForm" multiple>
-              <mat-option *ngFor="let status of statusList" [value]="status.value">{{ status.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <!-- <label class="form-label select-label" for="status">Estados: </label>
-          <select [(ngModel)]="filterStatus" name="status" multiple>
-            <option value="todos">TODOS</option>
-            <option value="0">PENDIENTE</option>
-            <option value="8">ACEPTADO</option>
-            <option value="4">DESPACHADO</option>
-            <option value="2">ENTREGADO</option>
-            <option value="7">DEVUELTO</option>
-            <option value="3">CANCELADO POR EL CLIENTE</option>
-            <option value="9">RECHAZADO POR EL LOCAL</option>
-          </select> -->
-        </div>
+      <div class="col-sm-12 col-md-4 col-lg-2">
+        <h5 class="h5">pedidos: {{ deliveryList |countFilter: statusForm.value }} </h5>
       </div>
     </div>
+
+
     <div class="row">
-      <div class="col">
-        <h5 class="h5"> Total de pedidos: {{ deliveryList |countFilter: statusForm.value }} </h5>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="form-group-inline">
-          <label>Seleccionar cantidad de pedidos: </label>
-          <select [(ngModel)]="cantidadPedidos" class="form-select form-select-sm">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
+      <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+          <div class="col">
+            <div class="form-group-inline">
+              <label>Seleccionar cantidad de pedidos: </label>
+              <select (change)="setCountOrder($event)" [(ngModel)]="cantidadPedidos" class="form-select form-select-sm">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <table class="table table-responsive table-striped">
-          <thead class="thead-dark">
-            <tr>
-              <th>#</th>
-              <th>Id</th>
-              <th [ngStyle]="{ 'width': '200px' }">Pedido</th>
-              <th [ngStyle]="{ 'width': '150px' }">Cliente</th>
-              <th [ngStyle]="{ 'width': '150px' }">Conductor</th>
-              <th [ngStyle]="{ 'width': '150px' }">Local</th>
-              <th [ngStyle]="{ 'width': '200px' }">Estado</th>
-              <th [ngStyle]="{ 'width': '100px' }">Extra</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- |sortPrice -->
-            <tr [ngClass]="{ 'bg-red': horaPasada(order[7], order[9], order[13].status) }"
-              *ngFor="let order of deliveryList |driverId: filterDriverId  | filterPhoneCustomer: filterPhone | filtroId: filterId | filterStatus: statusForm.value
-              |filterMerchant: filterMerchant | paginate: { itemsPerPage: cantidadPedidos, currentPage: p }; let i = index">
-              <td> {{ i + 1 }} </td>
-              <td class="py-0 my-0">
-                {{ order[0] }}
-              </td>
-              <td class="py-0 my-0">
-                <p [innerHTML]="order[3]">
-                </p>
-                <strong>
-                  <span [innerHTML]="order[6]">
-                  </span>
-                </strong> <br>
-                <a target="_blank" [routerLink]="['orderDetails/'+ order[13].order_id + '/' + order[13].restaurant_id]"
-                  class="btn btn-primary">
-                  Detalle
-                  <i class="fa fa-eye"></i>
-                </a>
-                <ng-container *ngIf="order[9] === '-'">
-                  <button *ngIf="order[13].status === 0 || order[13].status === 8" (click)="autoAssingOrder(order[13].order_id)" class="btn btn-primary mt-2">Auto Asignar</button>
-                </ng-container>
-                <!-- <button (click)="showOrderDetail(order[13].order_id, order[13].restaurant_id)" type="button" class="btn btn-primary" >
-                  Detalle 2
-                  <i class="fa fa-eye"></i>
-                </button> -->
-              </td>
-              <td class="py-0 my-0">
-                <p [innerHTML]="order[1]"></p>
-                <button (click)="openDialogCustomer(order[13].user_id)" class="btn btn-primary">Detalle
-                  <i class="fa fa-eye"></i>
-                </button>
-                <!-- <button class="btn btn-primary btn-sm">Nota</button> -->
-                <!-- <button class="btn btn-success btn-sm">Mapa</button> -->
-              </td>
-              <td class="py-0 my-0">
-                <p [innerHTML]="order[9]"></p>
-                <button *ngIf="order[9] !== '-'" (click)="openDialogDriver(order[9])" class="btn btn-primary">Detalle
-                  <i class="fa fa-eye"></i>
-                </button>
-              </td>
-              <td class="py-0 my-0">
-                <p [innerHTML]="order[2]"></p>
-                <button (click)="openDialogCommerce(order[13].restaurant_id)" class="btn btn-primary">Detalle
-                  <i class="fa fa-eye"></i>
-                </button>
-              </td>
-              <td class="py-0 my-0">
-                <ng-container [ngSwitch]="order[13].status">
-                  <h5 *ngSwitchCase="2">
-                    <span class="badge badge-success">ENTREGADO</span>
-                  </h5>
-                  <p *ngSwitchCase="7">
-                    <span class="badge badge-danger">DEVUELTO</span>
-                  </p>
-                  <p *ngSwitchCase="3">
-                    <span class="badge badge-danger">CANCELADO POR EL CLIENTE</span>
-                  </p>
-                  <p *ngSwitchCase="0">
-                    <span class="badge badge-warning">PENDIENTE</span>
-                  </p>
-                  <p *ngSwitchCase="9">
-                    <span class="badge badge-danger">RECHAZADO POR EL LOCAL</span>
-                  </p>
-                  <p *ngSwitchCase="4">
-                    <span class="badge badge-info">DESPACHADO</span>
-                  </p>
-                  <p *ngSwitchCase="8">
-                    <span class="badge badge-primary">ACEPTADO</span>
-                  </p>
-                  <p> <strong>Fecha de orden:</strong>
-                    <br> <span [innerHTML]="order[7]"></span>
-                  </p>
-                  <p> <strong>Entregado en: </strong>
-                    <br> <span [innerHTML]="order[8]"></span>
-                  </p>
-                </ng-container>
-              </td>
-              <td>
-                <p [innerHTML]="order[10]"></p>
-              </td>
-              <td class="py-0 my-0">
-                <ng-container *ngIf="!order[13].additional_info.hasOwnProperty('self_pickup'); else selfPickUp">
-                  <ng-container [ngSwitch]="order[13].status">
-                    <div class="btn-group-vertical" *ngSwitchCase="0">
-                      <button (click)="acceptOrder(order[13].order_id, order[13].restaurant_id, order[13].user_id)"
-                        class="btn btn-outline-success">ACEPTAR PEDIDO</button>
-                      <button (click)="rejectedOrder(order[13].order_id, order[13].restaurant_id, order[13].user_id)"
-                        class="btn btn-outline-danger">RECHAZAR PEDIDO</button>
+        <div class="row">
+          <div class="col">
+            <table class="table table-responsive table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <!-- <th>#</th> -->
+                  <th>Id</th>
+                  <th [ngStyle]="{ 'width': '150px' }">Cliente</th>
+                  <th [ngStyle]="{ 'width': '150px' }">Local</th>
+                  <th [ngStyle]="{ 'width': '200px' }">Pedido</th>
+                  <th [ngStyle]="{ 'width': '150px' }">Conductor</th>
+                  <th [ngStyle]="{ 'width': '200px' }">Estado</th>
+                  <th [ngStyle]="{ 'width': '100px' }"> </th>
+                  <th [ngStyle]="{ 'width': '100px' }"> </th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- |sortPrice -->
+                <tr class="p-0 m-0" [ngClass]="{ 'bg-red': horaPasada(order[7], order[9], order[13].status) }"
+                  *ngFor="let order of deliveryList |terminadosCancelados: filterListForm.value |sinMoto: filterListForm.value |demoradoDespachado: filterListForm.value 
+                  | filterStatus: statusForm.value | paginate: { itemsPerPage: cantidadPedidos, currentPage: p, totalItems: deliveryList2['iTotalRecords']  }; let i = index">
+
+                  <!-- <td> {{ i + 1 }} </td> -->
+
+                  <td class="py-0 my-0">
+                    {{ order[0] }}
+                  </td>
+
+                  <td class="py-0 my-0">
+                    <p [innerHTML]="order[1]"></p>
+                    <button style="vertical-align: bottom !important;" (click)="openDialogCustomer(order[13].user_id)"
+                      class="btn btn-outline-dark">Detalle
+                      <i class="fa fa-eye"></i>
+                    </button>
+                  </td>
+
+                  <td class="py-0 my-0">
+                    <p [innerHTML]="order[2]"></p>
+                    <button (click)="openDialogCommerce(order[13].restaurant_id)" class="btn btn-outline-dark">Detalle
+                      <i class="fa fa-eye"></i>
+                    </button>
+                  </td>
+
+                  <td class="py-0 my-0">
+
+                    <div>
+                      <p [innerHTML]="order[3]"></p>
                     </div>
-                  </ng-container>
-                  <ng-container
-                    *ngIf="order[13].status === 2 || order[13].status === 7 || order[13].status === 3 || order[13].status === 9; else elseStatus">
-                    <div class="btn-group-vertical">
-                      <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
-                      <button class="btn btn-outline-info" (click)="getCases(order[13].order_id)">VER CASOS</button>
-                      <button (click)="copyOrder(order)" class="btn btn-outline-primary">COPIAR PEDIDO</button>
-                    </div>
-                  </ng-container>
-                  <ng-template #elseStatus>
-                    <div class="btn-group-vertical" *ngIf="order[13].status === 8">
-                      <button (click)="assignDriver(order, order[4])" class="btn btn-success">ASIGNAR MOTO</button>
-                      <button (click)="forceOrderCompleteV(order[13].order_id, order[13].restaurant_id, order[9])"
-                        class="btn btn-info">Forzar Entrega</button>
-                      <button (click)="cancelOrder(order)" class="btn btn-danger">CANCELAR
-                        PEDIDO</button>
-                    </div>
-                  </ng-template>
-                </ng-container>
-                <ng-template #selfPickUp>
-                  <b><h3 class="h3">SELF PICK UP</h3></b>
-                </ng-template>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <pagination-controls [nextLabel]="nextLabel" [previousLabel]="previousLabel" (pageChange)="p = $event">
-        </pagination-controls>
+
+                    <strong>
+                      <span [innerHTML]="order[6]">
+                      </span>
+                    </strong> <br>
+                    <a target="_blank"
+                      [routerLink]="['orderDetails/'+ order[13].order_id + '/' + order[13].restaurant_id]"
+                      class="btn btn-outline-dark">
+                      Detalle
+                      <i class="fa fa-eye"></i>
+                    </a>
+                    <ng-container *ngIf="order[9] === '-'">
+                      <button *ngIf="order[13].status === 0 || order[13].status === 8"
+                        (click)="autoAssingOrder(order[13].order_id)" class="btn btn-primary mt-2">Auto
+                        Asignar</button>
+                    </ng-container>
+                    <!-- <button (click)="showOrderDetail(order[13].order_id, order[13].restaurant_id)" type="button" class="btn btn-primary" >
+                          Detalle 2
+                          <i class="fa fa-eye"></i>
+                        </button> -->
+                  </td>
+
+                  <td class="py-0 my-0">
+                    <p [innerHTML]="order[9]"></p>
+                    <button *ngIf="order[9] !== '-'" (click)="openDialogDriver(order[9])"
+                      class="btn btn-outline-dark">Detalle
+                      <i class="fa fa-eye"></i>
+                    </button>
+                  </td>
+
+                  <td class="py-0 my-0">
+                    <ng-container [ngSwitch]="order[13].status">
+                      <h5 *ngSwitchCase="2">
+                        <span class="badge badge-success">ENTREGADO</span>
+                      </h5>
+                      <p *ngSwitchCase="7">
+                        <span class="badge badge-danger">DEVUELTO</span>
+                      </p>
+                      <p *ngSwitchCase="3">
+                        <span class="badge badge-danger">CANCELADO POR EL CLIENTE</span>
+                      </p>
+                      <p *ngSwitchCase="0">
+                        <span class="badge badge-warning">PENDIENTE</span>
+                      </p>
+                      <p *ngSwitchCase="9">
+                        <span class="badge badge-danger">RECHAZADO POR EL LOCAL</span>
+                      </p>
+                      <p *ngSwitchCase="4">
+                        <span class="badge badge-info">DESPACHADO</span>
+                      </p>
+                      <p *ngSwitchCase="8">
+                        <span class="badge badge-primary">ACEPTADO</span>
+                      </p>
+                      <p> <strong>Fecha de orden:</strong>
+                        <br> <span [innerHTML]="order[7]"></span>
+                      </p>
+                      <p> <strong>Entregado en: </strong>
+                        <br> <span [innerHTML]="order[8]"></span>
+                      </p>
+                    </ng-container>
+                  </td>
+
+
+                  <td class="py-0 my-0">
+                    <p [innerHTML]="order[10]"></p>
+                  </td>
+
+                  <td class="py-0 my-0">
+                    <p [innerHTML]="order[12]"></p>
+                  </td>
+
+                  <td class="py-0 my-0">
+                    <ng-container *ngIf="!order[13].additional_info.hasOwnProperty('self_pickup'); else selfPickUp">
+                      <ng-container [ngSwitch]="order[13].status">
+                        <div class="btn-group-vertical" *ngSwitchCase="0">
+                          <button (click)="acceptOrder(order[13].order_id, order[13].restaurant_id, order[13].user_id)"
+                            class="btn btn-outline-success">ACEPTAR PEDIDO</button>
+                          <button
+                            (click)="rejectedOrder(order[13].order_id, order[13].restaurant_id, order[13].user_id)"
+                            class="btn btn-outline-danger">RECHAZAR PEDIDO</button>
+                        </div>
+                      </ng-container>
+                      <ng-container
+                        *ngIf="order[13].status === 2 || order[13].status === 7 || order[13].status === 3 || order[13].status === 9; else elseStatus">
+                        <div class="btn-group-vertical">
+                          <button (click)="createCase(order)" class="btn btn-outline-dark">CREAR CASO</button>
+                          <button class="btn btn-outline-info" (click)="getCases(order[13].order_id)">VER
+                            CASOS</button>
+                          <button (click)="copyOrder(order)" class="btn btn-outline-primary">COPIAR PEDIDO</button>
+                        </div>
+                      </ng-container>
+                      <ng-template #elseStatus>
+                        <div class="btn-group-vertical" *ngIf="order[13].status === 8">
+                          <button (click)="assignDriver(order, order[4])" class="btn btn-success">ASIGNAR
+                            MOTO</button>
+                          <button (click)="forceOrderCompleteV(order[13].order_id, order[13].restaurant_id, order[9])"
+                            class="btn btn-info">Forzar Entrega
+                          </button>
+                          <button (click)="cancelOrder(order)" class="btn btn-danger">CANCELAR
+                            PEDIDO</button>
+                        </div>
+                      </ng-template>
+                    </ng-container>
+                    <ng-template #selfPickUp>
+                      <b>
+                        <h3 class="h3">SELF PICK UP</h3>
+                      </b>
+                    </ng-template>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <pagination-controls [nextLabel]="nextLabel" [previousLabel]="previousLabel" (pageChange)="p = $event">
+                </pagination-controls>
+              </div>
+              {{ p }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
